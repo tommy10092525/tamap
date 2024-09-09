@@ -210,7 +210,7 @@ export default function Home() {
             <p>社・現福</p>
             <p>{String(caption.health)}</p>
           </div>
-          <div className="overlay-economics">
+          <div className="overlay-eco">
             <p>経済</p>
             <p>{String(caption.economics)}</p>
           </div>
