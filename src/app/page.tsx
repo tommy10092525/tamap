@@ -8,7 +8,7 @@ import useSWR from "swr";
 import { Life_Savers } from "next/font/google";
 
 const timeTableAPI = "http://localhost:3000/api/timetable";
-const inquiryURL = "https://google.com";
+const inquiryURL = "https://docs.google.com/forms/d/17Le4TKOCQyZleSlCIYQmPKOnAgT80iTY6W4h2aON1_Y/viewform?edit_requested=true";
 
 type TimeTable = {
   [direction: string]: {
