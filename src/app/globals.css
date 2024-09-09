@@ -1,0 +1,355 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+body {
+  overflow: hidden;
+  font-size: 14px;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-inline: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 100vh;
+}
+
+body:after {
+  /*擬似要素をつくる*/
+  position: fixed;
+  /*固定配置*/
+  top: 0;
+  left: 0;
+  /*左上に固定*/
+  width: 100%;
+  height: 100%;
+  /*画面全体を覆う*/
+  content: "";
+  background: #f89174;
+  /*保険用*/
+  background: linear-gradient(45deg, rgba(245, 169, 97, 1), rgba(45, 179, 255, 1));
+  background: -webkit-linear-gradient(45deg, rgba(245, 169, 97, 1), rgba(45, 179, 255, 1));
+  z-index: -1;
+}
+
+/* .while {
+    width: 100%;
+    margin: 0, auto;
+    overflow: hidden;
+  } */
+
+.top {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  /* background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    /* left: 96px; */
+  /*margin:0 auto;
+    overflow: hidden; */
+}
+
+img.logo {
+  width: 60%;
+  margin: 0 auto;
+  margin: 5vw;
+}
+
+button{
+  appearance: auto;
+    font-style: ;
+    font-variant-ligatures: ;
+    font-variant-caps: ;
+    font-variant-numeric: ;
+    font-variant-east-asian: ;
+    font-variant-alternates: ;
+    font-variant-position: ;
+    font-weight: ;
+    font-stretch: ;
+    font-size: ;
+    font-family: ;
+    font-optical-sizing: ;
+    font-size-adjust: ;
+    font-kerning: ;
+    font-feature-settings: ;
+    font-variation-settings: ;
+    text-rendering: auto;
+    color: buttontext;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    box-sizing: border-box;
+    background-color: buttonface;
+    margin: 0em;
+    padding-block: 1px;
+    padding-inline: 6px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: buttonborder;
+    border-image: initial;
+}
+
+.glass {
+  width: 100%;
+  margin: 0 auto;
+  /* margin: 5% auto; */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.3);
+  /* 背景色 */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  /* ボーダー */
+  border-right-color: rgba(255, 255, 255, 0.2);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  -webkit-backdrop-filter: blur(20px);
+  /* ぼかしエフェクト */
+  backdrop-filter: blur(20px);
+}
+
+.direction {
+
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  font-size: 350%;
+  font-weight: bold;
+}
+
+.direction_arrow {
+  display: inline-flex;
+  color: #333;
+  width: 40px;
+  height: 24px;
+  border: 0.1em solid currentColor;
+  border-left: 0;
+  border-bottom: 0;
+  box-sizing: border-box;
+  transform: translateX(-25%) rotate(45deg);
+}
+
+.button{
+  /*前方一致指定*/
+  margin: 0px, 0px, 20px, 20px;
+
+  height: auto;
+    width: 6em;
+    font-size: 300%;
+    font-weight: bold;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-right-color: rgba(255, 255, 255, 0.2);
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  
+}
+
+.first {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: -6% auto;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  font-size: 700%;
+  font-weight: bold;
+}
+
+.second {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: -3% auto;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  font-size: 450%;
+  font-weight: bold;
+}
+
+.menu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  font-weight: bold;
+  gap: 0% 20%;
+}
+
+[class^="button_"] {
+  height: auto;
+  width: 6em;
+  font-size: 300%;
+  font-weight: bold;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.3);
+  /* 背景色 */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  /* ボーダー */
+  border-right-color: rgba(255, 255, 255, 0.2);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  -webkit-backdrop-filter: blur(20px);
+  /* ぼかしエフェクト */
+  backdrop-filter: blur(20px);
+}
+
+.map {
+  width: 100%;
+  margin: 5% auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.3);
+  /* 背景色 */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  /* ボーダー */
+  border-right-color: rgba(255, 255, 255, 0.2);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  -webkit-backdrop-filter: blur(20px);
+  /* ぼかしエフェクト */
+  backdrop-filter: blur(20px);
+}
+
+.map_img {
+  width: 90%;
+  height: 90%;
+}
+
+[class^="overlay-"] {
+  position: absolute;
+  font-size: 3em;
+  width: 20%;
+  /* padding: 5px 10px; */
+  border-radius: 4px;
+  /* font-size: 1.5vh; */
+  /* transform: translate(-50%, -50%); */
+  font-weight: bolder;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.3);
+  /* 背景色 */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  /* ボーダー */
+  border-right-color: rgba(255, 255, 255, 0.2);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  -webkit-backdrop-filter: blur(20px);
+  /* ぼかしエフェクト */
+  backdrop-filter: blur(20px);
+}
+
+.overlay-health {
+  top: 5%;
+  left: 76%;
+}
+
+.overlay-eco {
+  top: 5%;
+  left: 4%;
+}
+
+.overlay-gym {
+  top: 75%;
+  left: 4%;
+}
+
+.overlay-sport {
+  top: 75%;
+  left: 76%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.station {
+  height: auto;
+  text-align: center;
+  font-size: 300%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.3);
+  /* 背景色 */
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  /* ボーダー */
+  border-right-color: rgba(255, 255, 255, 0.2);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  -webkit-backdrop-filter: blur(20px);
+  /* ぼかしエフェクト */
+  backdrop-filter: blur(20px);
+  padding: 0.5%;
+  margin: 1%;
+}
+
+.tab-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  width: 100%;
+  margin: 5% auto;
+  font-size: 300%;
+  font-weight: bold;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-right-color: rgba(255, 255, 255, 0.2);
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+.tab-btn1 {
+  margin: 5%;
+}
+
+.tab-btn.active {
+  background-color: rgba(255, 255, 255, 0.658);
+}
+
+.info-text {
+  text-align: center;
+  font-size: 18px;
+}
+
+.codemtaes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 18px;
+}
+
+p{
+  padding: 0;
+  margin: 0;
+}
