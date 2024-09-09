@@ -179,6 +179,10 @@ button p{
   font-weight: bold;
 }
 
+.first p{
+  margin: 0 5px;
+}
+
 .second {
   display: inline-flex;
   align-items: center;
@@ -191,6 +195,11 @@ button p{
   font-size: 25px;
   font-weight: bold;
 }
+
+.second p{
+  margin: 0 3px;
+}
+
 
 .menu {
   display: inline-flex;
