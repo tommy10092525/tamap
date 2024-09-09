@@ -1,10 +1,11 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 * {
   box-sizing: border-box;
-  width: 100%;
+  width: auto;
+  white-space: nowrap;
 }
 
 body {
@@ -15,6 +16,8 @@ body {
   padding-inline: 24px;
   font-family: Arial, Helvetica, sans-serif;
   height: 100vh;
+  text-align: center;
+  width: 80%;
 }
 
 body:after {
@@ -64,43 +67,38 @@ img.logo {
 
 button{
   appearance: auto;
-    font-style: ;
-    font-variant-ligatures: ;
-    font-variant-caps: ;
-    font-variant-numeric: ;
-    font-variant-east-asian: ;
-    font-variant-alternates: ;
-    font-variant-position: ;
-    font-weight: ;
-    font-stretch: ;
-    font-size: ;
-    font-family: ;
-    font-optical-sizing: ;
-    font-size-adjust: ;
-    font-kerning: ;
-    font-feature-settings: ;
-    font-variation-settings: ;
-    text-rendering: auto;
-    color: buttontext;
-    letter-spacing: normal;
-    word-spacing: normal;
-    line-height: normal;
-    text-transform: none;
-    text-indent: 0px;
-    text-shadow: none;
-    display: inline-block;
-    text-align: center;
-    align-items: flex-start;
-    cursor: default;
-    box-sizing: border-box;
-    background-color: buttonface;
-    margin: 0em;
-    padding-block: 1px;
-    padding-inline: 6px;
-    border-width: 2px;
-    border-style: outset;
-    border-color: buttonborder;
-    border-image: initial;
+  text-rendering: auto;
+  color: buttontext;
+  letter-spacing: normal;
+  word-spacing: normal;
+  line-height: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: center;
+  align-items: flex-start;
+  cursor: default;
+  box-sizing: border-box;
+  background-color: buttonface;
+  margin: 0em;
+  padding-block: 1px;
+  padding-inline: 6px;
+  border-width: 2px;
+  border-style: outset;
+  border-image: initial;
+}
+
+button p{
+  font-size:15px;
+  margin: 0;
+  padding: 0;
+}
+
+.map-container p{
+  font-size:15px;
+  margin: 0;
+  padding: 0;
 }
 
 .glass {
@@ -145,6 +143,10 @@ button{
   transform: translateX(-25%) rotate(45deg);
 }
 
+.direction p{
+  font-size: 30px;
+}
+
 .button{
   /*前方一致指定*/
   margin: 0px, 0px, 20px, 20px;
@@ -173,7 +175,7 @@ button{
   padding: 20px;
   text-align: center;
   display: flex;
-  font-size: 700%;
+  font-size: 40px;
   font-weight: bold;
 }
 
@@ -186,7 +188,7 @@ button{
   padding: 20px;
   text-align: center;
   display: flex;
-  font-size: 450%;
+  font-size: 25px;
   font-weight: bold;
 }
 
@@ -237,7 +239,7 @@ button{
   backdrop-filter: blur(20px);
 }
 
-.map_img {
+.map,img {
   width: 90%;
   height: 90%;
 }

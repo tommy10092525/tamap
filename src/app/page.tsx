@@ -95,7 +95,7 @@ export default function Home() {
       gym: 15,
     };
     let n = lowerBound(selected.map(item => timeToMinutes(item.leave)), timeToMinutes(time));
-    times= {
+    times = {
       first: selected[n % selected.length],
       second: selected[(n + 1) % selected.length]
     }
@@ -137,10 +137,11 @@ export default function Home() {
       right: "loading",
       sport: "loading"
     }
-    times={
-      first:{arrive:"loading",leave:"loading"},
-      second:{arrive:"loading",leave:"loading"}}
+    times = {
+      first: { arrive: "loading", leave: "loading" },
+      second: { arrive: "loading", leave: "loading" }
     }
+  }
 
   // 書式設定
   type Style = {
@@ -155,7 +156,7 @@ export default function Home() {
   console.log({ caption: caption });
 
   return (
-    <div className="">
+    <div>
       <div className="top">
         <Image
           style={{ width: "60%" }}
@@ -191,9 +192,10 @@ export default function Home() {
               setUserInput(nextUserInput);
               localStorage.setItem("direction", "isComingToHosei")
             }
-          }}>入れ替え</button>
+          }}>
+            <p>入れ替え</p></button>
           <button className="button">
-            <a href={inquiryURL}>ご意見</a>
+            <a href={inquiryURL}><p>ご意見</p></a>
           </button>
         </div>
       </div>
@@ -229,19 +231,19 @@ export default function Home() {
           nextUserInput.station = "nishihachioji";
           setUserInput(nextUserInput);
           localStorage.setItem("station", "nishihachioji");
-        }}>西八王子</button>
+        }}><p>西八王子</p></button>
         <button className="tab-btn" style={style.mejirodai} onClick={() => {
           let nextUserInput = structuredClone(userInput);
           localStorage.setItem("station", "mejirodai");
           nextUserInput.station = "mejirodai";
           setUserInput(nextUserInput);
-        }}>めじろ台</button>
+        }}><p>めじろ台</p></button>
         <button className="tab-btn" style={style.aihara} onClick={() => {
           let nextUserInput = structuredClone(userInput);
           localStorage.setItem("station", "aihara");
           nextUserInput.station = "aihara";
           setUserInput(nextUserInput);
-        }}>相原</button>
+        }}><p>相原</p></button>
       </div>
       <p className="codemates">©CODE MATES︎</p>
     </div>
