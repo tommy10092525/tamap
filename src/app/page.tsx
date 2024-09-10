@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import logo from "../../public/images/tamap_logo.png"
+import logo from "../../public/images/Tamap_logo.png"
 import mapImage from "../../public/images/Map.png"
 import { initialize } from "next/dist/server/lib/render-server";
 import useSWR from "swr";
