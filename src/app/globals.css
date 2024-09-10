@@ -226,7 +226,7 @@ button p{
   /* ボーダー */
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  border-radius: 5px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
@@ -313,7 +313,7 @@ button p{
   /* ボーダー */
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  border-radius: 5px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
