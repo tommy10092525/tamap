@@ -224,7 +224,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
       <div className="tab-container">
         <button className="tab-btn" style={style.nishihachioji} onClick={() => {
           let nextUserInput = structuredClone(userInput);

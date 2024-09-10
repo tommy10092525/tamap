@@ -112,7 +112,7 @@ button p{
   /* ボーダー */
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
+  border-radius: 5px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
@@ -160,7 +160,7 @@ button p{
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-right-color: rgba(255, 255, 255, 0.2);
     border-bottom-color: rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
+    border-radius: 5px;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
   
@@ -226,7 +226,7 @@ button p{
   /* ボーダー */
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
+  border-radius: 10px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
@@ -242,7 +242,7 @@ button p{
   /* ボーダー */
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
+  border-radius: 10px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
@@ -262,7 +262,6 @@ button p{
   font-size: 3em;
   width: 25%;
   /* margin: 5px 5px; */
-  border-radius: 4px;
   /* font-size: 1.5vh; */
   /* transform: translate(-50%, -50%); */
   font-weight: bolder;
@@ -273,7 +272,7 @@ button p{
   /* ボーダー */
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
+  border-radius: 5px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
@@ -314,7 +313,7 @@ button p{
   /* ボーダー */
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
+  border-radius: 10px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
@@ -338,7 +337,7 @@ button p{
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
+  border-radius: 5px;
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
 }
