@@ -148,7 +148,9 @@ export default function Home() {
     [station: string]: {}
   }
   let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
-  style[userInput.station] = { backgroundColor: "rgba(255, 255, 255, 0.658)" };
+  if(!isLoading){
+    style[userInput.station] = { backgroundColor: "rgba(255, 255, 255, 0.658)" };
+  }
 
   if (error !== undefined) {
     console.log(error);
