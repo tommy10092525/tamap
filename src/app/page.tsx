@@ -153,7 +153,6 @@ export default function Home() {
   if (error !== undefined) {
     console.log(error);
   }
-  console.log({ caption: caption });
 
   return (
     <div>
@@ -201,8 +200,9 @@ export default function Home() {
       </div>
       <div className="map">
         <Image
+          className="map_img"
           src={mapImage}
-          width={828}
+          width={500}
           height={500}
           alt="地図" />
         <div className="map-container">

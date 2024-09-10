@@ -124,7 +124,7 @@ button p{
   justify-content: center;
   width: 100%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0px;
   text-align: center;
   display: flex;
   font-size: 350%;
@@ -134,8 +134,8 @@ button p{
 .direction_arrow {
   display: inline-flex;
   color: #333;
-  width: 40px;
-  height: 24px;
+  width: 15px;
+  height: 15px;
   border: 0.1em solid currentColor;
   border-left: 0;
   border-bottom: 0;
@@ -144,7 +144,7 @@ button p{
 }
 
 .direction p{
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .button{
@@ -172,7 +172,7 @@ button p{
   justify-content: center;
   width: 100%;
   margin: -6% auto;
-  padding: 20px;
+  padding: 10px;
   text-align: center;
   display: flex;
   font-size: 40px;
@@ -189,7 +189,7 @@ button p{
   justify-content: center;
   width: 100%;
   margin: -3% auto;
-  padding: 20px;
+  padding: 10px;
   text-align: center;
   display: flex;
   font-size: 25px;
@@ -207,7 +207,7 @@ button p{
   justify-content: center;
   width: 100%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0px;
   text-align: center;
   display: flex;
   font-weight: bold;
@@ -233,8 +233,8 @@ button p{
 }
 
 .map {
-  width: 100%;
-  margin: 5% auto;
+  width: 4000px;
+  margin: 20px auto;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.3);
   /* 背景色 */
@@ -253,11 +253,15 @@ button p{
   height: 90%;
 }
 
+.map_img{
+  width:100%;
+}
+
 [class^="overlay-"] {
   position: absolute;
   font-size: 3em;
-  width: 20%;
-  /* padding: 5px 10px; */
+  width: 25%;
+  /* margin: 5px 5px; */
   border-radius: 4px;
   /* font-size: 1.5vh; */
   /* transform: translate(-50%, -50%); */
@@ -277,7 +281,7 @@ button p{
 
 .overlay-health {
   top: 5%;
-  left: 76%;
+  left: 70%;
 }
 
 .overlay-eco {
@@ -286,13 +290,13 @@ button p{
 }
 
 .overlay-gym {
-  top: 75%;
+  top: 70%;
   left: 4%;
 }
 
 .overlay-sport {
-  top: 75%;
-  left: 76%;
+  top: 70%;
+  left:70%;
 }
 
 * {
