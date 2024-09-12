@@ -10,15 +10,13 @@ import { Life_Savers } from "next/font/google";
 const timeTableAPI = "/api/timetable";
 const inquiryURL = "https://docs.google.com/forms/d/17Le4TKOCQyZleSlCIYQmPKOnAgT80iTY6W4h2aON1_Y/viewform?edit_requested=true";
 
+// 時刻表型の定義
 type TimeTable = {
   [direction: string]: {
     [station: string]: { arrive: string, leave: string }[]
   }
 }
 
-const fetcher = async (key: string) => {
-  return fetch(key).then((res) => res.json() as Promise<TimeTable | null>);
-}
 
 type Buildings = {
   [key: string]: number;
@@ -30,6 +28,16 @@ type StationNames = {
 
 type Caption = {
   [key: string]: string | { arrive: string; leave: string };
+}
+
+// 書式設定
+type Style = {
+  [station: string]: {}
+}
+
+// APIへのフェッチャー
+const fetcher = async (key: string) => {
+  return fetch(key).then((res) => res.json() as Promise<TimeTable | null>);
 }
 
 export default function Home() {
@@ -49,8 +57,10 @@ export default function Home() {
 
   let [userInput, setUserInput] = useState({ direction: "isComingToHosei", station: "nishihachioji" });
 
+  // ページ読み込み時の処理
   useEffect(() => {
     if (localStorage.getItem("firstAccessed") === "false") {
+      // ２回目以降のアクセスにはlocalStorageから入力を復元する
       let direction: string | null = localStorage.getItem("direction");
       let station: string | null = localStorage.getItem("station");
       if ("string" === typeof direction && "string" === typeof station) {
@@ -59,6 +69,7 @@ export default function Home() {
         alert("localStorageのエラー");
       }
     } else {
+      // 初回アクセス時にはlocalStorageに必要な値を格納する
       localStorage.setItem("firstAccessed", "false");
       localStorage.setItem("direction", "isComingToHosei");
       localStorage.setItem("station", "nishihachioji");
@@ -69,7 +80,7 @@ export default function Home() {
 
   let times;
   if (!isLoading && data !== undefined && data !== null) {
-    //表示の計算
+    //表示する時刻の算出
     let hours = String(date.getHours()).padStart(2, "0");
     let minutes = String(date.getMinutes()).padStart(2, "0");
     let selected = data[userInput.direction][userInput.station];
@@ -80,6 +91,7 @@ export default function Home() {
       sport: 8,
       gym: 15,
     };
+    // 現在時刻をもとに時刻表から二分探索する
     let n = lowerBound(selected.map(item => timeToMinutes(item.leave)), timeToMinutes(time));
     times = {
       first: selected[n % selected.length],
@@ -129,15 +141,13 @@ export default function Home() {
     }
   }
 
-  // 書式設定
-  type Style = {
-    [station: string]: {}
-  }
   let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
   if(!isLoading){
+    // 選択されている駅のボタンの書式を変える
     style[userInput.station] = { backgroundColor: "rgba(255, 255, 255, 0.658)" };
   }
 
+  // API取得にエラーが生じた場合エラーをコンソールに吐く
   if (error !== undefined) {
     console.log(error);
   }
@@ -167,6 +177,7 @@ export default function Home() {
           <p>{String(times.second.arrive)}</p>
         </div>
         <div className="menu">
+          {/* ボタンが押されたら状態を書き換える */}
           <button className="button" onClick={() => {
             if (userInput.direction === "isComingToHosei") {
               let nextUserInput = structuredClone(userInput);
@@ -213,6 +224,7 @@ export default function Home() {
         </div>
       </div>
       <div className="tab-container">
+        {/* ボタンが押されたら状態を書き換える */}
         <button className="tab-btn" style={style.nishihachioji} onClick={() => {
           let nextUserInput = structuredClone(userInput);
           nextUserInput.station = "nishihachioji";
