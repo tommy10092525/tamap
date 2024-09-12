@@ -262,6 +262,8 @@ const minutesToTime = (minutes: number) => {
   return `${hours}:${mins}`;
 };
 
+// 二分探索用の関数
+// https://qiita.com/oimo23/items/8c92aec97adc321c6cb0
 const lowerBound = (arr: Array<number>, n: number) => {
   let first = 0, last = arr.length - 1, middle;
   while (first <= last) {
