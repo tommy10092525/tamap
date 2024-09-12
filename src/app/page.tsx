@@ -16,16 +16,6 @@ type TimeTable = {
   }
 }
 
-type Times = {
-  first: {
-    arrive: string,
-    leave: string
-  }, second: {
-    arrive: string,
-    leave: string
-  }
-}
-
 const fetcher = async (key: string) => {
   return fetch(key).then((res) => res.json() as Promise<TimeTable | null>);
 }
@@ -57,7 +47,6 @@ export default function Home() {
 
   const { data, error, isLoading } = useSWR(timeTableAPI, fetcher);
 
-  // ユーズステート
   let [userInput, setUserInput] = useState({ direction: "isComingToHosei", station: "nishihachioji" });
 
   useEffect(() => {
@@ -78,9 +67,6 @@ export default function Home() {
 
   let caption: Caption | null;
 
-  // 2024年9月5日16時06分
-  // 依存関係を明確にする
-  // ユーザ入力、API、sessionStorageからの取得による更新処理
   let times;
   if (!isLoading && data !== undefined && data !== null) {
     //表示の計算
@@ -273,13 +259,3 @@ const lowerBound = (arr: Array<number>, n: number) => {
   }
   return first;
 }
-
-// const upperBound = (arr, n) => {
-//     let first = 0, last = arr.length - 1, middle;
-//     while (first <= last) {
-//         middle = 0 | (first + last) / 2;
-//         if (arr[middle] <= n) first = middle + 1;
-//         else last = middle - 1;
-//     }
-//     return first;
-// }
