@@ -238,8 +238,8 @@ button p{
 }
 
 .map {
-  width: 4000px;
-  margin: 20px auto;
+  height: 1000px;
+  margin: 20px 0;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.3);
   /* 背景色 */
@@ -248,13 +248,14 @@ button p{
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
+  border-radius: 5px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
 }
 
 .map,img {
-  width: 90%;
+  width: 100%;
   height: 90%;
 }
 
