@@ -366,6 +366,6 @@ p{
   margin: 0;
 }
 
-.glass,.button,[class^="button_"],.map,.station,.tab-btn{
+.glass,.button,[class^="overlay-"],.map,.station,.tab-btn{
   border-radius: 7px;
 }
