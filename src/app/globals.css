@@ -115,7 +115,6 @@ button p{
   /* ボーダー */
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(34, 22, 22, 0.2);
-  border-radius: 5px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
@@ -163,7 +162,6 @@ button p{
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-right-color: rgba(255, 255, 255, 0.2);
     border-bottom-color: rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
   
@@ -231,7 +229,6 @@ button p{
   /* ボーダー */
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
@@ -247,8 +244,6 @@ button p{
   /* ボーダー */
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  border-radius: 5px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
@@ -278,7 +273,6 @@ button p{
   /* ボーダー */
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
@@ -319,7 +313,6 @@ button p{
   /* ボーダー */
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
   -webkit-backdrop-filter: blur(20px);
   /* ぼかしエフェクト */
   backdrop-filter: blur(20px);
@@ -343,7 +336,6 @@ button p{
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-right-color: rgba(255, 255, 255, 0.2);
   border-bottom-color: rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
 }
@@ -372,4 +364,8 @@ button p{
 p{
   padding: 0;
   margin: 0;
+}
+
+.glass,.button,[class^="button_"],.map,.station,.tab-btn{
+  border-radius: 7px;
 }
