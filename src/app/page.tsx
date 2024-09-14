@@ -79,7 +79,7 @@ export default function Home() {
   let caption: Caption | null;
 
   let times;
-  if (!isLoading && data !== undefined && data !== null) {
+  if (!isLoading && !!data) {
     //表示する時刻の算出
     let hours = String(date.getHours()).padStart(2, "0");
     let minutes = String(date.getMinutes()).padStart(2, "0");
