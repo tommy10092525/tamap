@@ -148,7 +148,7 @@ export default function Home() {
   }
 
   // API取得にエラーが生じた場合エラーをコンソールに吐く
-  if (error !== undefined) {
+  if (error) {
     console.log(error);
   }
 
