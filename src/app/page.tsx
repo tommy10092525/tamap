@@ -153,30 +153,29 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <div className="top">
-        <Image
-          style={{ width: "60%" }}
-          src={logo}
-          height={274}
-          alt="たまっぷのロゴ"
-        />
-      </div>
-      <div className="glass">
-        <div className="direction">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-br to-blue-300 from-orange-300">
+      <Image
+        className="pb-3"
+        style={{ width: "60%" }}
+        src={logo}
+        height={274}
+        alt="たまっぷのロゴ"
+      />
+      <div className="w-4/5 border-r-slate-400 border-b-bg-slate-600 rounded-md bg-white bg-opacity-40">
+        <div className="text-center justify-center text-2xl font-bold pt-4">
           <p>{`${caption.left}→${caption.right}`}</p>
         </div>
-        <div className="first">
-          <p>{String(times.first.leave)}</p>
-          <p>{String(times.first.arrive)}</p>
+        <div className="flex justify-center mx-0 text-center text-4xl font-bold">
+          <p className="px-1">{String(times.first.leave)}</p>
+          <p className="px-1">{String(times.first.arrive)}</p>
         </div>
-        <div className="second">
-          <p>{String(times.second.leave)}</p>
-          <p>{String(times.second.arrive)}</p>
+        <div className="flex justify-center mx-0 text-center text-2xl font-bold opacity-50">
+          <p className="px-1">{String(times.second.leave)}</p>
+          <p className="px-1">{String(times.second.arrive)}</p>
         </div>
-        <div className="menu">
+        <div className="inline-flex text-center items-center mx-auto font-bold w-full">
           {/* ボタンが押されたら状態を書き換える */}
-          <button className="button" onClick={() => {
+          <button className="m-2 border-r-slate-400 border-b-bg-slate-600 rounded-md bg-white bg-opacity-40 w-full" onClick={() => {
             if (userInput.direction === "isComingToHosei") {
               let nextUserInput = structuredClone(userInput);
               nextUserInput.direction = "isLeavingFromHosei";
@@ -189,60 +188,63 @@ export default function Home() {
               localStorage.setItem("direction", "isComingToHosei")
             }
           }}>
-            <p>入れ替え</p></button>
-          <button className="button">
+            <p className="">入れ替え</p></button>
+          <button className="m-2 border-r-slate-400 border-b-bg-slate-600 rounded-md bg-white bg-opacity-40 w-full">
             <a href={inquiryURL}><p>ご意見</p></a>
           </button>
         </div>
       </div>
-      <div className="map">
+      <div className="w-4/5 p-5 mx-0 my-5 rounded-md bg-white bg-opacity-30 border-opacity-40 border-r-slate-500 border-b-slate-600 backdrop-blur-xl">
         <Image
-          className="map_img"
+          className="w-full"
           src={mapImage}
           width={500}
           height={500}
           alt="地図" />
-        <div className="map-container">
-          <div className="overlay-health">
-            <p>社・現福</p>
-            <p>{String(caption.health)}</p>
+        <div className="rounded-md">
+          <div className="top-6 left-3/4 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
+            <p className="text-sm">社会学部</p>
+            <p className="text-sm">{String(caption.health)}</p>
           </div>
-          <div className="overlay-eco">
-            <p>経済</p>
-            <p>{String(caption.economics)}</p>
+          <div className="top-6 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
+            <p className="text-sm">経済学部</p>
+            <p className="text-sm">{String(caption.economics)}</p>
           </div>
-          <div className="overlay-gym">
-            <p>体育館</p>
-            <p>{String(caption.gym)}</p>
+          <div className="top-3/4 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
+            <p className="text-sm">体育館</p>
+            <p className="text-sm">{String(caption.gym)}</p>
           </div>
-          <div className="overlay-sport">
-            <p>スポ健康</p>
-            <p>{String(caption.sport)}</p>
+          <div className="top-3/4 left-3/4 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
+            <p className="text-sm">スポ健</p>
+            <p className="text-sm">{String(caption.sport)}</p>
           </div>
         </div>
       </div>
-      <div className="tab-container">
+      <div className="flex justify-center text-center mb-5 flex-row">
         {/* ボタンが押されたら状態を書き換える */}
-        <button className="tab-btn" style={style.nishihachioji} onClick={() => {
+        <button className="w-20 mx-2 my-auto font-bold p-2 bg-white bg-opacity-30 border-r-gray-500 border-b-gray-600 rounded-md box-border"
+          style={style.nishihachioji} onClick={() => {
           let nextUserInput = structuredClone(userInput);
           nextUserInput.station = "nishihachioji";
           setUserInput(nextUserInput);
           localStorage.setItem("station", "nishihachioji");
         }}><p>西八王子</p></button>
-        <button className="tab-btn" style={style.mejirodai} onClick={() => {
+        <button className="w-20 mx-2 my-auto font-bold p-2 bg-white bg-opacity-30 border-r-gray-500 border-b-gray-600 rounded-md box-border"
+          style={style.mejirodai} onClick={() => {
           let nextUserInput = structuredClone(userInput);
           localStorage.setItem("station", "mejirodai");
           nextUserInput.station = "mejirodai";
           setUserInput(nextUserInput);
         }}><p>めじろ台</p></button>
-        <button className="tab-btn" style={style.aihara} onClick={() => {
+        <button className="w-20 mx-2 my-auto font-bold p-2 bg-white bg-opacity-30 border-r-gray-500 border-b-gray-600 rounded-md box-border"
+          style={style.aihara} onClick={() => {
           let nextUserInput = structuredClone(userInput);
           localStorage.setItem("station", "aihara");
           nextUserInput.station = "aihara";
           setUserInput(nextUserInput);
         }}><p>相原</p></button>
       </div>
-      <p className="codemates">©CODE MATES︎</p>
+      <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
     </div>
   );
 }
