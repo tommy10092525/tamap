@@ -164,9 +164,7 @@ export default function Home() {
       </div>
       <div className="glass">
         <div className="direction">
-          <p>{String(caption.left)}</p>
-          <div className="direction_arrow"></div>
-          <p>{String(caption.right)}</p>
+          <p>{`${caption.left}→${caption.right}`}</p>
         </div>
         <div className="first">
           <p>{String(times.first.leave)}</p>
