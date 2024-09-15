@@ -202,21 +202,21 @@ export default function Home() {
           height={500}
           alt="地図" />
         <div className="rounded-md">
-          <div className="top-6 left-3/4 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
-            <p className="text-sm">社会学部</p>
-            <p className="text-sm">{String(caption.health)}</p>
+          <div className="w-1/4 top-4 left-2/3 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
+            <p className="text-lg font-semibold">社会学部</p>
+            <p className="text-lg font-semibold">{String(caption.health)}</p>
           </div>
-          <div className="top-6 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
-            <p className="text-sm">経済学部</p>
-            <p className="text-sm">{String(caption.economics)}</p>
+          <div className="w-1/4 top-4 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
+            <p className="text-lg font-semibold">経済学部</p>
+            <p className="text-lg font-semibold">{String(caption.economics)}</p>
           </div>
-          <div className="top-3/4 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
-            <p className="text-sm">体育館</p>
-            <p className="text-sm">{String(caption.gym)}</p>
+          <div className="w-1/4 top-2/3 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
+            <p className="text-lg font-semibold">体育館</p>
+            <p className="text-lg font-semibold">{String(caption.gym)}</p>
           </div>
-          <div className="top-3/4 left-3/4 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
-            <p className="text-sm">スポ健</p>
-            <p className="text-sm">{String(caption.sport)}</p>
+          <div className="w-1/4 top-2/3 left-2/3 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
+            <p className="text-lg font-semibold">スポ健</p>
+            <p className="text-lg font-semibold">{String(caption.sport)}</p>
           </div>
         </div>
       </div>
