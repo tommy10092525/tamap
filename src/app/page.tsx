@@ -153,7 +153,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-br to-blue-300 from-orange-300">
+    <div className="flex flex-col items-center justify-center h-screen w-screen p-4 bg-gradient-to-br to-blue-300 from-orange-300">
       <Image
         className="pb-3"
         style={{ width: "60%" }}
