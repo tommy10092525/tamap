@@ -199,11 +199,7 @@ export default function Home() {
         </div>
       </div>
       <div className="w-4/5 p-5 mx-0 my-5 rounded-md
-<<<<<<< HEAD
         bg-white bg-opacity-30 border-opacity-40 shadow backdrop-blur-xl">
-=======
-        bg-white bg-opacity-30 border-opacity-40 border-r-slate-500 border-b-slate-600 backdrop-blur-xl">
->>>>>>> refs/remotes/origin/main
         <Image
           className="w-full"
           src={mapImage}
