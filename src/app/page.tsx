@@ -1,11 +1,10 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Children, useEffect, useState } from "react";
 import logo from "../../public/images/Tamap_logo.png"
 import mapImage from "../../public/images/Map.png"
-import { initialize } from "next/dist/server/lib/render-server";
 import useSWR from "swr";
-import { Life_Savers } from "next/font/google";
+import { ReactNode,FC } from "react";
 
 const timeTableAPI = "/api/timetable";
 const inquiryURL = "https://docs.google.com/forms/d/17Le4TKOCQyZleSlCIYQmPKOnAgT80iTY6W4h2aON1_Y/viewform?edit_requested=true";
@@ -34,6 +33,11 @@ type Caption = {
 type Style = {
   [station: string]: {}
 }
+
+type Props={
+  text:string
+}
+
 
 // APIへのフェッチャー
 const fetcher = async (key: string) => {
@@ -153,7 +157,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-screen p-4 bg-gradient-to-br to-blue-300 from-orange-300">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-br from-orange-300 to-sky-300">
       <Image
         className="pb-3"
         style={{ width: "60%" }}
@@ -161,7 +165,7 @@ export default function Home() {
         height={274}
         alt="たまっぷのロゴ"
       />
-      <div className="w-4/5 border-r-slate-400 border-b-bg-slate-600 rounded-md bg-white bg-opacity-40">
+      <div className="w-4/5 shadow rounded-md bg-white bg-opacity-40">
         <div className="text-center justify-center text-2xl font-bold pt-4">
           <p>{`${caption.left}→${caption.right}`}</p>
         </div>
@@ -175,7 +179,7 @@ export default function Home() {
         </div>
         <div className="inline-flex text-center items-center mx-auto font-bold w-full">
           {/* ボタンが押されたら状態を書き換える */}
-          <button className="m-2 border-r-slate-400 border-b-bg-slate-600 rounded-md bg-white bg-opacity-40 w-full" onClick={() => {
+          <button className="m-2 border-solid shadow rounded-md bg-white bg-opacity-40 w-full" onClick={() => {
             if (userInput.direction === "isComingToHosei") {
               let nextUserInput = structuredClone(userInput);
               nextUserInput.direction = "isLeavingFromHosei";
@@ -189,12 +193,13 @@ export default function Home() {
             }
           }}>
             <p className="">入れ替え</p></button>
-          <button className="m-2 border-r-slate-400 border-b-bg-slate-600 rounded-md bg-white bg-opacity-40 w-full">
+          <button className="m-2 border-solid shadow rounded-md bg-white bg-opacity-40 w-full">
             <a href={inquiryURL}><p>ご意見</p></a>
           </button>
         </div>
       </div>
-      <div className="w-4/5 p-5 mx-0 my-5 rounded-md bg-white bg-opacity-30 border-opacity-40 border-r-slate-500 border-b-slate-600 backdrop-blur-xl">
+      <div className="w-4/5 p-5 mx-0 my-5 rounded-md
+        bg-white bg-opacity-30 border-opacity-40 shadow backdrop-blur-xl">
         <Image
           className="w-full"
           src={mapImage}
@@ -202,41 +207,48 @@ export default function Home() {
           height={500}
           alt="地図" />
         <div className="rounded-md">
-          <div className="w-1/4 top-4 left-2/3 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
+          <div className="w-1/3 top-0 left-0 rounded-md absolute text-5xl font-medium text-center mt-4 ml-4
+            bg-white bg-opacity-70 shadow">
             <p className="text-lg font-semibold">社会学部</p>
             <p className="text-lg font-semibold">{String(caption.health)}</p>
           </div>
-          <div className="w-1/4 top-4 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
+          <div className="w-1/3 top-0 left-1/2 rounded-md absolute text-5xl font-medium text-center ml-8 mt-4
+            bg-white bg-opacity-70 shadow">
             <p className="text-lg font-semibold">経済学部</p>
             <p className="text-lg font-semibold">{String(caption.economics)}</p>
           </div>
-          <div className="w-1/4 top-2/3 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
+          <div className="w-1/3 top-2/3 left-0 rounded-md absolute text-5xl font-medium text-center ml-4
+            bg-white bg-opacity-70 shadow">
             <p className="text-lg font-semibold">体育館</p>
             <p className="text-lg font-semibold">{String(caption.gym)}</p>
           </div>
-          <div className="w-1/4 top-2/3 left-2/3 rounded-md absolute text-5xl font-medium text-center bg-white bg-opacity-40 border-r-white border-b-white border-opacity-40">
+          <div className="w-1/3 top-2/3 left-1/2 rounded-md absolute text-5xl font-medium text-center ml-8
+            bg-white bg-opacity-70 shadow">
             <p className="text-lg font-semibold">スポ健</p>
             <p className="text-lg font-semibold">{String(caption.sport)}</p>
           </div>
         </div>
       </div>
-      <div className="flex justify-center text-center mb-5 flex-row">
+      <div className="flex justify-center text-center mb-5 w-full">
         {/* ボタンが押されたら状態を書き換える */}
-        <button className="w-20 mx-2 my-auto font-bold p-2 bg-white bg-opacity-30 border-r-gray-500 border-b-gray-600 rounded-md box-border"
+        <button className="w-1/4 my-auto font-bold p-2 rounded-md box-border
+          bg-white bg-opacity-30 shadow"
           style={style.nishihachioji} onClick={() => {
           let nextUserInput = structuredClone(userInput);
           nextUserInput.station = "nishihachioji";
           setUserInput(nextUserInput);
           localStorage.setItem("station", "nishihachioji");
         }}><p>西八王子</p></button>
-        <button className="w-20 mx-2 my-auto font-bold p-2 bg-white bg-opacity-30 border-r-gray-500 border-b-gray-600 rounded-md box-border"
+        <button className="w-1/4 mx-2 my-auto font-bold p-2 rounded-md box-border
+          bg-white bg-opacity-30 shadow"
           style={style.mejirodai} onClick={() => {
           let nextUserInput = structuredClone(userInput);
           localStorage.setItem("station", "mejirodai");
           nextUserInput.station = "mejirodai";
           setUserInput(nextUserInput);
         }}><p>めじろ台</p></button>
-        <button className="w-20 mx-2 my-auto font-bold p-2 bg-white bg-opacity-30 border-r-gray-500 border-b-gray-600 rounded-md box-border"
+        <button className="w-1/4 my-auto font-bold p-2 rounded-md box-border
+          bg-white bg-opacity-30 shadow"
           style={style.aihara} onClick={() => {
           let nextUserInput = structuredClone(userInput);
           localStorage.setItem("station", "aihara");
@@ -248,6 +260,8 @@ export default function Home() {
     </div>
   );
 }
+
+
 
 // `hh:mm` を分単位に変換する関数
 const timeToMinutes = (time: string) => {
