@@ -4,7 +4,8 @@ import { Children, useEffect, useState } from "react";
 import logo from "../../public/images/Tamap_logo.png"
 import mapImage from "../../public/images/Map.png"
 import useSWR from "swr";
-import { ReactNode,FC } from "react";
+import { ReactNode, FC } from "react";
+import next from "next";
 
 const timeTableAPI = "/api/timetable";
 const inquiryURL = "https://docs.google.com/forms/d/17Le4TKOCQyZleSlCIYQmPKOnAgT80iTY6W4h2aON1_Y/viewform?edit_requested=true";
@@ -34,35 +35,33 @@ type Style = {
   [station: string]: {}
 }
 
-type Props={
-  text:string
-}
-
 
 // APIへのフェッチャー
 const fetcher = async (key: string) => {
   return fetch(key).then((res) => res.json() as Promise<TimeTable | null>);
 }
 
+const stationNames: StationNames = { nishihachioji: "西八王子", mejirodai: "めじろ台", aihara: "相原" };
+
+
 export default function Home() {
 
   //自動更新
   let [date, setDate] = useState(new Date(`2000/1/1 ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`));
 
+  
+  const { data, error, isLoading } = useSWR(timeTableAPI, fetcher);
+  
+  let [userInput, setUserInput] = useState({ direction: "isComingToHosei", station: "nishihachioji",showModal:false });
+  
+  // ページ読み込み時の処理
   // https://qiita.com/iwakeniwaken/items/3c3e212599e411da54e2
   useEffect(() => {
     const interval = setInterval(() => {
       setDate(_ => new Date());
     }, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
-  const { data, error, isLoading } = useSWR(timeTableAPI, fetcher);
 
-  let [userInput, setUserInput] = useState({ direction: "isComingToHosei", station: "nishihachioji" });
-
-  // ページ読み込み時の処理
-  useEffect(() => {
     if (localStorage.getItem("firstAccessed") === "false") {
       // ２回目以降のアクセスにはlocalStorageから入力を復元する
       let direction: string | null = localStorage.getItem("direction");
@@ -78,6 +77,7 @@ export default function Home() {
       localStorage.setItem("direction", "isComingToHosei");
       localStorage.setItem("station", "nishihachioji");
     }
+    return () => clearInterval(interval);
   }, [])
 
   let caption: Caption | null;
@@ -118,7 +118,6 @@ export default function Home() {
         caption[key] = "--:--";
       }
     }
-    let stationNames: StationNames = { nishihachioji: "西八王子", mejirodai: "めじろ台", aihara: "相原" };
 
 
     if (userInput.direction === "isComingToHosei") {
@@ -146,7 +145,7 @@ export default function Home() {
   }
 
   let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
-  if(!isLoading){
+  if (!isLoading) {
     // 選択されている駅のボタンの書式を変える
     style[userInput.station] = { backgroundColor: "rgba(255, 255, 255, 0.658)" };
   }
@@ -156,16 +155,10 @@ export default function Home() {
     console.log(error);
   }
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-br from-orange-300 to-sky-300">
-      <Image
-        className="pb-3"
-        style={{ width: "60%" }}
-        src={logo}
-        height={274}
-        alt="たまっぷのロゴ"
-      />
-      <div className="w-4/5 shadow rounded-md bg-white bg-opacity-40">
+  // コンポーネント
+  const TimeCaption=()=>{
+    return(
+      <div className="w-full shadow rounded-md bg-white bg-opacity-40">
         <div className="text-center justify-center text-2xl font-bold pt-4">
           <p>{`${caption.left}→${caption.right}`}</p>
         </div>
@@ -179,7 +172,7 @@ export default function Home() {
         </div>
         <div className="inline-flex text-center items-center mx-auto font-bold w-full">
           {/* ボタンが押されたら状態を書き換える */}
-          <button className="m-2 border-solid shadow rounded-md bg-white bg-opacity-40 w-full" onClick={() => {
+          <button className="my-2 mx-auto border-solid shadow rounded-md bg-white bg-opacity-40 w-1/2 text-center" onClick={() => {
             if (userInput.direction === "isComingToHosei") {
               let nextUserInput = structuredClone(userInput);
               nextUserInput.direction = "isLeavingFromHosei";
@@ -192,13 +185,67 @@ export default function Home() {
               localStorage.setItem("direction", "isComingToHosei")
             }
           }}>
-            <p className="">入れ替え</p></button>
-          <button className="m-2 border-solid shadow rounded-md bg-white bg-opacity-40 w-full">
-            <a href={inquiryURL}><p>ご意見</p></a>
-          </button>
+            <p className="">(⇆)左右入替</p></button>
         </div>
+        
       </div>
-      <div className="w-4/5 p-5 mx-0 my-5 rounded-md
+    )
+  }
+
+  const StationSwitch=()=>{
+    return(
+      <div className="my-3 shadow rounded-md bg-white bg-opacity-40 w-4/5 h-full p-2 w-full">
+        <div className="inline-flex">
+          <p className="font-bold text-xl">{isLoading ? "loading" : stationNames[userInput.station]}</p>
+          {isLoading ? <></> : <p className="font-bold text-sm mt-2">のバス</p>}
+        </div>
+        <p className="w-1/2 float-right font-bold shadow rounded-md bg-white bg-opacity-40 p-1 text-center"
+        onClick={()=>{
+          let nextUserInput=structuredClone(userInput);
+          nextUserInput.showModal=!nextUserInput.showModal;
+          setUserInput(nextUserInput);
+        }}>バスを変更</p>
+        {userInput.showModal ? <Modal/>:<></>}
+      </div>
+    )
+  }
+
+  const Modal=()=>{
+    return(<div className="flex justify-center text-center w-full scroll-mb-36 mt-3">
+      {/* ボタンが押されたら状態を書き換える */}
+      <button className="w-2/5 my-auto font-bold p-2 rounded-md box-border
+      bg-white bg-opacity-30 shadow"
+        style={style.nishihachioji} onClick={() => {
+          let nextUserInput = structuredClone(userInput);
+          nextUserInput.station = "nishihachioji";
+          nextUserInput.showModal=false;
+          setUserInput(nextUserInput);
+          localStorage.setItem("station", "nishihachioji");
+        }}><p className="text-sm">西八王子</p></button>
+      <button className="w-2/5 mx-2 my-auto font-bold p-2 rounded-md box-border
+      bg-white bg-opacity-30 shadow"
+        style={style.mejirodai} onClick={() => {
+          let nextUserInput = structuredClone(userInput);
+          localStorage.setItem("station", "mejirodai");
+          nextUserInput.station = "mejirodai";
+          nextUserInput.showModal=false;
+          setUserInput(nextUserInput);
+        }}><p className="text-sm">めじろ台</p></button>
+      <button className="w-2/5 my-auto font-bold p-2 rounded-md box-border
+      bg-white bg-opacity-30 shadow"
+        style={style.aihara} onClick={() => {
+          let nextUserInput = structuredClone(userInput);
+          localStorage.setItem("station", "aihara");
+          nextUserInput.station = "aihara";
+          nextUserInput.showModal=false;
+          setUserInput(nextUserInput);
+        }}><p className="text-sm">相原</p></button>
+    </div>)
+  }
+
+  const Map=()=>{
+    return(
+      <div className="w-full p-5 mx-0 rounded-md
         bg-white bg-opacity-30 border-opacity-40 shadow backdrop-blur-xl">
         <Image
           className="w-full"
@@ -207,55 +254,64 @@ export default function Home() {
           height={500}
           alt="地図" />
         <div className="rounded-md">
-          <div className="w-1/3 top-0 left-0 rounded-md absolute text-5xl font-medium text-center mt-4 ml-4
+          <div className="w-1/2 top-0 left-0 rounded-md absolute text-5xl font-medium text-center ml-2 mt-2
             bg-white bg-opacity-70 shadow">
-            <p className="text-lg font-semibold">社会学部</p>
-            <p className="text-lg font-semibold">{String(caption.health)}</p>
+            <p className="text-sm font-semibold">学部到達時刻目安</p>
           </div>
-          <div className="w-1/3 top-0 left-1/2 rounded-md absolute text-5xl font-medium text-center ml-8 mt-4
+          <div className="w-1/3 top-1/3 left-1/2 rounded-md absolute text-5xl font-medium text-center mt-4 ml-8
             bg-white bg-opacity-70 shadow">
-            <p className="text-lg font-semibold">経済学部</p>
-            <p className="text-lg font-semibold">{String(caption.economics)}</p>
+            <p className="text-sm font-semibold">{isLoading ? "loading" :`社会学部 ${caption.health}`}</p>
+          </div>
+          <div className="w-1/3 top-1/3 left-0 rounded-md absolute text-5xl font-medium text-center mt-4 ml-4
+            bg-white bg-opacity-70 shadow">
+            <p className="text-sm font-semibold">{isLoading ? "loading" :`経済学部 ${caption.economics}`}</p>
           </div>
           <div className="w-1/3 top-2/3 left-0 rounded-md absolute text-5xl font-medium text-center ml-4
             bg-white bg-opacity-70 shadow">
-            <p className="text-lg font-semibold">体育館</p>
-            <p className="text-lg font-semibold">{String(caption.gym)}</p>
+            <p className="text-sm font-semibold">{isLoading ? "loading" :`体育館 ${caption.gym}`}</p>
           </div>
+          <p className="text-sm font-semibold"></p>
           <div className="w-1/3 top-2/3 left-1/2 rounded-md absolute text-5xl font-medium text-center ml-8
             bg-white bg-opacity-70 shadow">
-            <p className="text-lg font-semibold">スポ健</p>
-            <p className="text-lg font-semibold">{String(caption.sport)}</p>
+            <p className="text-sm font-semibold">{isLoading ? "loading" :`スポ健 ${caption.sport}`}</p>
           </div>
         </div>
       </div>
-      <div className="flex justify-center text-center mb-5 w-full">
-        {/* ボタンが押されたら状態を書き換える */}
-        <button className="w-1/4 my-auto font-bold p-2 rounded-md box-border
-          bg-white bg-opacity-30 shadow"
-          style={style.nishihachioji} onClick={() => {
-          let nextUserInput = structuredClone(userInput);
-          nextUserInput.station = "nishihachioji";
-          setUserInput(nextUserInput);
-          localStorage.setItem("station", "nishihachioji");
-        }}><p>西八王子</p></button>
-        <button className="w-1/4 mx-2 my-auto font-bold p-2 rounded-md box-border
-          bg-white bg-opacity-30 shadow"
-          style={style.mejirodai} onClick={() => {
-          let nextUserInput = structuredClone(userInput);
-          localStorage.setItem("station", "mejirodai");
-          nextUserInput.station = "mejirodai";
-          setUserInput(nextUserInput);
-        }}><p>めじろ台</p></button>
-        <button className="w-1/4 my-auto font-bold p-2 rounded-md box-border
-          bg-white bg-opacity-30 shadow"
-          style={style.aihara} onClick={() => {
-          let nextUserInput = structuredClone(userInput);
-          localStorage.setItem("station", "aihara");
-          nextUserInput.station = "aihara";
-          setUserInput(nextUserInput);
-        }}><p>相原</p></button>
+    )
+  }
+
+  const DiscountInformation=()=>{
+    return(
+    <div className="bg-gradient-to-r bg-opacity-80 from-orange-400 to-purple-500 border-gray-300 border rounded-full shadow my-2">
+        <p className="text-2xl m-3 font-semibold from-red-600 to-purple-700 bg-clip-text text-transparent tracking-widest bg-gradient-to-r">飲食店割引はこちら</p>
+    </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-300 p-5">
+      <Image
+        className="pb-3"
+        style={{ width: "60%" }}
+        src={logo}
+        height={274}
+        alt="たまっぷのロゴ"
+      />
+
+      <TimeCaption/>
+      <StationSwitch/>
+      <Map/>
+      <DiscountInformation/>
+      
+      <div className="flex flex-wrap justify-center w-full">
+        <p className="font-bold mb-1 mx-1 w-5/12 bg-white bg-opacity-40 rounded-md shadow text-center">
+          <a href={inquiryURL}>アプリご意見</a>
+        </p>
+        <p className="font-bold mb-1  mx-1 w-5/12 bg-white bg-opacity-40 rounded-md shadow text-center">アプリを共有</p>
+        <p className="font-bold my-1 mx-1 w-5/12 bg-white bg-opacity-40 rounded-md shadow text-center">CODE MATESとは</p>
+        <p className="font-bold my-1 mx-1 w-5/12 bg-white bg-opacity-40 rounded-md shadow text-center">Instagram</p>
       </div>
+      <p className="text-xs">時間は目安であり、交通状況等により変わることがあります。利用上の注意を読む→</p>
       <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
     </div>
   );
