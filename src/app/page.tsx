@@ -67,7 +67,7 @@ export default function Home() {
       let direction: string | null = localStorage.getItem("direction");
       let station: string | null = localStorage.getItem("station");
       if ("string" === typeof direction && "string" === typeof station) {
-        setUserInput({ direction: direction, station: station });
+        setUserInput({ direction: direction, station: station,showModal:false });
       } else {
         alert("localStorageのエラー");
       }
@@ -194,7 +194,7 @@ export default function Home() {
 
   const StationSwitch=()=>{
     return(
-      <div className="my-3 shadow rounded-md bg-white bg-opacity-40 w-4/5 h-full p-2 w-full">
+      <div className="my-3 shadow rounded-md bg-white bg-opacity-40 h-full p-2 w-full">
         <div className="inline-flex">
           <p className="font-bold text-xl">{isLoading ? "loading" : stationNames[userInput.station]}</p>
           {isLoading ? <></> : <p className="font-bold text-sm mt-2">のバス</p>}
