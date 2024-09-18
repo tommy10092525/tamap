@@ -121,11 +121,12 @@ export default function Home() {
   }
 
   const initializeUserInput = () => {
+    console.log(JSON.stringify(localStorage))
     if (localStorage.getItem("firstAccessed") === "false") {
       // ２回目以降のアクセスにはlocalStorageから入力を復元する
-      let direction: string | null = localStorage.getItem("direction");
+      let isComingToHosei: string | null = localStorage.getItem("isComingToHosei");
       let station: string | null = localStorage.getItem("station");
-      if ("string" === typeof direction && "string" === typeof station) {
+      if ("string" === typeof isComingToHosei && "string" === typeof station) {
         setUserInput({ isComingToHosei: true, station: station, showModal: false });
       } else {
         alert("localStorageのエラー");
@@ -133,7 +134,7 @@ export default function Home() {
     } else {
       // 初回アクセス時にはlocalStorageに必要な値を格納する
       localStorage.setItem("firstAccessed", "false");
-      localStorage.setItem("direction", "isComingToHosei");
+      localStorage.setItem("isComingToHosei", "true");
       localStorage.setItem("station", "nishihachioji");
     }
   }
@@ -220,12 +221,12 @@ export default function Home() {
       let nextUserInput = structuredClone(userInput);
       nextUserInput.isComingToHosei = false;
       setUserInput(nextUserInput);
-      localStorage.setItem("direction", "isLeavingFromHosei")
+      localStorage.setItem("isComingToHosei", "false")
     } else {
       let nextUserInput = structuredClone(userInput);
       nextUserInput.isComingToHosei =true;
       setUserInput(nextUserInput);
-      localStorage.setItem("direction", "isComingToHosei")
+      localStorage.setItem("isComingToHosei", "true")
     }
   }
 
