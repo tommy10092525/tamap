@@ -11,14 +11,14 @@ const StationSwitch = (props: StationSwitchProps) => {
     <div className='my-3 h-full w-full'>
       <Card>
         <div className="inline-flex">
-          <p className="font-bold text-xl ml-2 my-1">{timeTableIsLoading ? "loading" : stationNames[userInput.station]}</p>
+          <p className="font-bold text-lg my-1 ml-1">{timeTableIsLoading ? "loading" : stationNames[userInput.station]}</p>
           {timeTableIsLoading ? <></> : <p className="font-bold text-sm mt-3">のバス</p>}
         </div>
-        <div className='w-1/2 float-right font-bold mt-2 text-center'>
+        <div className='w-1/2 float-right font-bold mt-2 mr-3 text-center'>
           <Card>
-            <button className=""
+            <button className="w-full"
               onClick={handleShowModalChange}>
-              <p >バスを変更</p>
+              <p>バスを変更</p>
             </button>
           </Card>
         </div>
