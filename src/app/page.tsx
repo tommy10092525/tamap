@@ -209,9 +209,9 @@ export default function Home() {
   let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
   if (!timeTableIsLoading) {
     // 選択されている駅のボタンの書式を変える
-    style[userInput.station] = { backgroundColor: "rgba(255, 255, 255, 0.658)" };
+    style[userInput.station] = { backgroundColor: "rgb(110 231 183)" };
   }
-
+  
   // API取得にエラーが生じた場合エラーをコンソールに吐く
   if (timeTableError) {
     console.log(timeTableError);
