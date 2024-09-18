@@ -5,69 +5,128 @@ import logo from "../../public/images/Tamap_logo.png"
 import mapImage from "../../public/images/Map.png"
 import useSWR from "swr";
 import { ReactNode, FC } from "react";
-import next from "next";
+
+import {Buildings,BusTime,Caption,Holidays,MapProps,ModalProps,StationNames,StationSwitchProps,Style,TimeTable,UserInput} from "../app/components/Types"
+import TimeCaption from "./components/TimeCaption";
 
 const timeTableAPI = "/api/timetable";
+const holydaysAPI = "https://holidays-jp.github.io/api/v1/date.json"
 const inquiryURL = "https://docs.google.com/forms/d/17Le4TKOCQyZleSlCIYQmPKOnAgT80iTY6W4h2aON1_Y/viewform?edit_requested=true";
 
-// 時刻表型の定義
-type TimeTable = {
-  [direction: string]: {
-    [station: string]: { arrive: string, leave: string }[]
-  }
+
+
+const holidaysFetcher = async (key: string) => {
+  return fetch(key).then(res => res.json() as Promise<Holidays>)
 }
 
-
-type Buildings = {
-  [key: string]: number;
-}
-
-type StationNames = {
-  [station: string]: string;
-}
-
-type Caption = {
-  [key: string]: string | { arrive: string; leave: string };
-}
-
-// 書式設定
-type Style = {
-  [station: string]: {}
-}
-
-
-// APIへのフェッチャー
-const fetcher = async (key: string) => {
+// 時刻表APIへのフェッチャー
+const timeTableFetcher = async (key: string) => {
   return fetch(key).then((res) => res.json() as Promise<TimeTable | null>);
 }
 
 const stationNames: StationNames = { nishihachioji: "西八王子", mejirodai: "めじろ台", aihara: "相原" };
 
 
+
+
+
 export default function Home() {
+  // 曜日ごとの配列インデックス
+  const dayIndices = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-  //自動更新
-  let [date, setDate] = useState(new Date(`2000/1/1 ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`));
+  // 現在の時刻と曜日を取得
+  const now = new Date();
+  const currentDayIndex = now.getDay();
+  const currentDay = dayIndices[currentDayIndex];
+  const currentHour = now.getHours();
+  const currentMinutes = now.getMinutes();
+  const { data: holidayData, error: holidayError, isLoading: holidayIsLoading } = useSWR(holydaysAPI, holidaysFetcher);
+  const { data: timeTable, error: timeTableError, isLoading: timeTableIsLoading } = useSWR(timeTableAPI, timeTableFetcher);
 
-  
-  const { data, error, isLoading } = useSWR(timeTableAPI, fetcher);
-  
-  let [userInput, setUserInput] = useState({ direction: "isComingToHosei", station: "nishihachioji",showModal:false });
-  
-  // ページ読み込み時の処理
-  // https://qiita.com/iwakeniwaken/items/3c3e212599e411da54e2
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDate(_ => new Date());
-    }, 5000);
+  let [userInput, setUserInput] = useState({ isComingToHosei: true, station: "nishihachioji", showModal: false });
+  let [_, setNow] = useState(new Date(`2000/1/1 ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`));
 
+  // 時刻を数値に変換するヘルパー関数（分単位）
+  function toMinutes(hour: number, minutes: number) {
+    return hour * 60 + minutes;
+  }
 
+  // 指定された時刻（分）との差を計算
+  function timeDifference(nowInMinutes: number, busInMinutes: number) {
+    return busInMinutes - nowInMinutes;
+  }
+
+  // 日付が祝日かどうかを判定
+  function isHoliday(date: Date) {
+    const formattedDate = date.toISOString().split('T')[0];
+    if (!holidayData) {
+      alert("関数呼び出し順序の異常！！！");
+      return false;
+    }
+    return holidayData.hasOwnProperty(formattedDate);
+  }
+
+  // 平日かどうかを判定
+  function isWeekday(day: string) {
+    return ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].includes(day);
+  }
+
+  // 次の曜日を取得する関数（祝日も「日曜日」として扱う）
+  function getNextDay(currentDay: string, currentDate: Date) {
+    let nextDate = new Date(currentDate);
+    nextDate.setDate(nextDate.getDate() + 1);
+
+    if (isHoliday(nextDate)) {
+      return "Sunday"; // 祝日を日曜日と扱う
+    }
+
+    const nextDayIndex = (dayIndices.indexOf(currentDay) + 1) % 7;
+    return dayIndices[nextDayIndex];
+  }
+
+  // 次のバスを検索
+  function findNextBuses(timetable: TimeTable, currentDay: string, currentHour: number, currentMinutes: number, currentDate: Date) {
+    const nowInMinutes = toMinutes(currentHour, currentMinutes);
+    let nextBuses = [];
+
+    // 現在の曜日のバスを取得
+    let dayToCheck = currentDay;
+    let dateToCheck = currentDate;
+
+    // バスが見つかるまで次の日に進む
+    for (let i = 0; i < 7; i++) {
+      const busesForDay = timetable.filter(bus =>
+        bus.day === dayToCheck || (isWeekday(dayToCheck) && bus.day === "weekday")
+      );
+
+      for (let bus of busesForDay) {
+        const busLeaveTime = toMinutes(bus.leaveHour, bus.leaveMinutes);
+
+        // 現在の曜日かつ未来のバス、または翌日のバス
+        if (i > 0 || timeDifference(nowInMinutes, busLeaveTime) >= 0) {
+          nextBuses.push(bus);
+        }
+
+        if (nextBuses.length >= 2) {
+          return nextBuses; // 2本のバスを見つけたら返す
+        }
+      }
+
+      // 次の日に進む
+      dayToCheck = getNextDay(dayToCheck, dateToCheck);
+      dateToCheck.setDate(dateToCheck.getDate() + 1);
+    }
+
+    return nextBuses;
+  }
+
+  const initializeUserInput = () => {
     if (localStorage.getItem("firstAccessed") === "false") {
       // ２回目以降のアクセスにはlocalStorageから入力を復元する
       let direction: string | null = localStorage.getItem("direction");
       let station: string | null = localStorage.getItem("station");
       if ("string" === typeof direction && "string" === typeof station) {
-        setUserInput({ direction: direction, station: station,showModal:false });
+        setUserInput({ isComingToHosei: true, station: station, showModal: false });
       } else {
         alert("localStorageのエラー");
       }
@@ -77,32 +136,36 @@ export default function Home() {
       localStorage.setItem("direction", "isComingToHosei");
       localStorage.setItem("station", "nishihachioji");
     }
+  }
+
+
+
+  // ページ読み込み時の処理
+  // https://qiita.com/iwakeniwaken/items/3c3e212599e411da54e2
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(_ => new Date());
+    }, 1000);
+    initializeUserInput();
     return () => clearInterval(interval);
   }, [])
 
   let caption: Caption | null;
+  let firstBus:BusTime|null,secondBus:BusTime|null;
+  if (!timeTableIsLoading && !!timeTable && !holidayIsLoading && !!holidayData) {
+    // 駅と方向から絞る
+    let targetTimes = timeTable
+      .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
+    const arr=findNextBuses(targetTimes,currentDay,currentHour,currentMinutes,now);
+    firstBus=arr[0];
+    secondBus=arr[1];
 
-  let times;
-  if (!isLoading && !!data) {
-    //表示する時刻の算出
-    let hours = String(date.getHours()).padStart(2, "0");
-    let minutes = String(date.getMinutes()).padStart(2, "0");
-    let selected = data[userInput.direction][userInput.station];
-    let time = `${hours}:${minutes}`;
     const buildings: Buildings = {
       economics: 5,
       health: 4,
       sport: 8,
       gym: 15,
     };
-    // 現在時刻をもとに時刻表から二分探索する
-    let n = lowerBound(selected.map(item => timeToMinutes(item.leave)), timeToMinutes(time));
-    times = {
-      first: selected[n % selected.length],
-      second: selected[(n + 1) % selected.length]
-    }
-    times.first = selected[n % selected.length];
-
     caption = {
       economics: "",
       gym: "",
@@ -111,16 +174,17 @@ export default function Home() {
       right: "",
       sport: ""
     }
+
     for (let key in buildings) {
-      if (userInput.direction === "isComingToHosei") {
-        caption[key] = minutesToTime(buildings[key] + timeToMinutes(selected[n % selected.length].arrive));
+      if (userInput.isComingToHosei) {
+        caption[key] = minutesToTime(firstBus.arriveHour*60+firstBus.arriveMinute+buildings[key]);
       } else {
         caption[key] = "--:--";
       }
     }
 
 
-    if (userInput.direction === "isComingToHosei") {
+    if (userInput.isComingToHosei) {
       caption.left = stationNames[userInput.station];
       caption.right = "法政大学"
     } else {
@@ -129,8 +193,6 @@ export default function Home() {
     }
   } else {
     caption = {
-      first: { leave: "loading", arrive: "loading" },
-      second: { leave: "loading", arrive: "loading" },
       economics: "loading",
       gym: "loading",
       health: "loading",
@@ -138,158 +200,47 @@ export default function Home() {
       right: "loading",
       sport: "loading"
     }
-    times = {
-      first: { arrive: "loading", leave: "loading" },
-      second: { arrive: "loading", leave: "loading" }
-    }
+    firstBus=null
+    secondBus=null
   }
 
   let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
-  if (!isLoading) {
+  if (!timeTableIsLoading) {
     // 選択されている駅のボタンの書式を変える
     style[userInput.station] = { backgroundColor: "rgba(255, 255, 255, 0.658)" };
   }
 
   // API取得にエラーが生じた場合エラーをコンソールに吐く
-  if (error) {
-    console.log(error);
+  if (timeTableError) {
+    console.log(timeTableError);
   }
 
-  // コンポーネント
-  const TimeCaption=()=>{
-    return(
-      <div className="w-full shadow rounded-md bg-white bg-opacity-40">
-        <div className="text-center justify-center text-2xl font-bold pt-4">
-          <p>{`${caption.left}→${caption.right}`}</p>
-        </div>
-        <div className="flex justify-center mx-0 text-center text-4xl font-bold">
-          <p className="px-1">{String(times.first.leave)}</p>
-          <p className="px-1">{String(times.first.arrive)}</p>
-        </div>
-        <div className="flex justify-center mx-0 text-center text-2xl font-bold opacity-50">
-          <p className="px-1">{String(times.second.leave)}</p>
-          <p className="px-1">{String(times.second.arrive)}</p>
-        </div>
-        <div className="inline-flex text-center items-center mx-auto font-bold w-full">
-          {/* ボタンが押されたら状態を書き換える */}
-          <button className="my-2 mx-auto border-solid shadow rounded-md bg-white bg-opacity-40 w-1/2 text-center" onClick={() => {
-            if (userInput.direction === "isComingToHosei") {
-              let nextUserInput = structuredClone(userInput);
-              nextUserInput.direction = "isLeavingFromHosei";
-              setUserInput(nextUserInput);
-              localStorage.setItem("direction", "isLeavingFromHosei")
-            } else {
-              let nextUserInput = structuredClone(userInput);
-              nextUserInput.direction = "isComingToHosei";
-              setUserInput(nextUserInput);
-              localStorage.setItem("direction", "isComingToHosei")
-            }
-          }}>
-            <p className="">(⇆)左右入替</p></button>
-        </div>
-        
-      </div>
-    )
+  const handleDirectionChange=()=>{
+    if (userInput.isComingToHosei) {
+      let nextUserInput = structuredClone(userInput);
+      nextUserInput.isComingToHosei = false;
+      setUserInput(nextUserInput);
+      localStorage.setItem("direction", "isLeavingFromHosei")
+    } else {
+      let nextUserInput = structuredClone(userInput);
+      nextUserInput.isComingToHosei =true;
+      setUserInput(nextUserInput);
+      localStorage.setItem("direction", "isComingToHosei")
+    }
   }
 
-  const StationSwitch=()=>{
-    return(
-      <div className="my-3 shadow rounded-md bg-white bg-opacity-40 h-full p-2 w-full">
-        <div className="inline-flex">
-          <p className="font-bold text-xl">{isLoading ? "loading" : stationNames[userInput.station]}</p>
-          {isLoading ? <></> : <p className="font-bold text-sm mt-2">のバス</p>}
-        </div>
-        <button
-          className="w-1/2 float-right font-bold shadow rounded-md bg-white bg-opacity-40 p-1 text-center"
-          onClick={()=>{
-          let nextUserInput=structuredClone(userInput);
-          nextUserInput.showModal=!nextUserInput.showModal;
-          setUserInput(nextUserInput);
-        }}>
-        <p className=""
-        >バスを変更</p>
-        </button>
-        {userInput.showModal ? <Modal/>:<></>}
-      </div>
-    )
+  const handleShowModalChange=()=>{
+    let nextUserInput = structuredClone(userInput);
+    nextUserInput.showModal = !nextUserInput.showModal;
+    setUserInput(nextUserInput);
   }
-
-  const Modal=()=>{
-    return(<div className="flex justify-center text-center w-full scroll-mb-36 mt-3">
-      {/* ボタンが押されたら状態を書き換える */}
-      <button className="w-2/5 my-auto font-bold p-2 rounded-md box-border
-      bg-white bg-opacity-30 shadow"
-        style={style.nishihachioji} onClick={() => {
-          let nextUserInput = structuredClone(userInput);
-          nextUserInput.station = "nishihachioji";
-          nextUserInput.showModal=false;
-          setUserInput(nextUserInput);
-          localStorage.setItem("station", "nishihachioji");
-        }}><p className="text-sm">西八王子</p></button>
-      <button className="w-2/5 mx-2 my-auto font-bold p-2 rounded-md box-border
-      bg-white bg-opacity-30 shadow"
-        style={style.mejirodai} onClick={() => {
-          let nextUserInput = structuredClone(userInput);
-          localStorage.setItem("station", "mejirodai");
-          nextUserInput.station = "mejirodai";
-          nextUserInput.showModal=false;
-          setUserInput(nextUserInput);
-        }}><p className="text-sm">めじろ台</p></button>
-      <button className="w-2/5 my-auto font-bold p-2 rounded-md box-border
-      bg-white bg-opacity-30 shadow"
-        style={style.aihara} onClick={() => {
-          let nextUserInput = structuredClone(userInput);
-          localStorage.setItem("station", "aihara");
-          nextUserInput.station = "aihara";
-          nextUserInput.showModal=false;
-          setUserInput(nextUserInput);
-        }}><p className="text-sm">相原</p></button>
-    </div>)
-  }
-
-  const Map=()=>{
-    return(
-      <div className="w-full p-5 mx-0 rounded-md
-        bg-white bg-opacity-30 border-opacity-40 shadow backdrop-blur-xl">
-        <Image
-          className="w-full"
-          src={mapImage}
-          width={500}
-          height={500}
-          alt="地図" />
-        <div className="rounded-md">
-          <div className="w-1/2 top-0 left-0 rounded-md absolute text-5xl font-medium text-center ml-2 mt-2
-            bg-white bg-opacity-70 shadow">
-            <p className="text-sm font-semibold">学部到達時刻目安</p>
-          </div>
-          <div className="w-1/3 top-1/3 left-1/2 rounded-md absolute text-5xl font-medium text-center mt-4 ml-8
-            bg-white bg-opacity-70 shadow">
-            <p className="text-sm font-semibold">{isLoading ? "loading" :`社会学部 ${caption.health}`}</p>
-          </div>
-          <div className="w-1/3 top-1/3 left-0 rounded-md absolute text-5xl font-medium text-center mt-4 ml-4
-            bg-white bg-opacity-70 shadow">
-            <p className="text-sm font-semibold">{isLoading ? "loading" :`経済学部 ${caption.economics}`}</p>
-          </div>
-          <div className="w-1/3 top-2/3 left-0 rounded-md absolute text-5xl font-medium text-center ml-4
-            bg-white bg-opacity-70 shadow">
-            <p className="text-sm font-semibold">{isLoading ? "loading" :`体育館 ${caption.gym}`}</p>
-          </div>
-          <p className="text-sm font-semibold"></p>
-          <div className="w-1/3 top-2/3 left-1/2 rounded-md absolute text-5xl font-medium text-center ml-8
-            bg-white bg-opacity-70 shadow">
-            <p className="text-sm font-semibold">{isLoading ? "loading" :`スポ健 ${caption.sport}`}</p>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  const DiscountInformation=()=>{
-    return(
-    <div className="bg-gradient-to-r bg-opacity-80 from-orange-400 to-purple-500 border-gray-300 border rounded-full shadow my-2">
-        <p className="text-2xl m-3 font-semibold from-red-600 to-purple-700 bg-clip-text text-transparent tracking-widest bg-gradient-to-r">飲食店割引はこちら</p>
-    </div>
-    )
+  
+  const handleStationChange=(station:string)=>{
+    let nextUserInput = structuredClone(userInput);
+    nextUserInput.station = station;
+    nextUserInput.showModal = false;
+    setUserInput(nextUserInput);
+    localStorage.setItem("station", station);
   }
 
   return (
@@ -302,11 +253,27 @@ export default function Home() {
         alt="たまっぷのロゴ"
       />
 
-      <TimeCaption/>
-      <StationSwitch/>
-      <Map/>
-      <DiscountInformation/>
-      
+      <TimeCaption
+        caption={caption}
+        firstBus={firstBus}
+        secondBus={secondBus}
+        isLoading={timeTableIsLoading || holidayIsLoading}
+        handleDirectionChange={handleDirectionChange}
+        minutesToTime={minutesToTime}
+      />
+      <StationSwitch
+        timeTableIsLoading={holidayIsLoading||timeTableIsLoading}
+        userInput={userInput}
+        handleShowModalChange={handleShowModalChange}
+        handleStationChange={handleStationChange}
+        style={style}
+      />
+      <Map
+        caption={caption}
+        isLoading={timeTableIsLoading || holidayIsLoading}
+      />
+      <DiscountInformation />
+
       <div className="flex flex-wrap justify-center w-full">
         <p className="font-bold mb-1 mx-1 w-5/12 bg-white bg-opacity-40 rounded-md shadow text-center">
           <a href={inquiryURL}>アプリご意見</a>
@@ -346,4 +313,92 @@ const lowerBound = (arr: Array<number>, n: number) => {
     else last = middle - 1;
   }
   return first;
+}
+
+
+
+
+const StationSwitch = (props:StationSwitchProps) => {
+  let {userInput,timeTableIsLoading,style,handleShowModalChange,handleStationChange}=props;
+  return (
+    <div className="my-3 shadow rounded-md bg-white bg-opacity-40 h-full p-2 w-full">
+      <div className="inline-flex">
+        <p className="font-bold text-xl">{timeTableIsLoading ? "loading" : stationNames[userInput.station]}</p>
+        {timeTableIsLoading ? <></> : <p className="font-bold text-sm mt-2">のバス</p>}
+      </div>
+      <button className="w-1/2 float-right font-bold shadow rounded-md bg-white bg-opacity-40 p-1 text-center"
+        onClick={handleShowModalChange}>
+        <p >バスを変更</p>
+        </button>
+      {userInput.showModal ? <Modal style={style} handleStationChange={handleShowModalChange} /> : <></>}
+    </div>
+  )
+}
+
+const Modal = (props:ModalProps) => {
+  const {style,handleStationChange}=props;
+  return (<div className="flex justify-center text-center w-full scroll-mb-36 mt-3">
+    {/* ボタンが押されたら状態を書き換える */}
+    <button className="w-2/5 my-auto font-bold p-2 rounded-md box-border
+    bg-white bg-opacity-30 shadow"
+      style={style.nishihachioji} onClick={()=>{
+        handleStationChange("nishihachioji")
+      }}><p className="text-sm">西八王子</p></button>
+    <button className="w-2/5 mx-2 my-auto font-bold p-2 rounded-md box-border
+    bg-white bg-opacity-30 shadow"
+      style={style.mejirodai} onClick={() => {
+        handleStationChange("mejirodai");
+      }}><p className="text-sm">めじろ台</p></button>
+    <button className="w-2/5 my-auto font-bold p-2 rounded-md box-border
+    bg-white bg-opacity-30 shadow"
+      style={style.aihara} onClick={() => {
+        handleStationChange("aihara");
+      }}><p className="text-sm">相原</p></button>
+  </div>)
+}
+
+const Map = (props:MapProps) => {
+  const {isLoading,caption}=props;
+  return (
+    <div className="w-full p-5 mx-0 rounded-md
+      bg-white bg-opacity-30 border-opacity-40 shadow backdrop-blur-xl">
+      <Image
+        className="w-full"
+        src={mapImage}
+        width={500}
+        height={500}
+        alt="地図" />
+      <div className="rounded-md">
+        <div className="w-1/2 top-0 left-0 rounded-md absolute text-5xl font-medium text-center ml-2 mt-2
+          bg-white bg-opacity-70 shadow">
+          <p className="text-sm font-semibold">学部到達時刻目安</p>
+        </div>
+        <div className="w-1/3 top-1/3 left-1/2 rounded-md absolute text-5xl font-medium text-center mt-4 ml-8
+          bg-white bg-opacity-70 shadow">
+          <p className="text-sm font-semibold">{isLoading ? "loading" : `社会学部 ${caption.health}`}</p>
+        </div>
+        <div className="w-1/3 top-1/3 left-0 rounded-md absolute text-5xl font-medium text-center mt-4 ml-4
+          bg-white bg-opacity-70 shadow">
+          <p className="text-sm font-semibold">{isLoading ? "loading" : `経済学部 ${caption.economics}`}</p>
+        </div>
+        <div className="w-1/3 top-2/3 left-0 rounded-md absolute text-5xl font-medium text-center ml-4
+          bg-white bg-opacity-70 shadow">
+          <p className="text-sm font-semibold">{isLoading ? "loading" : `体育館 ${caption.gym}`}</p>
+        </div>
+        <p className="text-sm font-semibold"></p>
+        <div className="w-1/3 top-2/3 left-1/2 rounded-md absolute text-5xl font-medium text-center ml-8
+          bg-white bg-opacity-70 shadow">
+          <p className="text-sm font-semibold">{isLoading ? "loading" : `スポ健 ${caption.sport}`}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const DiscountInformation = () => {
+  return (
+    <div className="bg-gradient-to-r bg-opacity-80 from-orange-400 to-purple-500 border-gray-300 border rounded-full shadow my-2">
+      <p className="text-2xl m-3 font-semibold from-red-600 to-purple-700 bg-clip-text text-transparent tracking-widest bg-gradient-to-r">飲食店割引はこちら</p>
+    </div>
+  )
 }
