@@ -6,7 +6,8 @@ import logo from "../../public/images/Tamap_logo.png"
 import useSWR from "swr";
 import { ReactNode, FC } from "react";
 
-import {Buildings,BusTime,Caption,Holidays,MapProps,ModalProps,StationNames,StationSwitchProps,Style,TimeTable,UserInput} from "../app/components/Types"
+import { Buildings, BusTime, Caption, Holidays, MapProps, ModalProps, StationNames, StationSwitchProps, Style, TimeTable, UserInput } from "../app/components/Types"
+import Card from "./components/Card";
 import TimeCaption from "./components/TimeCaption";
 import StationSwitch from "./components/StationSwitch";
 import Map from "./components/Map";
@@ -27,7 +28,7 @@ const timeTableFetcher = async (key: string) => {
   return fetch(key).then((res) => res.json() as Promise<TimeTable | null>);
 }
 
-const stationNames:StationNames = { nishihachioji: "西八王子", mejirodai: "めじろ台", aihara: "相原" };
+const stationNames: StationNames = { nishihachioji: "西八王子", mejirodai: "めじろ台", aihara: "相原" };
 
 
 export default function Home() {
@@ -152,14 +153,14 @@ export default function Home() {
   }, [])
 
   let caption: Caption | null;
-  let firstBus:BusTime|null,secondBus:BusTime|null;
+  let firstBus: BusTime | null, secondBus: BusTime | null;
   if (!timeTableIsLoading && !!timeTable && !holidayIsLoading && !!holidayData) {
     // 駅と方向から絞る
     let targetTimes = timeTable
       .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
-    const arr=findNextBuses(targetTimes,currentDay,currentHour,currentMinutes,now);
-    firstBus=arr[0];
-    secondBus=arr[1];
+    const arr = findNextBuses(targetTimes, currentDay, currentHour, currentMinutes, now);
+    firstBus = arr[0];
+    secondBus = arr[1];
 
     const buildings: Buildings = {
       economics: 5,
@@ -178,7 +179,7 @@ export default function Home() {
 
     for (let key in buildings) {
       if (userInput.isComingToHosei) {
-        caption[key] = minutesToTime(firstBus.arriveHour*60+firstBus.arriveMinute+buildings[key]);
+        caption[key] = minutesToTime(firstBus.arriveHour * 60 + firstBus.arriveMinute + buildings[key]);
       } else {
         caption[key] = "--:--";
       }
@@ -201,8 +202,8 @@ export default function Home() {
       right: "loading",
       sport: "loading"
     }
-    firstBus=null
-    secondBus=null
+    firstBus = null
+    secondBus = null
   }
 
   let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
@@ -216,7 +217,7 @@ export default function Home() {
     console.log(timeTableError);
   }
 
-  const handleDirectionChange=()=>{
+  const handleDirectionChange = () => {
     if (userInput.isComingToHosei) {
       let nextUserInput = structuredClone(userInput);
       nextUserInput.isComingToHosei = false;
@@ -224,19 +225,19 @@ export default function Home() {
       localStorage.setItem("isComingToHosei", "false")
     } else {
       let nextUserInput = structuredClone(userInput);
-      nextUserInput.isComingToHosei =true;
+      nextUserInput.isComingToHosei = true;
       setUserInput(nextUserInput);
       localStorage.setItem("isComingToHosei", "true")
     }
   }
 
-  const handleShowModalChange=()=>{
+  const handleShowModalChange = () => {
     let nextUserInput = structuredClone(userInput);
     nextUserInput.showModal = !nextUserInput.showModal;
     setUserInput(nextUserInput);
   }
-  
-  const handleStationChange=(station:string)=>{
+
+  const handleStationChange = (station: string) => {
     let nextUserInput = structuredClone(userInput);
     nextUserInput.station = station;
     nextUserInput.showModal = false;
@@ -263,7 +264,7 @@ export default function Home() {
         minutesToTime={minutesToTime}
       />
       <StationSwitch
-        timeTableIsLoading={holidayIsLoading||timeTableIsLoading}
+        timeTableIsLoading={holidayIsLoading || timeTableIsLoading}
         userInput={userInput}
         handleShowModalChange={handleShowModalChange}
         handleStationChange={handleStationChange}
@@ -276,12 +277,26 @@ export default function Home() {
       <DiscountInformation />
 
       <div className="flex flex-wrap justify-center w-full">
-        <p className="font-bold mb-1 mx-1 w-5/12 bg-white bg-opacity-40 rounded-md shadow text-center">
-          <a href={inquiryURL}>アプリご意見</a>
-        </p>
-        <p className="font-bold mb-1  mx-1 w-5/12 bg-white bg-opacity-40 rounded-md shadow text-center">アプリを共有</p>
-        <p className="font-bold my-1 mx-1 w-5/12 bg-white bg-opacity-40 rounded-md shadow text-center">CODE MATESとは</p>
-        <p className="font-bold my-1 mx-1 w-5/12 bg-white bg-opacity-40 rounded-md shadow text-center">Instagram</p>
+        <div className="font-bold mb-1 mx-1 w-5/12 text-center">
+          <Card>
+            <a href={inquiryURL}>アプリご意見</a>
+          </Card>
+        </div>
+        <div className="font-bold mb-1 mx-1 w-5/12 text-center">
+          <Card>
+            アプリを共有
+          </Card>
+        </div>
+        <div className="font-bold mb-1 mx-1 w-5/12 text-center">
+          <Card>
+            CODE MATESとは
+          </Card>
+        </div>
+        <div className="font-bold mb-1 mx-1 w-5/12 text-center">
+          <Card>
+            Instagram
+          </Card>
+        </div>
       </div>
       <p className="text-xs">時間は目安であり、交通状況等により変わることがあります。利用上の注意を読む→</p>
       <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
