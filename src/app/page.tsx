@@ -100,7 +100,7 @@ export default function Home() {
       );
 
       for (let bus of busesForDay) {
-        const busLeaveTime = toMinutes(bus.leaveHour, bus.leaveMinutes);
+        const busLeaveTime = toMinutes(bus.leaveHour, bus.leaveMinute);
 
         // 現在の曜日かつ未来のバス、または翌日のバス
         if (i > 0 || timeDifference(nowInMinutes, busLeaveTime) >= 0) {
