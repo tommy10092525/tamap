@@ -1,8 +1,7 @@
 import React from 'react'
-import { ModalProps } from './Types';
-import Card from './Card';
+import { Style } from './Types';
 
-const Modal = (props: ModalProps) => {
+const Modal = (props: {style:Style,handleStationChange:(station:string)=>void}) => {
   const { style, handleStationChange } = props;
   return (<div className="flex justify-center text-center w-full scroll-mb-36 mt-3 pb-2">
     {/* ボタンが押されたら状態を書き換える */}

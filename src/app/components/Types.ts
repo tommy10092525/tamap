@@ -40,22 +40,5 @@ type BusTime={
   }
   
   
-  
-  type StationSwitchProps={
-    userInput:UserInput,
-    timeTableIsLoading:boolean,
-    style:Style,
-    handleShowModalChange:()=>void
-    handleStationChange:(station:string)=>void
-  }
-  
-  type MapProps={
-    isLoading:boolean,caption:Caption;
-  }
-  
-  type ModalProps={
-    handleStationChange:(station:string)=>void;
-    style:Style
-  }
 
-export type {BusTime,TimeTable,Buildings,StationNames,Caption,Style,Holidays,UserInput,StationSwitchProps,MapProps,ModalProps}
+export type {BusTime,TimeTable,Buildings,StationNames,Caption,Style,Holidays,UserInput}

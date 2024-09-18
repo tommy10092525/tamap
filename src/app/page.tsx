@@ -1,17 +1,17 @@
 "use client";
 import Image from "next/image";
-import { Children, useEffect, useState } from "react";
-import logo from "../../public/images/Tamap_logo.png"
+import {useCallback, useEffect, useState,useMemo} from "react";
+
 
 import useSWR from "swr";
-import { ReactNode, FC } from "react";
 
-import { Buildings, BusTime, Caption, Holidays, MapProps, ModalProps, StationNames, StationSwitchProps, Style, TimeTable, UserInput } from "../app/components/Types"
+import { Buildings, BusTime, Caption, Holidays, StationNames, Style, TimeTable, UserInput } from "../app/components/Types"
 import Card from "./components/Card";
 import TimeCaption from "./components/TimeCaption";
 import StationSwitch from "./components/StationSwitch";
 import Map from "./components/Map";
 import DiscountInformation from "./components/DiscountInformation";
+import Logo from "./components/Logo";
 
 const timeTableAPI = "/api/timetable";
 const holydaysAPI = "https://holidays-jp.github.io/api/v1/date.json"
@@ -247,13 +247,9 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-300 p-5">
-      <Image
-        className="pb-3"
-        style={{ width: "60%" }}
-        src={logo}
-        height={274}
-        alt="たまっぷのロゴ"
-      />
+      
+      <Logo/>
+
 
       <TimeCaption
         caption={caption}
@@ -264,7 +260,7 @@ export default function Home() {
         minutesToTime={minutesToTime}
       />
       <StationSwitch
-        timeTableIsLoading={holidayIsLoading || timeTableIsLoading}
+        isLoading={holidayIsLoading || timeTableIsLoading}
         userInput={userInput}
         handleShowModalChange={handleShowModalChange}
         handleStationChange={handleStationChange}
@@ -274,7 +270,9 @@ export default function Home() {
         caption={caption}
         isLoading={timeTableIsLoading || holidayIsLoading}
       />
-      <DiscountInformation />
+      <DiscountInformation
+        text="飲食店割引はこちらから"
+      />
 
       <div className="flex flex-wrap justify-center w-full">
         <div className="font-bold mb-1 mx-1 w-5/12 text-center">

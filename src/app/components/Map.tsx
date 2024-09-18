@@ -1,10 +1,10 @@
 import React from 'react'
-import { MapProps } from './Types';
 import Image from 'next/image';
 import mapImage from "../../../public/images/Map.png"
 import Card from './Card';
+import { Caption } from './Types';
 
-const Map = (props: MapProps) => {
+const Map = (props: {isLoading:boolean,caption:Caption}) => {
   const { isLoading, caption } = props;
   return (
     <div className="w-full mx-0 border-opacity-40 backdrop-blur-xl">

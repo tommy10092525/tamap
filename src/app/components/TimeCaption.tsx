@@ -12,7 +12,7 @@ type TimeCaptionProps = {
   minutesToTime: (minutes: number) => string
 }
 
-const TimeCaption = (props: TimeCaptionProps) => {
+const TimeCaption = (props: {firstBus:BusTime|null,secondBus:BusTime|null,caption:Caption,isLoading:boolean,handleDirectionChange:()=>void,minutesToTime:(minutes:number)=>string}) => {
   let { firstBus, secondBus, caption, isLoading, handleDirectionChange, minutesToTime } = props;
   return (
     <div className="w-full">
