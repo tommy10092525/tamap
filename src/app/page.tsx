@@ -331,7 +331,7 @@ const StationSwitch = (props:StationSwitchProps) => {
         onClick={handleShowModalChange}>
         <p >バスを変更</p>
         </button>
-      {userInput.showModal ? <Modal style={style} handleStationChange={handleShowModalChange} /> : <></>}
+      {userInput.showModal ? <Modal style={style} handleStationChange={handleStationChange} /> : <></>}
     </div>
   )
 }
