@@ -2,12 +2,15 @@
 import Image from "next/image";
 import { Children, useEffect, useState } from "react";
 import logo from "../../public/images/Tamap_logo.png"
-import mapImage from "../../public/images/Map.png"
+
 import useSWR from "swr";
 import { ReactNode, FC } from "react";
 
 import {Buildings,BusTime,Caption,Holidays,MapProps,ModalProps,StationNames,StationSwitchProps,Style,TimeTable,UserInput} from "../app/components/Types"
 import TimeCaption from "./components/TimeCaption";
+import StationSwitch from "./components/StationSwitch";
+import Map from "./components/Map";
+import DiscountInformation from "./components/DiscountInformation";
 
 const timeTableAPI = "/api/timetable";
 const holydaysAPI = "https://holidays-jp.github.io/api/v1/date.json"
@@ -24,10 +27,7 @@ const timeTableFetcher = async (key: string) => {
   return fetch(key).then((res) => res.json() as Promise<TimeTable | null>);
 }
 
-const stationNames: StationNames = { nishihachioji: "西八王子", mejirodai: "めじろ台", aihara: "相原" };
-
-
-
+const stationNames:StationNames = { nishihachioji: "西八王子", mejirodai: "めじろ台", aihara: "相原" };
 
 
 export default function Home() {
@@ -316,90 +316,3 @@ const lowerBound = (arr: Array<number>, n: number) => {
   return first;
 }
 
-
-
-
-const StationSwitch = (props:StationSwitchProps) => {
-  let {userInput,timeTableIsLoading,style,handleShowModalChange,handleStationChange}=props;
-  return (
-    <div className="my-3 shadow rounded-md bg-white bg-opacity-40 h-full p-2 w-full">
-      <div className="inline-flex">
-        <p className="font-bold text-xl">{timeTableIsLoading ? "loading" : stationNames[userInput.station]}</p>
-        {timeTableIsLoading ? <></> : <p className="font-bold text-sm mt-2">のバス</p>}
-      </div>
-      <button className="w-1/2 float-right font-bold shadow rounded-md bg-white bg-opacity-40 p-1 text-center"
-        onClick={handleShowModalChange}>
-        <p >バスを変更</p>
-        </button>
-      {userInput.showModal ? <Modal style={style} handleStationChange={handleStationChange} /> : <></>}
-    </div>
-  )
-}
-
-const Modal = (props:ModalProps) => {
-  const {style,handleStationChange}=props;
-  return (<div className="flex justify-center text-center w-full scroll-mb-36 mt-3">
-    {/* ボタンが押されたら状態を書き換える */}
-    <button className="w-2/5 my-auto font-bold p-2 rounded-md box-border
-    bg-white bg-opacity-30 shadow"
-      style={style.nishihachioji} onClick={()=>{
-        handleStationChange("nishihachioji")
-      }}><p className="text-sm">西八王子</p></button>
-    <button className="w-2/5 mx-2 my-auto font-bold p-2 rounded-md box-border
-    bg-white bg-opacity-30 shadow"
-      style={style.mejirodai} onClick={() => {
-        handleStationChange("mejirodai");
-      }}><p className="text-sm">めじろ台</p></button>
-    <button className="w-2/5 my-auto font-bold p-2 rounded-md box-border
-    bg-white bg-opacity-30 shadow"
-      style={style.aihara} onClick={() => {
-        handleStationChange("aihara");
-      }}><p className="text-sm">相原</p></button>
-  </div>)
-}
-
-const Map = (props:MapProps) => {
-  const {isLoading,caption}=props;
-  return (
-    <div className="w-full p-5 mx-0 rounded-md
-      bg-white bg-opacity-30 border-opacity-40 shadow backdrop-blur-xl">
-      <Image
-        className="w-full"
-        src={mapImage}
-        width={500}
-        height={500}
-        alt="地図" />
-      <div className="rounded-md">
-        <div className="w-1/2 top-0 left-0 rounded-md absolute text-5xl font-medium text-center ml-2 mt-2
-          bg-white bg-opacity-70 shadow">
-          <p className="text-sm font-semibold">学部到達時刻目安</p>
-        </div>
-        <div className="w-1/3 top-1/3 left-1/2 rounded-md absolute text-5xl font-medium text-center mt-4 ml-8
-          bg-white bg-opacity-70 shadow">
-          <p className="text-sm font-semibold">{isLoading ? "loading" : `社会学部 ${caption.health}`}</p>
-        </div>
-        <div className="w-1/3 top-1/3 left-0 rounded-md absolute text-5xl font-medium text-center mt-4 ml-4
-          bg-white bg-opacity-70 shadow">
-          <p className="text-sm font-semibold">{isLoading ? "loading" : `経済学部 ${caption.economics}`}</p>
-        </div>
-        <div className="w-1/3 top-2/3 left-0 rounded-md absolute text-5xl font-medium text-center ml-4
-          bg-white bg-opacity-70 shadow">
-          <p className="text-sm font-semibold">{isLoading ? "loading" : `体育館 ${caption.gym}`}</p>
-        </div>
-        <p className="text-sm font-semibold"></p>
-        <div className="w-1/3 top-2/3 left-1/2 rounded-md absolute text-5xl font-medium text-center ml-8
-          bg-white bg-opacity-70 shadow">
-          <p className="text-sm font-semibold">{isLoading ? "loading" : `スポ健 ${caption.sport}`}</p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const DiscountInformation = () => {
-  return (
-    <div className="bg-gradient-to-r bg-opacity-80 from-orange-400 to-purple-500 border-gray-300 border rounded-full shadow my-2">
-      <p className="text-2xl m-3 font-semibold from-red-600 to-purple-700 bg-clip-text text-transparent tracking-widest bg-gradient-to-r">飲食店割引はこちら</p>
-    </div>
-  )
-}
