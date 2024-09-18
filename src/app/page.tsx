@@ -199,12 +199,16 @@ export default function Home() {
           <p className="font-bold text-xl">{isLoading ? "loading" : stationNames[userInput.station]}</p>
           {isLoading ? <></> : <p className="font-bold text-sm mt-2">のバス</p>}
         </div>
-        <p className="w-1/2 float-right font-bold shadow rounded-md bg-white bg-opacity-40 p-1 text-center"
-        onClick={()=>{
+        <button
+          className="w-1/2 float-right font-bold shadow rounded-md bg-white bg-opacity-40 p-1 text-center"
+          onClick={()=>{
           let nextUserInput=structuredClone(userInput);
           nextUserInput.showModal=!nextUserInput.showModal;
           setUserInput(nextUserInput);
-        }}>バスを変更</p>
+        }}>
+        <p className=""
+        >バスを変更</p>
+        </button>
         {userInput.showModal ? <Modal/>:<></>}
       </div>
     )
