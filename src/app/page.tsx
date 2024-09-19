@@ -249,7 +249,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-300 p-5">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-300 dark:from-orange-400 dark:to-indigo-600 p-5">
       <div className="max-w-screen-sm">
         <Logo />
         <TimeCaption
@@ -274,11 +274,12 @@ export default function Home() {
         <DiscountInformation text="飲食店割引はこちらから" />
 
         <div className="flex flex-wrap justify-center w-full">
-          {[<a key={null} href={inquiryURL}>アプリご意見</a>, "アプリを共有", "CODE MATESとは", "Instagram"].map(item => {
-            return (
-              <LinkBox key={null}>{item}</LinkBox>
-            )
-          })}
+          {[
+            <a key={null} href={inquiryURL}>アプリご意見</a>,
+            "アプリを共有",
+            "CODE MATESとは",
+            "Instagram"].map(item => <LinkBox key={null}>{item}</LinkBox>)
+          }
         </div>
         <p className="text-xs">時間は目安であり、交通状況等により変わることがあります。利用上の注意を読む→</p>
         <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>

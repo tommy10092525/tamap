@@ -5,7 +5,7 @@ import { Style } from './Types'
 const Card = React.memo((props:{children:ReactNode,style?:Style}) => {
     let {children,style}=props;
     return (
-        <div className='shadow rounded-md bg-white bg-opacity-60'
+        <div className='shadow rounded-md bg-white dark:bg-gray-200 bg-opacity-40 dark:bg-opacity-40'
             style={style}>
             {children}
         </div>
