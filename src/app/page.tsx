@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import {useCallback, useEffect, useState,useMemo} from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 
 
 import useSWR from "swr";
@@ -12,6 +12,7 @@ import StationSwitch from "./components/StationSwitch";
 import Map from "./components/Map";
 import DiscountInformation from "./components/DiscountInformation";
 import Logo from "./components/Logo";
+import LinkBox from "./components/LinkBox";
 
 const timeTableAPI = "/api/timetable";
 const holydaysAPI = "https://holidays-jp.github.io/api/v1/date.json"
@@ -154,6 +155,8 @@ export default function Home() {
 
   let caption: Caption | null;
   let firstBus: BusTime | null, secondBus: BusTime | null;
+  let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
+
   if (!timeTableIsLoading && !!timeTable && !holidayIsLoading && !!holidayData) {
     // 駅と方向から絞る
     let targetTimes = timeTable
@@ -206,12 +209,11 @@ export default function Home() {
     secondBus = null
   }
 
-  let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
   if (!timeTableIsLoading) {
     // 選択されている駅のボタンの書式を変える
     style[userInput.station] = { backgroundColor: "rgb(110 231 183)" };
   }
-  
+
   // API取得にエラーが生じた場合エラーをコンソールに吐く
   if (timeTableError) {
     console.log(timeTableError);
@@ -247,10 +249,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-300 p-5">
-      
-      <Logo/>
-
-
+      <Logo />
       <TimeCaption
         caption={caption}
         firstBus={firstBus}
@@ -270,31 +269,14 @@ export default function Home() {
         caption={caption}
         isLoading={timeTableIsLoading || holidayIsLoading}
       />
-      <DiscountInformation
-        text="飲食店割引はこちらから"
-      />
+      <DiscountInformation text="飲食店割引はこちらから"/>
 
       <div className="flex flex-wrap justify-center w-full">
-        <div className="font-bold mb-1 mx-1 w-5/12 text-center">
-          <Card>
-            <a href={inquiryURL}>アプリご意見</a>
-          </Card>
-        </div>
-        <div className="font-bold mb-1 mx-1 w-5/12 text-center">
-          <Card>
-            アプリを共有
-          </Card>
-        </div>
-        <div className="font-bold mb-1 mx-1 w-5/12 text-center">
-          <Card>
-            CODE MATESとは
-          </Card>
-        </div>
-        <div className="font-bold mb-1 mx-1 w-5/12 text-center">
-          <Card>
-            Instagram
-          </Card>
-        </div>
+        {[<a key={null} href={inquiryURL}>アプリご意見</a>, "アプリを共有", "CODE MATESとは", "Instagram"].map(item => {
+          return (
+            <LinkBox key={null}>{item}</LinkBox>
+          )
+        })}
       </div>
       <p className="text-xs">時間は目安であり、交通状況等により変わることがあります。利用上の注意を読む→</p>
       <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
