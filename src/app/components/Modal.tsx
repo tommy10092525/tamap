@@ -7,8 +7,7 @@ const Modal = (props: {style:Style,handleStationChange:(station:string)=>void}) 
     {/* ボタンが押されたら状態を書き換える */}
     <div className='w-2/5 my-auto mx-1 font-bold rounded-md bg-opacity-60 bg-white shadow'
       style={style.nishihachioji}>
-      <button className="w-full"
-        style={style.nishihachioji} onClick={() => {
+      <button className="w-full" onClick={() => {
           handleStationChange("nishihachioji")
         }}><p className="text-sm">西八王子</p></button>
     </div>
