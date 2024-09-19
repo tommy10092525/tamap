@@ -154,7 +154,8 @@ export default function Home() {
   }, [])
 
   let caption: Caption | null;
-  let firstBus: BusTime | null, secondBus: BusTime | null;
+  let firstBus: BusTime | null;
+  let secondBus: BusTime | null;
   let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
 
   if (!timeTableIsLoading && !!timeTable && !holidayIsLoading && !!holidayData) {
@@ -209,7 +210,7 @@ export default function Home() {
     secondBus = null
   }
 
-  if (!timeTableIsLoading) {
+  if (!timeTableIsLoading && !holidayIsLoading) {
     // 選択されている駅のボタンの書式を変える
     style[userInput.station] = { backgroundColor: "rgb(110 231 183)" };
   }
@@ -249,37 +250,39 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-300 p-5">
-      <Logo />
-      <TimeCaption
-        caption={caption}
-        firstBus={firstBus}
-        secondBus={secondBus}
-        isLoading={timeTableIsLoading || holidayIsLoading}
-        handleDirectionChange={handleDirectionChange}
-        minutesToTime={minutesToTime}
-      />
-      <StationSwitch
-        isLoading={holidayIsLoading || timeTableIsLoading}
-        userInput={userInput}
-        handleShowModalChange={handleShowModalChange}
-        handleStationChange={handleStationChange}
-        style={style}
-      />
-      <Map
-        caption={caption}
-        isLoading={timeTableIsLoading || holidayIsLoading}
-      />
-      <DiscountInformation text="飲食店割引はこちらから"/>
+      <div className="max-w-screen-sm">
+        <Logo />
+        <TimeCaption
+          caption={caption}
+          firstBus={firstBus}
+          secondBus={secondBus}
+          isLoading={timeTableIsLoading || holidayIsLoading}
+          handleDirectionChange={handleDirectionChange}
+          minutesToTime={minutesToTime}
+        />
+        <StationSwitch
+          isLoading={holidayIsLoading || timeTableIsLoading}
+          userInput={userInput}
+          handleShowModalChange={handleShowModalChange}
+          handleStationChange={handleStationChange}
+          style={style}
+        />
+        <Map
+          caption={caption}
+          isLoading={timeTableIsLoading || holidayIsLoading}
+        />
+        <DiscountInformation text="飲食店割引はこちらから" />
 
-      <div className="flex flex-wrap justify-center w-full">
-        {[<a key={null} href={inquiryURL}>アプリご意見</a>, "アプリを共有", "CODE MATESとは", "Instagram"].map(item => {
-          return (
-            <LinkBox key={null}>{item}</LinkBox>
-          )
-        })}
+        <div className="flex flex-wrap justify-center w-full">
+          {[<a key={null} href={inquiryURL}>アプリご意見</a>, "アプリを共有", "CODE MATESとは", "Instagram"].map(item => {
+            return (
+              <LinkBox key={null}>{item}</LinkBox>
+            )
+          })}
+        </div>
+        <p className="text-xs">時間は目安であり、交通状況等により変わることがあります。利用上の注意を読む→</p>
+        <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
       </div>
-      <p className="text-xs">時間は目安であり、交通状況等により変わることがあります。利用上の注意を読む→</p>
-      <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
     </div>
   );
 }
