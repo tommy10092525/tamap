@@ -11,16 +11,24 @@ import Map from "./components/Map";
 import DiscountInformation from "./components/DiscountInformation";
 import Logo from "./components/Logo";
 import LinkBox from "./components/LinkBox";
-import { currentDayIndex, dayIndices, findNextBuses, holidaysFetcher, minutesToTime, now, timeTableFetcher,} from "./features/functions";
-import { currentDay, currentHour, currentMinutes, holidaysAPI, inquiryURL, stationNames, timeTableAPI } from "@/constants/definitation";
+import { dayIndices, findNextBuses, holidaysFetcher, minutesToTime, timeTableFetcher, } from "./features/functions";
+import { holidaysAPI, inquiryURL, stationNames, timeTableAPI } from "@/constants/definitation";
+
+
+// 現在の時刻と曜日を取得
 
 export default function Home() {
-  
+  const now = new Date();
+  const currentDayIndex = now.getDay();
+  const currentDay = dayIndices[currentDayIndex];
+  const currentHour = now.getHours();
+  const currentMinutes = now.getMinutes();
+
   const { data: holidayData, error: holidayError, isLoading: holidayIsLoading } = useSWR(holidaysAPI, holidaysFetcher);
   const { data: timeTable, error: timeTableError, isLoading: timeTableIsLoading } = useSWR(timeTableAPI, timeTableFetcher);
 
   let [userInput, setUserInput] = useState({ isComingToHosei: true, station: "nishihachioji", showModal: false });
-  let [_, setNow] = useState(new Date(`2000/1/1 ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`));
+  let [_, setNow] = useState(new Date(`2000/1/1 ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`));
 
   const initializeUserInput = () => {
     console.log(JSON.stringify(localStorage))
@@ -60,9 +68,9 @@ export default function Home() {
     // 駅と方向から絞る
     let targetTimes = timeTable
       .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
-    const arr = findNextBuses(targetTimes,holidayData, currentDay, currentHour, currentMinutes, now);
-    firstBus = arr[0];
-    secondBus = arr[1];
+    const temp = findNextBuses(targetTimes, holidayData, currentDay, currentHour, currentMinutes, now);
+    firstBus = temp[0];
+    secondBus = temp[1];
 
     const buildings: Buildings = {
       economics: 5,
@@ -110,7 +118,7 @@ export default function Home() {
 
   if (!timeTableIsLoading && !holidayIsLoading) {
     // 選択されている駅のボタンの書式を変える
-    style[userInput.station] = {color:"blue"};
+    style[userInput.station] = { color: "blue" };
   }
 
   // API取得にエラーが生じた場合エラーをコンソールに吐く
@@ -185,4 +193,3 @@ export default function Home() {
     </div>
   );
 }
-

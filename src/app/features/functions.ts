@@ -4,9 +4,7 @@ import { Holidays, TimeTable } from "../components/Types";
 // 曜日ごとの配列インデックス
 const dayIndices = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-// 現在の時刻と曜日を取得
-const now = new Date();
-const currentDayIndex = now.getDay();
+
 
 
 // 時刻を数値に変換するヘルパー関数（分単位）
@@ -110,12 +108,12 @@ const lowerBound = (arr: Array<number>, n: number) => {
 
 const holidaysFetcher = async (key: string) => {
     return fetch(key).then(res => res.json() as Promise<Holidays>)
-  }
-  
-  // 時刻表APIへのフェッチャー
-  const timeTableFetcher = async (key: string) => {
+}
+
+// 時刻表APIへのフェッチャー
+const timeTableFetcher = async (key: string) => {
     return fetch(key).then((res) => res.json() as Promise<TimeTable | null>);
-  }
+}
 
 
-export { findNextBuses, now, currentDayIndex, dayIndices, timeToMinutes, minutesToTime,holidaysFetcher,timeTableFetcher}
+export { findNextBuses, dayIndices, timeToMinutes, minutesToTime, holidaysFetcher, timeTableFetcher, }
