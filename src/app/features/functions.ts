@@ -116,4 +116,8 @@ const timeTableFetcher = async (key: string) => {
 }
 
 
+<<<<<<< HEAD
 export { findNextBuses, dayIndices, timeToMinutes, minutesToTime, holidaysFetcher, timeTableFetcher, }
+=======
+export { findNextBuses,dayIndices, timeToMinutes, minutesToTime,holidaysFetcher,timeTableFetcher,}
+>>>>>>> refs/remotes/origin/main
