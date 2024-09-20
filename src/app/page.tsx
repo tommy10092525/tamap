@@ -11,10 +11,18 @@ import Map from "./components/Map";
 import DiscountInformation from "./components/DiscountInformation";
 import Logo from "./components/Logo";
 import LinkBox from "./components/LinkBox";
-import { currentDayIndex, dayIndices, findNextBuses, holidaysFetcher, minutesToTime, now, timeTableFetcher,} from "./features/functions";
-import { currentDay, currentHour, currentMinutes, holidaysAPI, inquiryURL, stationNames, timeTableAPI } from "@/constants/definitation";
+import { dayIndices, findNextBuses, holidaysFetcher, minutesToTime,  timeTableFetcher,} from "./features/functions";
+import {holidaysAPI, inquiryURL, stationNames, timeTableAPI } from "@/constants/definitation";
+
+
+// 現在の時刻と曜日を取得
 
 export default function Home() {
+  const now = new Date();
+  const currentDayIndex = now.getDay();
+  const currentDay = dayIndices[currentDayIndex];
+  const currentHour = now.getHours();
+  const currentMinutes = now.getMinutes();
   
   const { data: holidayData, error: holidayError, isLoading: holidayIsLoading } = useSWR(holidaysAPI, holidaysFetcher);
   const { data: timeTable, error: timeTableError, isLoading: timeTableIsLoading } = useSWR(timeTableAPI, timeTableFetcher);
@@ -185,4 +193,3 @@ export default function Home() {
     </div>
   );
 }
-
