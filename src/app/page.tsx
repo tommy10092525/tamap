@@ -1,18 +1,16 @@
 "use client";
-import Image from "next/image";
-import { useCallback, useEffect, useState, useMemo } from "react";
+import {useEffect, useState} from "react";
 import useSWR from "swr";
 
-import { Buildings, BusTime, Caption, Holidays, StationNames, Style, TimeTable, UserInput } from "../app/components/Types"
-import Card from "./components/Card";
+import { Buildings, BusTime, Caption, Style} from "../app/components/Types"
 import TimeCaption from "./components/TimeCaption";
 import StationSwitch from "./components/StationSwitch";
-import Map from "./components/Map";
+import Map from "./components/MapCaption";
 import DiscountInformation from "./components/DiscountInformation";
 import Logo from "./components/Logo";
 import LinkBox from "./components/LinkBox";
 import { dayIndices, findNextBuses, holidaysFetcher, minutesToTime,  timeTableFetcher,} from "./features/functions";
-import {holidaysAPI, inquiryURL, stationNames, timeTableAPI } from "@/constants/definitation";
+import {holidaysAPI, inquiryURL, stationNames, timeTableAPI } from "@/constants/settings";
 
 
 // 現在の時刻と曜日を取得
@@ -27,6 +25,7 @@ export default function Home() {
   
   const { data: holidayData, error: holidayError, isLoading: holidayIsLoading } = useSWR(holidaysAPI, holidaysFetcher);
   const { data: timeTable, error: timeTableError, isLoading: timeTableIsLoading } = useSWR(timeTableAPI, timeTableFetcher);
+
 
   let [userInput, setUserInput] = useState({ isComingToHosei: true, station: "nishihachioji", showModal: false });
   let [_, setNow] = useState(new Date(`2000/1/1 ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`));
@@ -90,6 +89,7 @@ export default function Home() {
 
     for (let key in buildings) {
       if (userInput.isComingToHosei) {
+        console.log(firstBus)
         caption[key] = minutesToTime(firstBus.arriveHour * 60 + firstBus.arriveMinute + buildings[key]);
       } else {
         caption[key] = "--:--";
