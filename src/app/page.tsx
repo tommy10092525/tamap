@@ -31,7 +31,6 @@ export default function Home() {
   let [_, setNow] = useState(new Date(`2000/1/1 ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`));
 
   const initializeUserInput = () => {
-    console.log(JSON.stringify(localStorage))
     if (localStorage.getItem("firstAccessed") === "false") {
       // ２回目以降のアクセスにはlocalStorageから入力を復元する
       let isComingToHosei: string | null = localStorage.getItem("isComingToHosei");
@@ -89,7 +88,6 @@ export default function Home() {
 
     for (let key in buildings) {
       if (userInput.isComingToHosei) {
-        console.log(firstBus)
         caption[key] = minutesToTime(firstBus.arriveHour * 60 + firstBus.arriveMinute + buildings[key]);
       } else {
         caption[key] = "--:--";
@@ -181,12 +179,10 @@ export default function Home() {
         <DiscountInformation text="飲食店割引はこちらから" />
 
         <div className="flex flex-wrap justify-center w-full">
-          {[
-            <a key={null} href={inquiryURL}>アプリご意見</a>,
-            "アプリを共有",
-            "CODE MATESとは",
-            "Instagram"].map(item => <LinkBox key={null}>{item}</LinkBox>)
-          }
+          <LinkBox text="ご意見" url={inquiryURL}/>
+          <LinkBox text="アプリを共有" url=""/>
+          <LinkBox text="CODE MATES︎とは" url=""/>
+          <LinkBox text="Instagram" url=""/>
         </div>
         <p className="text-xs">時間は目安であり、交通状況等により変わることがあります。利用上の注意を読む→</p>
         <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
