@@ -1,10 +1,11 @@
 import React from 'react'
 import { BusTime, Caption } from "./Types"
 import Card from './Card';
+import { minutesToTime } from '../features/timeHandlers';
 
 // eslint-disable-next-line react/display-name
-const TimeCaption = React.memo((props: {firstBus:BusTime|null,secondBus:BusTime|null,caption:Caption,isLoading:boolean,handleDirectionChange:()=>void,minutesToTime:(minutes:number)=>string}) => {
-  let { firstBus, secondBus, caption, isLoading, handleDirectionChange, minutesToTime } = props;
+const TimeCaption = React.memo((props: {firstBus:BusTime|null,secondBus:BusTime|null,caption:Caption,isLoading:boolean,handleDirectionChange:()=>void}) => {
+  let { firstBus, secondBus, caption, isLoading, handleDirectionChange} = props;
   return (
     <div className="w-full">
       <Card>

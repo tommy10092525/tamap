@@ -13,6 +13,7 @@ import { dayIndices, findNextBuses, minutesToTime, } from "./features/timeHandle
 import { buildings, holidaysAPI, inquiryURL, stationNames, timeTableAPI } from "@/constants/settings";
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
 import TimeBox from "./components/TimeBox";
+import Card from "./components/Card";
 
 
 // 現在の時刻と曜日を取得
@@ -63,31 +64,31 @@ export default function Home() {
   let caption: Caption;
   let firstBus: BusTime | null;
   let secondBus: BusTime | null;
-  
+
   if (!timeTableIsLoading && !!timeTable && !holidayIsLoading && !!holidayData) {
     // 駅と方向から絞る
     timeTable = timeTable
-    .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
+      .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
     const tmpArr = findNextBuses(timeTable, holidayData, currentDay, currentHour, currentMinutes, now);
     firstBus = tmpArr[0];
     secondBus = tmpArr[1];
-    
-    
+
+
   } else {
-    firstBus=null
-    secondBus=null
+    firstBus = null
+    secondBus = null
   }
-  caption = useMemo(() =>initializeCaption({ userInput, minutesToTime, firstBus, isLoading: holidayIsLoading || timeTableIsLoading }),
-  [firstBus,userInput,holidayIsLoading,timeTableIsLoading]);
+  caption = useMemo(() => initializeCaption({ userInput, minutesToTime, firstBus, isLoading: holidayIsLoading || timeTableIsLoading }),
+    [firstBus, userInput, holidayIsLoading, timeTableIsLoading]);
 
 
-  let style=useMemo(()=>{
+  let style = useMemo(() => {
     let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
-    if(!timeTableIsLoading&&!holidayIsLoading){
-      style[userInput.station]={backgroundColor:"rgb(0,255,255,0.8)"}
+    if (!timeTableIsLoading && !holidayIsLoading) {
+      style[userInput.station] = { backgroundColor: "rgb(0,255,255,0.8)" }
     }
     return style;
-  },[userInput,holidayIsLoading,timeTableIsLoading])
+  }, [userInput, holidayIsLoading, timeTableIsLoading])
 
   // API取得にエラーが生じた場合エラーをコンソールに吐く
   if (timeTableError) {
@@ -106,13 +107,13 @@ export default function Home() {
       setUserInput(nextUserInput);
       localStorage.setItem("isComingToHosei", "true")
     }
-  },[userInput])
+  }, [userInput])
 
   const handleShowModalChange = useCallback(() => {
     let nextUserInput = structuredClone(userInput);
     nextUserInput.showModal = !nextUserInput.showModal;
     setUserInput(nextUserInput);
-  },[userInput])
+  }, [userInput])
 
   const handleStationChange = useCallback((station: string) => {
     let nextUserInput = structuredClone(userInput);
@@ -120,7 +121,7 @@ export default function Home() {
     nextUserInput.showModal = false;
     setUserInput(nextUserInput);
     localStorage.setItem("station", station);
-  },[userInput])
+  }, [userInput])
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-300 dark:from-orange-400 dark:to-indigo-600 p-5">
@@ -132,8 +133,13 @@ export default function Home() {
           secondBus={secondBus}
           isLoading={timeTableIsLoading || holidayIsLoading}
           handleDirectionChange={handleDirectionChange}
-          minutesToTime={minutesToTime}
         />
+        <Card>
+          <div className="my-3 text-center">
+            <p className="text-xl font-semibold m-1">{`現在時刻:${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`}</p>
+          </div>
+        </Card>
+
         <StationSwitch
           isLoading={holidayIsLoading || timeTableIsLoading}
           userInput={userInput}
