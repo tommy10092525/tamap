@@ -2,16 +2,6 @@ import React from 'react'
 import { BusTime, Caption } from "./Types"
 import Card from './Card';
 
-
-type TimeCaptionProps = {
-  firstBus: BusTime | null,
-  secondBus: BusTime | null,
-  caption: Caption,
-  isLoading: boolean;
-  handleDirectionChange: () => void
-  minutesToTime: (minutes: number) => string
-}
-
 // eslint-disable-next-line react/display-name
 const TimeCaption = React.memo((props: {firstBus:BusTime|null,secondBus:BusTime|null,caption:Caption,isLoading:boolean,handleDirectionChange:()=>void,minutesToTime:(minutes:number)=>string}) => {
   let { firstBus, secondBus, caption, isLoading, handleDirectionChange, minutesToTime } = props;
