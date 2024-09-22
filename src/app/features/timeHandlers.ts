@@ -51,15 +51,18 @@ function findNextBuses(timetable: TimeTable, holidayData: Holidays, currentDay: 
     let nextBuses = [];
 
     // 現在の曜日のバスを取得
-    let dayToCheck = currentDay;
+    let dayToCheck:string;
+    if(isHoliday(currentDate,holidayData)){
+        dayToCheck="Sunday"
+    }else{
+        dayToCheck=currentDay;
+    }
     let dateToCheck = currentDate;
-
     // バスが見つかるまで次の日に進む
     for (let i = 0; i < 7; i++) {
         const busesForDay = timetable.filter(bus =>
             bus.day === dayToCheck || (isWeekday(dayToCheck) && bus.day === "weekday")
         );
-
         for (let bus of busesForDay) {
             const busLeaveTime = toMinutes(bus.leaveHour, bus.leaveMinute);
 
@@ -109,4 +112,4 @@ const lowerBound = (arr: Array<number>, n: number) => {
 
 
 
-export { findNextBuses, dayIndices, timeToMinutes, minutesToTime}
+export { findNextBuses, dayIndices, timeToMinutes, minutesToTime,isHoliday}
