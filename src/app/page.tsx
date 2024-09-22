@@ -83,7 +83,11 @@ export default function Home() {
 
   let style=useMemo(()=>{
     let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
+<<<<<<< HEAD
     if(!holidayIsLoading&&!holidayIsLoading){
+=======
+    if(!timeTableIsLoading&&!holidayIsLoading){
+>>>>>>> 227f030 (完全キャッシュ化)
       style[userInput.station]={color:"blue"}
     }
     return style;
