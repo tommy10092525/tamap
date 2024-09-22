@@ -12,7 +12,7 @@ const StationSwitch = React.memo((props:{userInput:UserInput,isLoading:boolean,s
     <div className='my-3 w-full'>
       <Card>
         <div className="inline-flex h-10">
-          <p className="font-bold text-lg my-1 ml-1">{isLoading ? "loading" : stationNames[userInput.station]}</p>
+          <p className="font-bold text-lg ml-1 mt-[5px]">{isLoading ? "loading" : stationNames[userInput.station]}</p>
           {isLoading ? <div></div> : <p className="font-bold text-sm mt-3">のバス</p>}
         </div>
         <div className='w-1/2 float-right font-bold mt-2 mr-2 text-center'>
