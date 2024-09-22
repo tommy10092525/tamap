@@ -63,28 +63,31 @@ export default function Home() {
   let caption: Caption;
   let firstBus: BusTime | null;
   let secondBus: BusTime | null;
-  let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
-
+  
   if (!timeTableIsLoading && !!timeTable && !holidayIsLoading && !!holidayData) {
     // 駅と方向から絞る
     timeTable = timeTable
-      .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
+    .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
     const tmpArr = findNextBuses(timeTable, holidayData, currentDay, currentHour, currentMinutes, now);
     firstBus = tmpArr[0];
     secondBus = tmpArr[1];
-
-
+    
+    
   } else {
     firstBus=null
     secondBus=null
   }
   caption = useMemo(() =>initializeCaption({ userInput, minutesToTime, firstBus, isLoading: holidayIsLoading || timeTableIsLoading }),
-  [firstBus,userInput.isComingToHosei,userInput.station,holidayIsLoading,timeTableIsLoading]);
+  [firstBus,userInput,holidayIsLoading,timeTableIsLoading]);
 
-  if (!timeTableIsLoading && !holidayIsLoading) {
-    // 選択されている駅のボタンの書式を変える
-    style[userInput.station] = { color: "blue" };
-  }
+
+  let style=useMemo(()=>{
+    let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
+    if(!holidayIsLoading&&!holidayIsLoading){
+      style[userInput.station]={color:"blue"}
+    }
+    return style;
+  },[userInput,holidayIsLoading,timeTableIsLoading])
 
   // API取得にエラーが生じた場合エラーをコンソールに吐く
   if (timeTableError) {
