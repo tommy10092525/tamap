@@ -12,7 +12,8 @@ type TimeCaptionProps = {
   minutesToTime: (minutes: number) => string
 }
 
-const TimeCaption = (props: {firstBus:BusTime|null,secondBus:BusTime|null,caption:Caption,isLoading:boolean,handleDirectionChange:()=>void,minutesToTime:(minutes:number)=>string}) => {
+// eslint-disable-next-line react/display-name
+const TimeCaption = React.memo((props: {firstBus:BusTime|null,secondBus:BusTime|null,caption:Caption,isLoading:boolean,handleDirectionChange:()=>void,minutesToTime:(minutes:number)=>string}) => {
   let { firstBus, secondBus, caption, isLoading, handleDirectionChange, minutesToTime } = props;
   return (
     <div className="w-full">
@@ -44,6 +45,6 @@ const TimeCaption = (props: {firstBus:BusTime|null,secondBus:BusTime|null,captio
     </div>
 
   )
-}
+})
 
 export default TimeCaption

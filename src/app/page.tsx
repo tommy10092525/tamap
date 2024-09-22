@@ -1,17 +1,18 @@
 "use client";
-import {useEffect, useState} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 
-import { Buildings, BusTime, Caption, Style} from "../app/components/Types"
+import { Buildings, BusTime, Caption, Style } from "../app/components/Types"
 import TimeCaption from "./components/TimeCaption";
 import StationSwitch from "./components/StationSwitch";
 import MapCaption from "./components/MapCaption";
 import DiscountInformation from "./components/DiscountInformation";
 import Logo from "./components/Logo";
 import LinkBox from "./components/LinkBox";
-import { dayIndices, findNextBuses, minutesToTime,} from "./features/timeHandlers";
-import {buildings, holidaysAPI, inquiryURL, stationNames, timeTableAPI } from "@/constants/settings";
-import {initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
+import { dayIndices, findNextBuses, minutesToTime, } from "./features/timeHandlers";
+import { buildings, holidaysAPI, inquiryURL, stationNames, timeTableAPI } from "@/constants/settings";
+import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
+import TimeBox from "./components/TimeBox";
 
 
 // 現在の時刻と曜日を取得
@@ -23,7 +24,7 @@ export default function Home() {
   const currentHour = now.getHours();
   const currentMinutes = now.getMinutes();
 
-  
+
   const { data: holidayData, error: holidayError, isLoading: holidayIsLoading } = useSWR(holidaysAPI, holidaysFetcher);
   let { data: timeTable, error: timeTableError, isLoading: timeTableIsLoading } = useSWR(timeTableAPI, timeTableFetcher);
 
@@ -59,7 +60,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [])
 
-  let caption: Caption | null;
+  let caption: Caption;
   let firstBus: BusTime | null;
   let secondBus: BusTime | null;
   let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
@@ -68,24 +69,17 @@ export default function Home() {
     // 駅と方向から絞る
     timeTable = timeTable
       .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
-    const tempArr = findNextBuses(timeTable, holidayData, currentDay, currentHour, currentMinutes, now);
-    firstBus = tempArr[0];
-    secondBus = tempArr[1];
-    caption=initializeCaption({userInput,minutesToTime,firstBus});
+    const tmpArr = findNextBuses(timeTable, holidayData, currentDay, currentHour, currentMinutes, now);
+    firstBus = tmpArr[0];
+    secondBus = tmpArr[1];
 
-    
+
   } else {
-    caption = {
-      economics: "loading",
-      gym: "loading",
-      health: "loading",
-      left: "loading",
-      right: "loading",
-      sport: "loading"
-    }
-    firstBus = null
-    secondBus = null
+    firstBus=null
+    secondBus=null
   }
+  caption = useMemo(() =>initializeCaption({ userInput, minutesToTime, firstBus, isLoading: holidayIsLoading || timeTableIsLoading }),
+  [firstBus,userInput.isComingToHosei,userInput.station,holidayIsLoading,timeTableIsLoading]);
 
   if (!timeTableIsLoading && !holidayIsLoading) {
     // 選択されている駅のボタンの書式を変える
@@ -97,7 +91,7 @@ export default function Home() {
     console.log(timeTableError);
   }
 
-  const handleDirectionChange = () => {
+  const handleDirectionChange = useCallback(() => {
     if (userInput.isComingToHosei) {
       let nextUserInput = structuredClone(userInput);
       nextUserInput.isComingToHosei = false;
@@ -109,21 +103,21 @@ export default function Home() {
       setUserInput(nextUserInput);
       localStorage.setItem("isComingToHosei", "true")
     }
-  }
+  },[userInput])
 
-  const handleShowModalChange = () => {
+  const handleShowModalChange = useCallback(() => {
     let nextUserInput = structuredClone(userInput);
     nextUserInput.showModal = !nextUserInput.showModal;
     setUserInput(nextUserInput);
-  }
+  },[userInput])
 
-  const handleStationChange = (station: string) => {
+  const handleStationChange = useCallback((station: string) => {
     let nextUserInput = structuredClone(userInput);
     nextUserInput.station = station;
     nextUserInput.showModal = false;
     setUserInput(nextUserInput);
     localStorage.setItem("station", station);
-  }
+  },[userInput])
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-300 dark:from-orange-400 dark:to-indigo-600 p-5">
@@ -151,10 +145,10 @@ export default function Home() {
         <DiscountInformation text="飲食店割引はこちらから" />
 
         <div className="flex flex-wrap justify-center w-full">
-          <LinkBox text="ご意見" url={inquiryURL}/>
-          <LinkBox text="アプリを共有" url=""/>
-          <LinkBox text="CODE MATES︎とは" url=""/>
-          <LinkBox text="Instagram" url=""/>
+          <LinkBox text="ご意見" url={inquiryURL} />
+          <LinkBox text="アプリを共有" url="" />
+          <LinkBox text="CODE MATES︎とは" url="" />
+          <LinkBox text="Instagram" url="" />
         </div>
         <p className="text-xs">時間は目安であり、交通状況等により変わることがあります。利用上の注意を読む→</p>
         <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
