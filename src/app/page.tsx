@@ -5,12 +5,13 @@ import useSWR from "swr";
 import { Buildings, BusTime, Caption, Style} from "../app/components/Types"
 import TimeCaption from "./components/TimeCaption";
 import StationSwitch from "./components/StationSwitch";
-import Map from "./components/MapCaption";
+import MapCaption from "./components/MapCaption";
 import DiscountInformation from "./components/DiscountInformation";
 import Logo from "./components/Logo";
 import LinkBox from "./components/LinkBox";
-import { dayIndices, findNextBuses, holidaysFetcher, minutesToTime,  timeTableFetcher,} from "./features/functions";
-import {holidaysAPI, inquiryURL, stationNames, timeTableAPI } from "@/constants/settings";
+import { dayIndices, findNextBuses, minutesToTime,} from "./features/timeHandlers";
+import {buildings, holidaysAPI, inquiryURL, stationNames, timeTableAPI } from "@/constants/settings";
+import {initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
 
 
 // 現在の時刻と曜日を取得
@@ -24,7 +25,7 @@ export default function Home() {
 
   
   const { data: holidayData, error: holidayError, isLoading: holidayIsLoading } = useSWR(holidaysAPI, holidaysFetcher);
-  const { data: timeTable, error: timeTableError, isLoading: timeTableIsLoading } = useSWR(timeTableAPI, timeTableFetcher);
+  let { data: timeTable, error: timeTableError, isLoading: timeTableIsLoading } = useSWR(timeTableAPI, timeTableFetcher);
 
 
   let [userInput, setUserInput] = useState({ isComingToHosei: true, station: "nishihachioji", showModal: false });
@@ -65,43 +66,14 @@ export default function Home() {
 
   if (!timeTableIsLoading && !!timeTable && !holidayIsLoading && !!holidayData) {
     // 駅と方向から絞る
-    let targetTimes = timeTable
+    timeTable = timeTable
       .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
-    const temp = findNextBuses(targetTimes, holidayData, currentDay, currentHour, currentMinutes, now);
-    firstBus = temp[0];
-    secondBus = temp[1];
+    const tempArr = findNextBuses(timeTable, holidayData, currentDay, currentHour, currentMinutes, now);
+    firstBus = tempArr[0];
+    secondBus = tempArr[1];
+    caption=initializeCaption({userInput,minutesToTime,firstBus});
 
-    const buildings: Buildings = {
-      economics: 5,
-      health: 4,
-      sport: 8,
-      gym: 15,
-    };
-    caption = {
-      economics: "",
-      gym: "",
-      health: "",
-      left: "",
-      right: "",
-      sport: ""
-    }
-
-    for (let key in buildings) {
-      if (userInput.isComingToHosei) {
-        caption[key] = minutesToTime(firstBus.arriveHour * 60 + firstBus.arriveMinute + buildings[key]);
-      } else {
-        caption[key] = "--:--";
-      }
-    }
-
-
-    if (userInput.isComingToHosei) {
-      caption.left = stationNames[userInput.station];
-      caption.right = "法政大学"
-    } else {
-      caption.right = stationNames[userInput.station];
-      caption.left = "法政大学";
-    }
+    
   } else {
     caption = {
       economics: "loading",
@@ -172,7 +144,7 @@ export default function Home() {
           handleStationChange={handleStationChange}
           style={style}
         />
-        <Map
+        <MapCaption
           caption={caption}
           isLoading={timeTableIsLoading || holidayIsLoading}
         />

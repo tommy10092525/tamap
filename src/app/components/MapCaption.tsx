@@ -4,7 +4,7 @@ import mapImage from "../../../public/images/Map.png"
 import Card from './Card';
 import { Caption } from './Types';
 
-const Map = (props: {isLoading:boolean,caption:Caption}) => {
+const MapCaption = (props: {isLoading:boolean,caption:Caption}) => {
   const { isLoading, caption } = props;
   return (
     <div className="w-full mx-0 border-opacity-40 backdrop-blur-xl">
@@ -45,4 +45,4 @@ const Map = (props: {isLoading:boolean,caption:Caption}) => {
   )
 }
 
-export default Map
+export default MapCaption

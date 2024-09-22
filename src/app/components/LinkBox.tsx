@@ -8,7 +8,7 @@ const LinkBox = React.memo((props: {text:string,url:string}) => {
         <div className='w-1/2'>
             <div className="font-bold mb-1 mx-1 w-auto text-center">
                 <Card>
-                    <a href={url}>{text}</a>
+                    <a href={url} className='w-full box-content'>{text}</a>
                 </Card>
             </div>
         </div>

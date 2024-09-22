@@ -106,14 +106,7 @@ const lowerBound = (arr: Array<number>, n: number) => {
     return first;
 }
 
-const holidaysFetcher = async (key: string) => {
-    return fetch(key).then(res => res.json() as Promise<Holidays>)
-}
-
-// 時刻表APIへのフェッチャー
-const timeTableFetcher = async (key: string) => {
-    return fetch(key).then((res) => res.json() as Promise<TimeTable | null>);
-}
 
 
-export { findNextBuses, dayIndices, timeToMinutes, minutesToTime, holidaysFetcher, timeTableFetcher, }
+
+export { findNextBuses, dayIndices, timeToMinutes, minutesToTime}
