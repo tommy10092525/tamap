@@ -6,14 +6,14 @@ import Card from './Card';
 const stationNames: StationNames = { nishihachioji: "西八王子", mejirodai: "めじろ台", aihara: "相原" };
 
 // eslint-disable-next-line react/display-name
-const StationSwitch = React.memo((props:{userInput:UserInput,isLoading:boolean,style:Style,handleShowModalChange:()=>void,handleStationChange:(station:string)=>void}) => {
-  let { userInput, isLoading, style, handleShowModalChange, handleStationChange } = props;
+const StationSwitch = React.memo((props: { userInput: UserInput, isLoading: boolean, style: Style, handleShowModalChange: () => void, handleStationChange: (station: string) => void }) => {
+  let { userInput, isLoading,handleShowModalChange, handleStationChange } = props;
   return (
     <div className='my-3 w-full'>
       <Card>
         <div className="inline-flex h-10">
-          <p className="font-bold text-lg ml-1 mt-[5px]">{isLoading ? "loading" : stationNames[userInput.station]}</p>
-          {isLoading ? <div></div> : <p className="font-bold text-sm mt-3">のバス</p>}
+          <p className="font-bold text-2xl ml-24 mt-[6px]">{isLoading ? "loading" : stationNames[userInput.station]}</p>
+          {isLoading ? <div></div> : <p className="font-bold text-base mt-3">のバス</p>}
         </div>
         <div className='w-1/2 float-right font-bold mt-2 mr-2 text-center'>
           <Card>
@@ -23,7 +23,7 @@ const StationSwitch = React.memo((props:{userInput:UserInput,isLoading:boolean,s
             </button>
           </Card>
         </div>
-        {userInput.showModal ? <Modal style={style} handleStationChange={handleStationChange} /> : <></>}
+        {userInput.showModal ? <Modal handleStationChange={handleStationChange} userInput={userInput}/> : <></>}
       </Card>
     </div>
   )

@@ -21,7 +21,7 @@ function timeDifference(nowInMinutes: number, busInMinutes: number) {
 function isHoliday(date: Date, holidayData: Holidays) {
     const formattedDate = date.toISOString().split('T')[0];
     if (!holidayData) {
-        alert("関数呼び出し順序の異常！！！");
+        alert("祝日データがpending状態です！！！");
         return false;
     }
     return holidayData.hasOwnProperty(formattedDate);

@@ -10,15 +10,14 @@ import DiscountInformation from "./components/DiscountInformation";
 import Logo from "./components/Logo";
 import LinkBox from "./components/LinkBox";
 import { dayIndices, findNextBuses, minutesToTime, } from "./features/timeHandlers";
-import { buildings, holidaysAPI, inquiryURL, stationNames, timeTableAPI } from "@/constants/settings";
+import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI } from "@/constants/settings";
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
-import TimeBox from "./components/TimeBox";
 import Card from "./components/Card";
 
 
 // 現在の時刻と曜日を取得
 
-export default function Home() {
+const Home = () => {
   const now = new Date();
   const currentDayIndex = now.getDay();
   const currentDay = dayIndices[currentDayIndex];
@@ -154,7 +153,7 @@ export default function Home() {
         <DiscountInformation text="飲食店割引はこちらから" />
 
         <div className="flex flex-wrap justify-center w-full">
-          <LinkBox text="ご意見" url={inquiryURL} />
+          <LinkBox text="ご意見" url={GoogleForm} />
           <LinkBox text="アプリを共有" url="" />
           <LinkBox text="CODE MATES︎とは" url="" />
           <LinkBox text="Instagram" url="" />
@@ -165,3 +164,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;

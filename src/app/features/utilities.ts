@@ -20,7 +20,6 @@ const initializeCaption = ({ userInput, minutesToTime, firstBus, isLoading }: { 
         right: "loading",
         sport: "loading"
     }
-    console.log(firstBus)
     if (!isLoading &&firstBus) {
         for (let key in buildings) {
             if (userInput.isComingToHosei) {
