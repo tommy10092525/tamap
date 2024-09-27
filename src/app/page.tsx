@@ -18,7 +18,7 @@ import Card from "./components/Card";
 // 現在の時刻と曜日を取得
 
 const Home = () => {
-  const now = new Date();
+  const [now,setNow]=useState(new Date(2000,1,1,0,0,0))
   const currentDayIndex = now.getDay();
   const currentDay = dayIndices[currentDayIndex];
   const currentHour = now.getHours();
@@ -30,7 +30,7 @@ const Home = () => {
 
 
   let [userInput, setUserInput] = useState({ isComingToHosei: true, station: "nishihachioji", showModal: false });
-  let [_, setNow] = useState(new Date(`2000/1/1 ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`));
+  let [_, rerender] = useState([]);
 
   const initializeUserInput = () => {
     if (localStorage.getItem("firstAccessed") === "false") {
@@ -53,8 +53,10 @@ const Home = () => {
   // ページ読み込み時の処理
   // https://qiita.com/iwakeniwaken/items/3c3e212599e411da54e2
   useEffect(() => {
+    setNow(new Date());
     const interval = setInterval(() => {
-      setNow(_ => new Date());
+      rerender(_ => []);
+      setNow(new Date())
     }, 1000);
     initializeUserInput();
     return () => clearInterval(interval);
