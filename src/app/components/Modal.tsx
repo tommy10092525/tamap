@@ -1,26 +1,22 @@
 import React from 'react'
 import { Style, UserInput } from './Types';
 import StationButton from './StationButton';
+import { stationNames } from '@/constants/settings';
 
-const Modal = (props: {userInput:UserInput, handleStationChange: (station: string) => void }) => {
-  const {handleStationChange,userInput} = props;
+const Modal = (props: { userInput: UserInput, handleStationChange: (station: string) => void }) => {
+  const { handleStationChange, userInput } = props;
+  let arr:any[] = [];
+  for (const item in stationNames) {
+    arr.push(<StationButton
+      key={item}
+      handleStationChange={handleStationChange}
+      station={item}
+      stationText={stationNames[item]}
+      isSelected={userInput.station == item} />)
+  }
   return (<div className="flex justify-center text-center w-full scroll-mb-36 mt-0 pb-2">
     {/* ボタンが押されたら状態を書き換える */}
-    <StationButton
-      handleStationChange={handleStationChange}
-      station='nishihachioji'
-      stationText='西八王子'
-      isSelected={userInput.station=="nishihachioji"}/>
-    <StationButton
-      handleStationChange={handleStationChange}
-      station='mejirodai'
-      stationText='めじろ台'
-      isSelected={userInput.station=="mejirodai"}/>
-    <StationButton
-      handleStationChange={handleStationChange}
-      station='aihara'
-      stationText='相原'
-      isSelected={userInput.station=="aihara"}/>
+    {arr.map(item => item)}
   </div>)
 }
 

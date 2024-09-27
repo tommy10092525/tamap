@@ -25,8 +25,8 @@ const Home = () => {
   const currentMinutes = now.getMinutes();
 
 
-  const { data: holidayData, error: holidayError, isLoading: holidayIsLoading } = useSWR(holidaysAPI, holidaysFetcher);
-  let { data: timeTable, error: timeTableError, isLoading: timeTableIsLoading } = useSWR(timeTableAPI, timeTableFetcher);
+  const { data: holidayData, error: holidayError, isLoading: isHolidayLoading } = useSWR(holidaysAPI, holidaysFetcher);
+  let { data: timeTable, error: timeTableError, isLoading: isTimeTableLoading } = useSWR(timeTableAPI, timeTableFetcher);
 
 
   let [userInput, setUserInput] = useState({ isComingToHosei: true, station: "nishihachioji", showModal: false });
@@ -66,7 +66,7 @@ const Home = () => {
   let firstBus: BusTime | null;
   let secondBus: BusTime | null;
 
-  if (!timeTableIsLoading && !!timeTable && !holidayIsLoading && !!holidayData) {
+  if (!isTimeTableLoading && !!timeTable && !isHolidayLoading && !!holidayData) {
     // 駅と方向から絞る
     timeTable = timeTable
       .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
@@ -79,17 +79,17 @@ const Home = () => {
     firstBus = null
     secondBus = null
   }
-  caption = useMemo(() => initializeCaption({ userInput, minutesToTime, firstBus, isLoading: holidayIsLoading || timeTableIsLoading }),
-    [firstBus, userInput, holidayIsLoading, timeTableIsLoading]);
+  caption = useMemo(() => initializeCaption({ userInput, minutesToTime, firstBus, isLoading: isHolidayLoading || isTimeTableLoading }),
+    [firstBus, userInput, isHolidayLoading, isTimeTableLoading]);
 
 
   let style = useMemo(() => {
     let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
-    if (!timeTableIsLoading && !holidayIsLoading) {
+    if (!isTimeTableLoading && !isHolidayLoading) {
       style[userInput.station] = { backgroundColor: "rgb(0,255,255,0.8)" }
     }
     return style;
-  }, [userInput, holidayIsLoading, timeTableIsLoading])
+  }, [userInput, isHolidayLoading, isTimeTableLoading])
 
   // API取得にエラーが生じた場合エラーをコンソールに吐く
   if (timeTableError) {
@@ -131,17 +131,24 @@ const Home = () => {
         <TimeCaption
           firstBus={firstBus}
           secondBus={secondBus}
-          isLoading={timeTableIsLoading || holidayIsLoading}
+          isLoading={isTimeTableLoading || isHolidayLoading}
           handleDirectionChange={handleDirectionChange}
         />
         <Card>
           <div className="my-3 text-center">
-            <p className="text-xl font-semibold m-1">{`現在時刻:${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`}</p>
+            <p className="text-xl font-semibold m-1">{[
+              "現在時刻:",
+              String(now.getHours()).padStart(2, "0"),
+              ":",
+              String(now.getMinutes()).padStart(2, "0"),
+              ":",
+              String(now.getSeconds()).padStart(2, "0")
+            ]}</p>
           </div>
         </Card>
 
         <StationSwitch
-          isLoading={holidayIsLoading || timeTableIsLoading}
+          isLoading={isHolidayLoading || isTimeTableLoading}
           userInput={userInput}
           handleShowModalChange={handleShowModalChange}
           handleStationChange={handleStationChange}
@@ -149,7 +156,7 @@ const Home = () => {
         />
         <MapCaption
           caption={caption}
-          isLoading={timeTableIsLoading || holidayIsLoading}
+          isLoading={isTimeTableLoading || isHolidayLoading}
         />
         <DiscountInformation text="飲食店割引はこちらから" />
 
