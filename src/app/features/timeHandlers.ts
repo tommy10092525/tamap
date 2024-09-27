@@ -92,7 +92,7 @@ const timeToMinutes = (time: string) => {
 
 // 分単位を `hh:mm` に戻す関数
 const minutesToTime = (minutes: number) => {
-    const hours = String(Math.floor(minutes / 60)).padStart(2, "0");
+    const hours = String(Math.floor(minutes / 60));
     const mins = String(minutes % 60).padStart(2, "0");
     return `${hours}:${mins}`;
 };

@@ -127,7 +127,6 @@ const Home = () => {
       <div className="max-w-screen-sm">
         <Logo />
         <TimeCaption
-          caption={caption}
           firstBus={firstBus}
           secondBus={secondBus}
           isLoading={timeTableIsLoading || holidayIsLoading}
