@@ -141,7 +141,7 @@ const Home = () => {
           isLoading={isTimeTableLoading || isHolidayLoading}
           handleDirectionChange={handleDirectionChange}
         />
-        <Card>
+        {/* <Card>
           <div className="my-3 text-center">
             <p className="text-xl font-semibold m-1"
               suppressHydrationWarning={true}>{[
@@ -153,7 +153,7 @@ const Home = () => {
                 String(now.getSeconds()).padStart(2, "0")
               ]}</p>
           </div>
-        </Card>
+        </Card> */}
 
         <StationSwitch
           isLoading={isHolidayLoading || isTimeTableLoading}
