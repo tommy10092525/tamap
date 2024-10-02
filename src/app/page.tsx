@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState as rerender, useState } from "react";
 import useSWR from "swr";
 
 import { Buildings, BusTime, Caption, Style } from "../app/components/Types"
@@ -18,20 +18,28 @@ import Card from "./components/Card";
 // 現在の時刻と曜日を取得
 
 const Home = () => {
-  const [now,setNow]=useState(new Date(2000,1,1,0,0,0))
+  const currentDate = new Date();
+  const now = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    currentDate.getDate(),
+    currentDate.getHours(),
+    currentDate.getMinutes(),
+    currentDate.getSeconds()
+  );
+  console.log(now)
   const currentDayIndex = now.getDay();
   const currentDay = dayIndices[currentDayIndex];
   const currentHour = now.getHours();
   const currentMinutes = now.getMinutes();
 
+  const [_, rerender] = useState([]);
 
   const { data: holidayData, error: holidayError, isLoading: isHolidayLoading } = useSWR(holidaysAPI, holidaysFetcher);
   let { data: timeTable, error: timeTableError, isLoading: isTimeTableLoading } = useSWR(timeTableAPI, timeTableFetcher);
 
 
   let [userInput, setUserInput] = useState({ isComingToHosei: true, station: "nishihachioji", showModal: false });
-  let [_, rerender] = useState([]);
-
   const initializeUserInput = () => {
     if (localStorage.getItem("firstAccessed") === "false") {
       // ２回目以降のアクセスにはlocalStorageから入力を復元する
@@ -53,10 +61,9 @@ const Home = () => {
   // ページ読み込み時の処理
   // https://qiita.com/iwakeniwaken/items/3c3e212599e411da54e2
   useEffect(() => {
-    setNow(new Date());
+    rerender([]);
     const interval = setInterval(() => {
-      rerender(_ => []);
-      setNow(new Date())
+      rerender([]);
     }, 1000);
     initializeUserInput();
     return () => clearInterval(interval);
@@ -124,6 +131,8 @@ const Home = () => {
     localStorage.setItem("station", station);
   }, [userInput])
 
+  // console.log(now);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-300 dark:from-orange-400 dark:to-indigo-600 p-5">
       <div className="max-w-screen-sm">
@@ -136,14 +145,15 @@ const Home = () => {
         />
         <Card>
           <div className="my-3 text-center">
-            <p className="text-xl font-semibold m-1">{[
-              "現在時刻:",
-              String(now.getHours()).padStart(2, "0"),
-              ":",
-              String(now.getMinutes()).padStart(2, "0"),
-              ":",
-              String(now.getSeconds()).padStart(2, "0")
-            ]}</p>
+            <p className="text-xl font-semibold m-1"
+              suppressHydrationWarning={true}>{[
+                "現在時刻:",
+                String(now.getHours()).padStart(2, "0"),
+                ":",
+                String(now.getMinutes()).padStart(2, "0"),
+                ":",
+                String(now.getSeconds()).padStart(2, "0")
+              ]}</p>
           </div>
         </Card>
 
