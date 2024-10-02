@@ -16,8 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="next-size-adjust"></meta>
+      </head>
       <body className={inter.className}>{children}</body>
-      <meta name="next-size-adjust"></meta>
     </html>
   );
 }

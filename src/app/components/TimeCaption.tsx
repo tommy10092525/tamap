@@ -34,9 +34,8 @@ const TimeCaption = React.memo((props: { firstBus: BusTime | null, secondBus: Bu
 
         </div>
       </Card>
-
     </div>
-
+    
   )
 })
 

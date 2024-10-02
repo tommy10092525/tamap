@@ -27,7 +27,6 @@ const Home = () => {
     currentDate.getMinutes(),
     currentDate.getSeconds()
   );
-  console.log(now)
   const currentDayIndex = now.getDay();
   const currentDay = dayIndices[currentDayIndex];
   const currentHour = now.getHours();
@@ -131,7 +130,6 @@ const Home = () => {
     localStorage.setItem("station", station);
   }, [userInput])
 
-  // console.log(now);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-300 dark:from-orange-400 dark:to-indigo-600 p-5">
