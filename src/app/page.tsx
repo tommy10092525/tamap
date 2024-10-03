@@ -13,6 +13,8 @@ import { dayIndices, findNextBuses, minutesToTime, } from "./features/timeHandle
 import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI } from "@/constants/settings";
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
 import Card from "./components/Card";
+import { Container } from "postcss";
+import GradationContainer from "./components/Container";
 
 
 // 現在の時刻と曜日を取得
@@ -69,22 +71,22 @@ const Home = () => {
   }, [])
 
   let caption: Caption;
-  let futureBuses:BusTime[];
-  let previousBuses:BusTime[];
+  let futureBuses: BusTime[];
+  let previousBuses: BusTime[];
 
   if (!isTimeTableLoading && !!timeTable && !isHolidayLoading && !!holidayData) {
     // 駅と方向から絞る
     timeTable = timeTable
       .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
-    futureBuses = findNextBuses({timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate:now,busesLength:3});
-    previousBuses = findNextBuses({timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate:now,busesLength:-2});
+    futureBuses = findNextBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: 3 });
+    previousBuses = findNextBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: -2 });
 
 
   } else {
-    futureBuses=[]
-    previousBuses=[]
+    futureBuses = []
+    previousBuses = []
   }
-  caption = useMemo(() => initializeCaption({ userInput, minutesToTime,futureBuses,previousBuses,isLoading: isHolidayLoading || isTimeTableLoading }),
+  caption = useMemo(() => initializeCaption({ userInput, minutesToTime, futureBuses, previousBuses, isLoading: isHolidayLoading || isTimeTableLoading }),
     [futureBuses[0], userInput, isHolidayLoading, isTimeTableLoading]);
 
 
@@ -131,7 +133,7 @@ const Home = () => {
 
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-300 dark:from-orange-400 dark:to-indigo-600 p-5">
+    <GradationContainer>
       <div className="max-w-screen-sm">
         <Logo />
         <TimeCaption
@@ -175,7 +177,7 @@ const Home = () => {
         <p className="text-xs">時間は目安であり、交通状況等により変わることがあります。利用上の注意を読む→</p>
         <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
       </div>
-    </div>
+    </GradationContainer>
   );
 }
 
