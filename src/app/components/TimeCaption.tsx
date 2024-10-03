@@ -7,7 +7,6 @@ import { stationNames } from '@/constants/settings';
 // eslint-disable-next-line react/display-name
 const TimeCaption = React.memo((props: { caption: Caption, isLoading: boolean, handleDirectionChange: () => void }) => {
   const { caption, isLoading, handleDirectionChange } = props;
-
   return (
     <div className="w-full">
       <Card>
@@ -20,7 +19,7 @@ const TimeCaption = React.memo((props: { caption: Caption, isLoading: boolean, h
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.previousBuses[1].leaveHour * 60 + caption.previousBuses[1].leaveMinute)}</p>
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.previousBuses[1].arriveHour * 60 + caption.previousBuses[1].arriveMinute)}</p>
         </div>
-        <div className="flex justify-center mx-0 text-center text-2xl font-bold opacity-50">
+        <div className="flex justify-center mx-0 text-center text-3xl font-bold opacity-70">
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.previousBuses[0].leaveHour * 60 + caption.previousBuses[0].leaveMinute)}</p>
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.previousBuses[0].arriveHour * 60 + caption.previousBuses[0].arriveMinute)}</p>
         </div>
@@ -28,7 +27,7 @@ const TimeCaption = React.memo((props: { caption: Caption, isLoading: boolean, h
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[0].leaveHour * 60 + caption.futureBuses[0].leaveMinute)}</p>
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[0].arriveHour * 60 + caption.futureBuses[0].arriveMinute)}</p>
         </div>
-        <div className="flex justify-center mx-0 text-center text-2xl font-bold opacity-50">
+        <div className="flex justify-center mx-0 text-center text-3xl font-bold opacity-70">
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[1].leaveHour * 60 + caption.futureBuses[1].leaveMinute)}</p>
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[1].arriveHour * 60 + caption.futureBuses[1].arriveMinute)}</p>
         </div>
