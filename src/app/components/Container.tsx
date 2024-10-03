@@ -17,7 +17,7 @@ const GradationContainer = (props: { children: ReactNode }) => {
         )
     }else{
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-700 to-black p-5">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b to-purple-800 from-blue-600">
                 {children}
             </div>
         )
