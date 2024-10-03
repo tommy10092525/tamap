@@ -22,7 +22,14 @@ type BusTime={
   }
   
   type Caption = {
-    [key: string]: string;
+    futureBuses:BusTime[],
+    previousBuses:BusTime[],
+    economics:string,
+    health:string,
+    sport:string,
+    gym:string,
+    departure:string,
+    destination:string
   }
   
   type Style = {

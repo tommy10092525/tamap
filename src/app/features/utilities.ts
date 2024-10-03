@@ -11,29 +11,45 @@ const timeTableFetcher = async (key: string) => {
     return fetch(key).then((res) => res.json() as Promise<TimeTable>);
 }
 
-const initializeCaption = ({ userInput, minutesToTime, firstBus, isLoading }: { userInput: UserInput, minutesToTime: (minutes: number) => string, firstBus: BusTime|null, isLoading: boolean }) => {
+const initializeCaption = (args: { userInput: UserInput, minutesToTime: (minutes: number) => string, isLoading: boolean,futureBuses:BusTime[],previousBuses:BusTime[]}) => {
+    const {userInput,minutesToTime,isLoading,futureBuses,previousBuses}=args;
+    const nextBus=futureBuses[0];
     let caption: Caption = {
         economics: "loading",
         gym: "loading",
         health: "loading",
-        left: "loading",
-        right: "loading",
-        sport: "loading"
+        sport: "loading",
+        departure:"loading",
+        destination:"loading",
+        futureBuses:futureBuses,
+        previousBuses:previousBuses
     }
-    if (!isLoading &&firstBus) {
-        for (let key in buildings) {
-            if (userInput.isComingToHosei) {
-                caption[key] = minutesToTime(firstBus.arriveHour * 60 + firstBus.arriveMinute + buildings[key]);
-            } else {
-                caption[key] = "--:--";
-            }
+    if (!isLoading && nextBus) {
+        if(userInput.isComingToHosei){
+            caption.economics=minutesToTime(nextBus.arriveHour*60+nextBus.arriveMinute+buildings.economics);
+            caption.health=minutesToTime(nextBus.arriveHour*60+nextBus.arriveMinute+buildings.health);
+            caption.sport=minutesToTime(nextBus.arriveHour*60+nextBus.arriveMinute+buildings.sport);
+            caption.gym=minutesToTime(nextBus.arriveHour*60+nextBus.arriveMinute+buildings.gym);
+        }else{
+            caption.economics="--:--";
+            caption.health="--:--";
+            caption.sport="--:--";
+            caption.gym="--:--";
         }
+        
+        // for (let key in buildings) {
+        //     if (userInput.isComingToHosei) {
+        //         caption[key] = minutesToTime(firstBus.arriveHour * 60 + firstBus.arriveMinute + buildings[key]);
+        //     } else {
+        //         caption[key] = "--:--";
+        //     }
+        // }
         if (userInput.isComingToHosei) {
-            caption.left = stationNames[userInput.station];
-            caption.right = "法政大学"
+            caption.departure = stationNames[userInput.station];
+            caption.destination = "法政大学"
         } else {
-            caption.right = stationNames[userInput.station];
-            caption.left = "法政大学";
+            caption.departure = stationNames[userInput.station];
+            caption.destination = "法政大学";
         }
     }
     return caption;

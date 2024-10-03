@@ -69,24 +69,23 @@ const Home = () => {
   }, [])
 
   let caption: Caption;
-  let firstBus: BusTime | null;
-  let secondBus: BusTime | null;
+  let futureBuses:BusTime[];
+  let previousBuses:BusTime[];
 
   if (!isTimeTableLoading && !!timeTable && !isHolidayLoading && !!holidayData) {
     // 駅と方向から絞る
     timeTable = timeTable
       .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
-    const tmpArr = findNextBuses(timeTable, holidayData, currentDay, currentHour, currentMinutes, now);
-    firstBus = tmpArr[0];
-    secondBus = tmpArr[1];
+    futureBuses = findNextBuses({timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate:now,busesLength:3});
+    previousBuses = findNextBuses({timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate:now,busesLength:-2});
 
 
   } else {
-    firstBus = null
-    secondBus = null
+    futureBuses=[]
+    previousBuses=[]
   }
-  caption = useMemo(() => initializeCaption({ userInput, minutesToTime, firstBus, isLoading: isHolidayLoading || isTimeTableLoading }),
-    [firstBus, userInput, isHolidayLoading, isTimeTableLoading]);
+  caption = useMemo(() => initializeCaption({ userInput, minutesToTime,futureBuses,previousBuses,isLoading: isHolidayLoading || isTimeTableLoading }),
+    [futureBuses[0], userInput, isHolidayLoading, isTimeTableLoading]);
 
 
   let style = useMemo(() => {
@@ -136,8 +135,7 @@ const Home = () => {
       <div className="max-w-screen-sm">
         <Logo />
         <TimeCaption
-          firstBus={firstBus}
-          secondBus={secondBus}
+          caption={caption}
           isLoading={isTimeTableLoading || isHolidayLoading}
           handleDirectionChange={handleDirectionChange}
         />

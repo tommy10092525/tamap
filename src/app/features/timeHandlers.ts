@@ -46,10 +46,19 @@ function getNextDay(currentDay: string, currentDate: Date, holidayData: Holidays
 }
 
 // 次のバスを検索
-function findNextBuses(timetable: TimeTable, holidayData: Holidays, currentDay: string, currentHour: number, currentMinutes: number, currentDate: Date) {
+function findBuses(args:{
+    timeTable: TimeTable, holidayData: Holidays,busesLength:number,
+    currentDay: string, currentHour: number, currentMinutes: number, currentDate: Date}) {
+
+    const {holidayData,currentDay,currentHour,currentMinutes,currentDate}=args;
+    let {timeTable,busesLength}=args;
     const nowInMinutes = toMinutes(currentHour, currentMinutes);
     let nextBuses = [];
 
+    if(busesLength<0){
+        timeTable.reverse();
+        busesLength=Math.abs(busesLength);
+    }
     // 現在の曜日のバスを取得
     let dayToCheck:string;
     if(isHoliday(currentDate,holidayData)){
@@ -60,7 +69,7 @@ function findNextBuses(timetable: TimeTable, holidayData: Holidays, currentDay: 
     let dateToCheck = currentDate;
     // バスが見つかるまで次の日に進む
     for (let i = 0; i < 7; i++) {
-        const busesForDay = timetable.filter(bus =>
+        const busesForDay = timeTable.filter(bus =>
             bus.day === dayToCheck || (isWeekday(dayToCheck) && bus.day === "weekday")
         );
         for (let bus of busesForDay) {
@@ -71,7 +80,7 @@ function findNextBuses(timetable: TimeTable, holidayData: Holidays, currentDay: 
                 nextBuses.push(bus);
             }
 
-            if (nextBuses.length >= 2) {
+            if (nextBuses.length >= busesLength) {
                 return nextBuses; // 2本のバスを見つけたら返す
             }
         }
@@ -112,4 +121,4 @@ const lowerBound = (arr: Array<number>, n: number) => {
 
 
 
-export { findNextBuses, dayIndices, timeToMinutes, minutesToTime,isHoliday}
+export { findBuses as findNextBuses, dayIndices, timeToMinutes, minutesToTime,isHoliday}
