@@ -14,7 +14,7 @@ import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI } from "
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
 import Card from "./components/Card";
 import { Container } from "postcss";
-import GradationContainer from "./components/Container";
+import GradationContainer from "./components/GradationContainer";
 
 
 // 現在の時刻と曜日を取得

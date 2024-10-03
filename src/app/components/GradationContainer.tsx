@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 
 const GradationContainer = (props: { children: ReactNode }) => {
     const { children } = props;
-    const hour = new Date().getHours();
+    const hour = (new Date().getUTCHours()+5)%24;
     if (7 <= hour && hour < 17) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-emerald-200 to-blue-500 p-5">
@@ -17,7 +17,7 @@ const GradationContainer = (props: { children: ReactNode }) => {
         )
     }else{
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b to-purple-800 from-blue-600">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b to-purple-800 from-blue-600 p-5">
                 {children}
             </div>
         )
