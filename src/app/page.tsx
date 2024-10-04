@@ -19,7 +19,7 @@ import GradationContainer from "./components/GradationContainer";
 // 現在の時刻と曜日を取得
 
 const Home = () => {
-  const now=new Date();
+  const now = new Date();
   const currentDayIndex = now.getDay();
   const currentDay = dayIndices[currentDayIndex];
   const currentHour = now.getHours();
@@ -115,7 +115,7 @@ const Home = () => {
 
 
   return (
-    <GradationContainer>
+    <GradationContainer hour={currentHour}>
       <div className="max-w-screen-sm">
         <Logo />
         <TimeCaption
@@ -138,13 +138,13 @@ const Home = () => {
         <div className="flex flex-wrap justify-center w-full">
           <LinkBox><a href={GoogleForm}>アプリご意見</a></LinkBox>
           <LinkBox><button onClick={async () => {
-            try{
+            try {
               await navigator.share({
-                title:"たまっぷ!(Next.js)",
-                text:codematesHP.concat("tamap/")
+                title: "たまっぷ!(Next.js)",
+                text: codematesHP.concat("tamap/")
               });
-            }catch(error){
-                console.log("Error sharing:",error);
+            } catch (error) {
+              console.log("Error sharing:", error);
             }
           }}>アプリを共有</button></LinkBox>
           <LinkBox><a href={codematesHP}>CODE MATESとは</a></LinkBox>

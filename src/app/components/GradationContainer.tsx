@@ -1,22 +1,22 @@
 import React, { ReactNode } from 'react'
 
-const GradationContainer = (props: { children: ReactNode }) => {
-    const { children } = props;
-    const equationOfTime=+9;
-    const hour = (new Date().getUTCHours()+equationOfTime)%24;
-    if (7 <= hour && hour < 17) {
+// eslint-disable-next-line react/display-name
+const GradationContainer = React.memo((props: { children: ReactNode,hour:number}) => {
+    const { children,hour} = props;
+    console.log(hour);
+    if (8 <= hour && hour < 16) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-emerald-200 to-blue-500 p-5">
                 {children}
             </div>
         )
-    }else if(5<=hour && hour<19){
+    } else if (4 <= hour && hour < 20) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-orange-500 to-purple-700 p-5">
                 {children}
             </div>
         )
-    }else{
+    } else {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b to-purple-800 from-blue-600 p-5">
                 {children}
@@ -24,6 +24,6 @@ const GradationContainer = (props: { children: ReactNode }) => {
         )
 
     }
-}
+})
 
 export default GradationContainer
