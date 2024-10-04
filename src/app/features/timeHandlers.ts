@@ -54,7 +54,7 @@ function getPreviousDay(currentDay: string, currentDate: Date, holidayData: Holi
         return "Sunday";
     }
 
-    const previousDayIndex = (dayIndices.indexOf(currentDay) + 1) % 7;
+    const previousDayIndex = (dayIndices.indexOf(currentDay) - 1) % 7;
     return dayIndices[previousDayIndex];
 }
 
