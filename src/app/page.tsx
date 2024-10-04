@@ -9,7 +9,7 @@ import MapCaption from "./components/MapCaption";
 import DiscountInformation from "./components/DiscountInformation";
 import Logo from "./components/Logo";
 import LinkBox from "./components/LinkBox";
-import { dayIndices, findNextBuses, minutesToTime, } from "./features/timeHandlers";
+import { dayIndices, findBuses, minutesToTime, } from "./features/timeHandlers";
 import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI, Instagram, codematesHP } from "@/constants/settings";
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
 import Card from "./components/Card";
@@ -69,8 +69,8 @@ const Home = () => {
     // 駅と方向から絞る
     timeTable = timeTable
       .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
-    futureBuses = findNextBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: 3 });
-    previousBuses = findNextBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: -2 });
+    futureBuses = findBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: 3 });
+    previousBuses = findBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: -2 });
 
 
   } else {

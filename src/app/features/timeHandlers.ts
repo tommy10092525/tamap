@@ -144,4 +144,4 @@ const lowerBound = (arr: Array<number>, n: number) => {
 
 
 
-export { findBuses as findNextBuses, dayIndices, timeToMinutes, minutesToTime, isHoliday }
+export { findBuses, dayIndices, timeToMinutes, minutesToTime, isHoliday }
