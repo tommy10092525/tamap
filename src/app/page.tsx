@@ -80,15 +80,6 @@ const Home = () => {
   caption = useMemo(() => initializeCaption({ userInput, minutesToTime, futureBuses, previousBuses, isLoading: isHolidayLoading || isTimeTableLoading }),
     [futureBuses, previousBuses, userInput, isHolidayLoading, isTimeTableLoading]);
 
-
-  let style = useMemo(() => {
-    let style: Style = { nishihachioji: {}, mejirodai: {}, aihara: {} };
-    if (!isTimeTableLoading && !isHolidayLoading) {
-      style[userInput.station] = { backgroundColor: "rgb(0,255,255,0.8)" }
-    }
-    return style;
-  }, [userInput, isHolidayLoading, isTimeTableLoading])
-
   // API取得にエラーが生じた場合エラーをコンソールに吐く
   if (timeTableError) {
     console.log(timeTableError);
@@ -137,7 +128,6 @@ const Home = () => {
           userInput={userInput}
           handleShowModalChange={handleShowModalChange}
           handleStationChange={handleStationChange}
-          style={style}
         />
         <MapCaption
           caption={caption}
