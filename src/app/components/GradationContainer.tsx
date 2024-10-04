@@ -1,12 +1,14 @@
+import { getRandomValues, randomInt } from 'crypto';
 import React, { ReactNode } from 'react'
 
 // eslint-disable-next-line react/display-name
 const GradationContainer = React.memo((props: { children: ReactNode,hour:number}) => {
-    const { children,hour} = props;
+    const { children} = props;
+    const hour=new Date().getMilliseconds()%24
     console.log(hour);
     if (8 <= hour && hour < 16) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-emerald-200 to-blue-500 p-5">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-emerald-400 to-blue-700 p-5">
                 {children}
             </div>
         )
@@ -18,7 +20,7 @@ const GradationContainer = React.memo((props: { children: ReactNode,hour:number}
         )
     } else {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b to-purple-800 from-blue-600 p-5">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-violet-700 to-blue-800 p-5">
                 {children}
             </div>
         )
