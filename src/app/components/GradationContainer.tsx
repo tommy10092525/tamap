@@ -2,8 +2,11 @@ import { getRandomValues, randomInt } from 'crypto';
 import React, { ReactNode } from 'react'
 
 // eslint-disable-next-line react/display-name
-const GradationContainer = React.memo((props: { children: ReactNode,hour:number}) => {
-    const { children,hour} = props;
+const GradationContainer = React.memo((props: { children: ReactNode}) => {
+    const deviation=+9;
+    const { children} = props;
+    const hour=(new Date().getUTCHours()+deviation)%24;
+    console.log(hour)
     if (8 <= hour && hour < 16) {
         console.log("昼")
         return (

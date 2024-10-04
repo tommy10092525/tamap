@@ -115,7 +115,7 @@ const Home = () => {
 
 
   return (
-    <GradationContainer hour={currentHour}>
+    <GradationContainer>
       <div className="max-w-screen-sm">
         <Logo />
         <TimeCaption
