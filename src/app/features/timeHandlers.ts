@@ -47,38 +47,39 @@ function getNextDay(currentDay: string, currentDate: Date, holidayData: Holidays
     return dayIndices[nextDayIndex];
 }
 
-function getPreviousDay(currentDay:string,currentDate:Date,holidayData:Holidays){
-    let previousDate=new Date(currentDate);
-    previousDate.setDate(previousDate.getDate()-1);
+function getPreviousDay(currentDay: string, currentDate: Date, holidayData: Holidays) {
+    let previousDate = new Date(currentDate);
+    previousDate.setDate(previousDate.getDate() - 1);
 
-    if(isHoliday(previousDate,holidayData)){
+    if (isHoliday(previousDate, holidayData)) {
         return "Sunday";
     }
 
-    const previousDayIndex=(dayIndices.indexOf(currentDay)+1)%7;
+    const previousDayIndex = (dayIndices.indexOf(currentDay) + 1) % 7;
     return dayIndices[previousDayIndex];
 }
 
 // 次のバスを検索
-function findBuses(args:{
-    timeTable: TimeTable, holidayData: Holidays,busesLength:number,
-    currentDay: string, currentHour: number, currentMinutes: number, currentDate: Date}) {
+function findBuses(args: {
+    timeTable: TimeTable, holidayData: Holidays, busesLength: number,
+    currentDay: string, currentHour: number, currentMinutes: number, currentDate: Date
+}) {
 
-    const {holidayData,currentDay,currentHour,currentMinutes,currentDate}=args;
-    let {timeTable,busesLength}=args;
+    const { holidayData, currentDay, currentHour, currentMinutes, currentDate } = args;
+    let { timeTable, busesLength } = args;
     const nowInMinutes = toMinutes(currentHour, currentMinutes);
     let findedBuses = [];
 
-    if(busesLength<0){
+    if (busesLength < 0) {
         timeTable.reverse();
     }
 
     // 現在の曜日のバスを取得
-    let dayToCheck:string;
-    if(isHoliday(currentDate,holidayData)){
-        dayToCheck="Sunday"
-    }else{
-        dayToCheck=currentDay;
+    let dayToCheck: string;
+    if (isHoliday(currentDate, holidayData)) {
+        dayToCheck = "Sunday"
+    } else {
+        dayToCheck = currentDay;
     }
     let dateToCheck = currentDate;
     // バスが見つかるまで次の日に進む
@@ -90,23 +91,18 @@ function findBuses(args:{
             const busLeaveTime = toMinutes(bus.leaveHour, bus.leaveMinute);
 
             // 現在の曜日かつ未来/過去のバス、または翌日/前日のバス
-            if(busesLength>0){
-                if(i>0 || timeDifference(nowInMinutes,busLeaveTime)>=0){
+            if (busesLength > 0) {
+                if (i > 0 || timeDifference(nowInMinutes, busLeaveTime) >= 0) {
                     findedBuses.push(bus);
                 }
-            }else if(busesLength<0){
-                if(i>0 || timeDifference(nowInMinutes,busLeaveTime)<0){
+            } else if (busesLength < 0) {
+                if (i > 0 || timeDifference(nowInMinutes, busLeaveTime) < 0) {
                     findedBuses.push(bus)
                 }
             }
-            else{
+            else {
                 return [];
             }
-            // if (busesLength>0 && i > 0 || timeDifference(nowInMinutes, busLeaveTime) >= 0) {
-            //     findedBuses.push(bus);
-            // }else if(busesLength<0 && i>0 || timeDifference(nowInMinutes,busLeaveTime)<0){
-            //     findedBuses.push(bus);
-            // }
 
             if (findedBuses.length >= Math.abs(busesLength)) {
                 return findedBuses; // 2本のバスを見つけたら返す
@@ -114,8 +110,8 @@ function findBuses(args:{
         }
 
         // 次の日に進む
-        dayToCheck = getNextDay(dayToCheck, dateToCheck, holidayData);
-        dateToCheck.setDate(dateToCheck.getDate() + 1);
+        dayToCheck = (busesLength > 0 ? getNextDay(dayToCheck, dateToCheck, holidayData) : getPreviousDay(dayToCheck, dateToCheck, holidayData));
+        dateToCheck.setDate(dateToCheck.getDate()+(busesLength > 0 ? 1 : -1));
     }
 
     return findedBuses;
@@ -149,4 +145,4 @@ const lowerBound = (arr: Array<number>, n: number) => {
 
 
 
-export { findBuses as findNextBuses, dayIndices, timeToMinutes, minutesToTime,isHoliday}
+export { findBuses as findNextBuses, dayIndices, timeToMinutes, minutesToTime, isHoliday }
