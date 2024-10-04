@@ -13,7 +13,6 @@ import { dayIndices, findNextBuses, minutesToTime, } from "./features/timeHandle
 import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI } from "@/constants/settings";
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
 import Card from "./components/Card";
-import { Container } from "postcss";
 import GradationContainer from "./components/GradationContainer";
 
 

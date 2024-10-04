@@ -2,7 +2,8 @@ import React, { ReactNode } from 'react'
 
 const GradationContainer = (props: { children: ReactNode }) => {
     const { children } = props;
-    const hour = (new Date().getUTCHours()+5)%24;
+    const equationOfTime=+9;
+    const hour = (new Date().getUTCHours()+equationOfTime)%24;
     if (7 <= hour && hour < 17) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-emerald-200 to-blue-500 p-5">

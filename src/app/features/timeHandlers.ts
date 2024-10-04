@@ -1,4 +1,6 @@
+import { NextDataPathnameNormalizer } from "next/dist/server/future/normalizers/request/next-data";
 import { Holidays, TimeTable } from "../components/Types";
+import { Noto_Sans_Balinese } from "next/font/google";
 
 
 // 曜日ごとの配列インデックス
@@ -45,6 +47,18 @@ function getNextDay(currentDay: string, currentDate: Date, holidayData: Holidays
     return dayIndices[nextDayIndex];
 }
 
+function getPreviousDay(currentDay:string,currentDate:Date,holidayData:Holidays){
+    let previousDate=new Date(currentDate);
+    previousDate.setDate(previousDate.getDate()-1);
+
+    if(isHoliday(previousDate,holidayData)){
+        return "Sunday";
+    }
+
+    const previousDayIndex=(dayIndices.indexOf(currentDay)+1)%7;
+    return dayIndices[previousDayIndex];
+}
+
 // 次のバスを検索
 function findBuses(args:{
     timeTable: TimeTable, holidayData: Holidays,busesLength:number,
@@ -53,12 +67,12 @@ function findBuses(args:{
     const {holidayData,currentDay,currentHour,currentMinutes,currentDate}=args;
     let {timeTable,busesLength}=args;
     const nowInMinutes = toMinutes(currentHour, currentMinutes);
-    let nextBuses = [];
+    let findedBuses = [];
 
     if(busesLength<0){
         timeTable.reverse();
-        busesLength=Math.abs(busesLength);
     }
+
     // 現在の曜日のバスを取得
     let dayToCheck:string;
     if(isHoliday(currentDate,holidayData)){
@@ -75,13 +89,27 @@ function findBuses(args:{
         for (let bus of busesForDay) {
             const busLeaveTime = toMinutes(bus.leaveHour, bus.leaveMinute);
 
-            // 現在の曜日かつ未来のバス、または翌日のバス
-            if (i > 0 || timeDifference(nowInMinutes, busLeaveTime) >= 0) {
-                nextBuses.push(bus);
+            // 現在の曜日かつ未来/過去のバス、または翌日/前日のバス
+            if(busesLength>0){
+                if(i>0 || timeDifference(nowInMinutes,busLeaveTime)>=0){
+                    findedBuses.push(bus);
+                }
+            }else if(busesLength<0){
+                if(i>0 || timeDifference(nowInMinutes,busLeaveTime)<0){
+                    findedBuses.push(bus)
+                }
             }
+            else{
+                return [];
+            }
+            // if (busesLength>0 && i > 0 || timeDifference(nowInMinutes, busLeaveTime) >= 0) {
+            //     findedBuses.push(bus);
+            // }else if(busesLength<0 && i>0 || timeDifference(nowInMinutes,busLeaveTime)<0){
+            //     findedBuses.push(bus);
+            // }
 
-            if (nextBuses.length >= busesLength) {
-                return nextBuses; // 2本のバスを見つけたら返す
+            if (findedBuses.length >= Math.abs(busesLength)) {
+                return findedBuses; // 2本のバスを見つけたら返す
             }
         }
 
@@ -90,7 +118,7 @@ function findBuses(args:{
         dateToCheck.setDate(dateToCheck.getDate() + 1);
     }
 
-    return nextBuses;
+    return findedBuses;
 }
 
 // `hh:mm` を分単位に変換する関数
