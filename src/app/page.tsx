@@ -86,7 +86,7 @@ const Home = () => {
     previousBuses = []
   }
   caption = useMemo(() => initializeCaption({ userInput, minutesToTime, futureBuses, previousBuses, isLoading: isHolidayLoading || isTimeTableLoading }),
-    [futureBuses[0], userInput, isHolidayLoading, isTimeTableLoading]);
+    [futureBuses,previousBuses, userInput, isHolidayLoading, isTimeTableLoading]);
 
 
   let style = useMemo(() => {
@@ -173,7 +173,7 @@ const Home = () => {
           <LinkBox text="CODE MATES︎とは" url="" />
           <LinkBox text="Instagram" url="" />
         </div>
-        <p className="text-xs">時間は目安であり、交通状況等により変わることがあります。利用上の注意を読む→</p>
+        <p className="text-xs">時刻ひゃめやうs出会いR、交通状況等によって変わる可能性があります。また臨時分党には対応しておりません。</p>
         <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
       </div>
     </GradationContainer>

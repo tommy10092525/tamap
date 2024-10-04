@@ -1,6 +1,4 @@
-import { NextDataPathnameNormalizer } from "next/dist/server/future/normalizers/request/next-data";
 import { Holidays, TimeTable } from "../components/Types";
-import { Noto_Sans_Balinese } from "next/font/google";
 
 
 // 曜日ごとの配列インデックス
