@@ -45,6 +45,7 @@ function getNextDay(currentDay: string, currentDate: Date, holidayData: Holidays
     return dayIndices[nextDayIndex];
 }
 
+// 祝日も日曜日とする
 function getPreviousDay(currentDay: string, currentDate: Date, holidayData: Holidays) {
     let previousDate = new Date(currentDate);
     previousDate.setDate(previousDate.getDate() - 1);

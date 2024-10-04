@@ -10,7 +10,7 @@ import DiscountInformation from "./components/DiscountInformation";
 import Logo from "./components/Logo";
 import LinkBox from "./components/LinkBox";
 import { dayIndices, findNextBuses, minutesToTime, } from "./features/timeHandlers";
-import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI } from "@/constants/settings";
+import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI, Instagram, codematesHP } from "@/constants/settings";
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
 import Card from "./components/Card";
 import GradationContainer from "./components/GradationContainer";
@@ -19,15 +19,7 @@ import GradationContainer from "./components/GradationContainer";
 // 現在の時刻と曜日を取得
 
 const Home = () => {
-  const currentDate = new Date();
-  const now = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    currentDate.getDate(),
-    currentDate.getHours(),
-    currentDate.getMinutes(),
-    currentDate.getSeconds()
-  );
+  const now=new Date();
   const currentDayIndex = now.getDay();
   const currentDay = dayIndices[currentDayIndex];
   const currentHour = now.getHours();
@@ -86,7 +78,7 @@ const Home = () => {
     previousBuses = []
   }
   caption = useMemo(() => initializeCaption({ userInput, minutesToTime, futureBuses, previousBuses, isLoading: isHolidayLoading || isTimeTableLoading }),
-    [futureBuses,previousBuses, userInput, isHolidayLoading, isTimeTableLoading]);
+    [futureBuses, previousBuses, userInput, isHolidayLoading, isTimeTableLoading]);
 
 
   let style = useMemo(() => {
@@ -140,20 +132,6 @@ const Home = () => {
           isLoading={isTimeTableLoading || isHolidayLoading}
           handleDirectionChange={handleDirectionChange}
         />
-        {/* <Card>
-          <div className="my-3 text-center">
-            <p className="text-xl font-semibold m-1"
-              suppressHydrationWarning={true}>{[
-                "現在時刻:",
-                String(now.getHours()).padStart(2, "0"),
-                ":",
-                String(now.getMinutes()).padStart(2, "0"),
-                ":",
-                String(now.getSeconds()).padStart(2, "0")
-              ]}</p>
-          </div>
-        </Card> */}
-
         <StationSwitch
           isLoading={isHolidayLoading || isTimeTableLoading}
           userInput={userInput}
@@ -168,12 +146,21 @@ const Home = () => {
         <DiscountInformation text="飲食店割引はこちらから" />
 
         <div className="flex flex-wrap justify-center w-full">
-          <LinkBox text="ご意見" url={GoogleForm} />
-          <LinkBox text="アプリを共有" url="" />
-          <LinkBox text="CODE MATES︎とは" url="" />
-          <LinkBox text="Instagram" url="" />
+          <LinkBox><a href={GoogleForm}>アプリご意見</a></LinkBox>
+          <LinkBox><button onClick={async () => {
+            try{
+              await navigator.share({
+                title:"たまっぷ!(Next.js)",
+                text:codematesHP.concat("tamap/")
+              });
+            }catch(error){
+                console.log("Error sharing:",error);
+            }
+          }}>アプリを共有</button></LinkBox>
+          <LinkBox><a href={codematesHP}>CODE MATESとは</a></LinkBox>
+          <LinkBox><a href={Instagram}>Instagram</a></LinkBox>
         </div>
-        <p className="text-xs">時刻ひゃめやうs出会いR、交通状況等によって変わる可能性があります。また臨時分党には対応しておりません。</p>
+        <p className="text-xs">時刻は目安であり、交通状況等によって変わる可能性があります。また臨時便等には対応しておりません。</p>
         <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
       </div>
     </GradationContainer>
