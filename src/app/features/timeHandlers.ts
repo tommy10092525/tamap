@@ -1,11 +1,7 @@
 import { Holidays, TimeTable } from "../components/Types";
 
-
 // 曜日ごとの配列インデックス
 const dayIndices = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-
-
 
 // 時刻を数値に変換するヘルパー関数（分単位）
 function toMinutes(hour: number, minutes: number) {
@@ -36,11 +32,9 @@ function isWeekday(day: string) {
 function getNextDay(currentDay: string, currentDate: Date, holidayData: Holidays) {
     let nextDate = new Date(currentDate);
     nextDate.setDate(nextDate.getDate() + 1);
-
     if (isHoliday(nextDate, holidayData)) {
         return "Sunday"; // 祝日を日曜日と扱う
     }
-
     const nextDayIndex = (dayIndices.indexOf(currentDay) + 1) % 7;
     return dayIndices[nextDayIndex];
 }
@@ -49,12 +43,10 @@ function getNextDay(currentDay: string, currentDate: Date, holidayData: Holidays
 function getPreviousDay(currentDay: string, currentDate: Date, holidayData: Holidays) {
     let previousDate = new Date(currentDate);
     previousDate.setDate(previousDate.getDate() - 1);
-
     if (isHoliday(previousDate, holidayData)) {
         return "Sunday";
     }
-
-    const previousDayIndex = mod((dayIndices.indexOf(currentDay) - 1),7);
+    const previousDayIndex = mod((dayIndices.indexOf(currentDay) - 1), 7);
     return dayIndices[previousDayIndex];
 }
 
@@ -64,12 +56,10 @@ function findBuses(args: {
     currentDay: string, currentHour: number, currentMinutes: number, currentDate: Date
 }) {
 
-    const { holidayData, currentDay, currentHour, currentMinutes, currentDate ,busesLength} = args;
-    let { timeTable} = args;
+    const { holidayData, currentDay, currentHour, currentMinutes, currentDate, busesLength } = args;
+    let { timeTable } = args;
     const nowInMinutes = toMinutes(currentHour, currentMinutes);
     let findedBuses = [];
-
-
     // 現在の曜日のバスを取得
     let dayToCheck: string;
     if (isHoliday(currentDate, holidayData)) {
@@ -102,17 +92,14 @@ function findBuses(args: {
             else {
                 return [];
             }
-
             if (findedBuses.length >= Math.abs(busesLength)) {
                 return findedBuses;
             }
         }
-
         // 次の日に進む
         dayToCheck = (busesLength > 0 ? getNextDay(dayToCheck, dateToCheck, holidayData) : getPreviousDay(dayToCheck, dateToCheck, holidayData));
         dateToCheck.setDate(dateToCheck.getDate() + (busesLength > 0 ? 1 : -1));
     }
-
     return findedBuses;
 }
 
@@ -129,11 +116,8 @@ const minutesToTime = (minutes: number) => {
     return `${hours}:${mins}`;
 };
 
-const mod=(a:number,b:number)=>{
-    return ((a%b)+b)%b;
+const mod = (a: number, b: number) => {
+    return ((a % b) + b) % b;
 }
-
-
-
 
 export { findBuses, dayIndices, timeToMinutes, minutesToTime, isHoliday }

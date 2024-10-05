@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react'
-import { Style } from './Types'
 
 // eslint-disable-next-line react/display-name
 const Card = React.memo((props: { children: ReactNode }) => {
