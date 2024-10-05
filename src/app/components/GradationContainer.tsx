@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react'
 const GradationContainer = React.memo((props: { children: ReactNode}) => {
     const deviation=+9;
     const { children} = props;
-    const hour=(new Date().getUTCHours()+deviation)%24;
+    const hour=(new Date().getUTCSeconds()+deviation)%24;
     console.log(hour)
     if (8 <= hour && hour < 16) {
         console.log("昼")
