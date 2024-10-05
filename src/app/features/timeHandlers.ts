@@ -54,7 +54,7 @@ function getPreviousDay(currentDay: string, currentDate: Date, holidayData: Holi
         return "Sunday";
     }
 
-    const previousDayIndex = (dayIndices.indexOf(currentDay) - 1) % 7;
+    const previousDayIndex = mod((dayIndices.indexOf(currentDay) - 1),7);
     return dayIndices[previousDayIndex];
 }
 
@@ -64,14 +64,11 @@ function findBuses(args: {
     currentDay: string, currentHour: number, currentMinutes: number, currentDate: Date
 }) {
 
-    const { holidayData, currentDay, currentHour, currentMinutes, currentDate } = args;
-    let { timeTable, busesLength } = args;
+    const { holidayData, currentDay, currentHour, currentMinutes, currentDate ,busesLength} = args;
+    let { timeTable} = args;
     const nowInMinutes = toMinutes(currentHour, currentMinutes);
     let findedBuses = [];
 
-    if (busesLength < 0) {
-        timeTable.reverse();
-    }
 
     // 現在の曜日のバスを取得
     let dayToCheck: string;
@@ -86,6 +83,9 @@ function findBuses(args: {
         const busesForDay = timeTable.filter(bus =>
             bus.day === dayToCheck || (isWeekday(dayToCheck) && bus.day === "weekday")
         );
+        if (busesLength < 0) {
+            timeTable.reverse();
+        }
         for (let bus of busesForDay) {
             const busLeaveTime = toMinutes(bus.leaveHour, bus.leaveMinute);
 
@@ -104,13 +104,13 @@ function findBuses(args: {
             }
 
             if (findedBuses.length >= Math.abs(busesLength)) {
-                return findedBuses; // 2本のバスを見つけたら返す
+                return findedBuses;
             }
         }
 
         // 次の日に進む
         dayToCheck = (busesLength > 0 ? getNextDay(dayToCheck, dateToCheck, holidayData) : getPreviousDay(dayToCheck, dateToCheck, holidayData));
-        dateToCheck.setDate(dateToCheck.getDate()+(busesLength > 0 ? 1 : -1));
+        dateToCheck.setDate(dateToCheck.getDate() + (busesLength > 0 ? 1 : -1));
     }
 
     return findedBuses;
@@ -129,16 +129,8 @@ const minutesToTime = (minutes: number) => {
     return `${hours}:${mins}`;
 };
 
-// 二分探索用の関数
-// https://qiita.com/oimo23/items/8c92aec97adc321c6cb0
-const lowerBound = (arr: Array<number>, n: number) => {
-    let first = 0, last = arr.length - 1, middle;
-    while (first <= last) {
-        middle = 0 | (first + last) / 2;
-        if (arr[middle] < n) first = middle + 1;
-        else last = middle - 1;
-    }
-    return first;
+const mod=(a:number,b:number)=>{
+    return ((a%b)+b)%b;
 }
 
 
