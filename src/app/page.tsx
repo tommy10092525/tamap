@@ -12,7 +12,6 @@ import LinkBox from "./components/LinkBox";
 import { dayIndices, findBuses, minutesToTime, } from "./features/timeHandlers";
 import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI, Instagram, codematesHP } from "@/constants/settings";
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
-import Card from "./components/Card";
 import GradationContainer from "./components/GradationContainer";
 
 
@@ -69,8 +68,8 @@ const Home = () => {
     // 駅と方向から絞る
     timeTable = timeTable
       .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
-    futureBuses = findBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: 3 });
-    previousBuses = findBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: -2 });
+    futureBuses = findBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: 4 });
+    previousBuses = findBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: -3 });
 
 
   } else {
