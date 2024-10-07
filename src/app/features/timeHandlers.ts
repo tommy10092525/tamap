@@ -85,7 +85,7 @@ function findBuses(args: {
                     findedBuses.push(bus);
                 }
             } else if (busesLength < 0) {
-                if (i > 0 || timeDifference(nowInMinutes, busLeaveTime) < 0) {
+                if (i > 0 || timeDifference(nowInMinutes, busLeaveTime) > 0) {
                     findedBuses.push(bus)
                 }
             }
