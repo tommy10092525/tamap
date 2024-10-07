@@ -68,24 +68,25 @@ function findBuses(args: {
         dayToCheck = currentDay;
     }
     let dateToCheck = currentDate;
-    // バスが見つかるまで次の日に進む
+    // バスが見つかるまで次の日に進む   
     for (let i = 0; i < 7; i++) {
-        const busesForDay = timeTable.filter(bus =>
-            bus.day === dayToCheck || (isWeekday(dayToCheck) && bus.day === "weekday")
-        );
+        // 以前のバスを取得する場合には時刻表を前後逆にする
         if (busesLength < 0) {
             timeTable.reverse();
         }
+        const busesForDay = timeTable.filter(bus =>
+            bus.day === dayToCheck || (isWeekday(dayToCheck) && bus.day === "weekday")
+        );
         for (let bus of busesForDay) {
             const busLeaveTime = toMinutes(bus.leaveHour, bus.leaveMinute);
 
-            // 現在の曜日かつ未来/過去のバス、または翌日/前日のバス
+            // 現在の曜 日かつ未来/過去のバス、または翌日/前日のバス
             if (busesLength > 0) {
                 if (i > 0 || timeDifference(nowInMinutes, busLeaveTime) >= 0) {
                     findedBuses.push(bus);
                 }
             } else if (busesLength < 0) {
-                if (i > 0 || timeDifference(nowInMinutes, busLeaveTime) > 0) {
+                if (i > 0 || timeDifference(nowInMinutes, busLeaveTime) < 0) {
                     findedBuses.push(bus)
                 }
             }

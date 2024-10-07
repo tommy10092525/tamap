@@ -70,7 +70,7 @@ const Home = () => {
     timeTable = timeTable
       .filter(item => item.isComingToHosei == userInput.isComingToHosei && item.station == userInput.station)
     futureBuses = findBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: 3 });
-    previousBuses = findBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: -2 });
+    previousBuses = findBuses({ timeTable, holidayData, currentDay, currentHour, currentMinutes, currentDate: now, busesLength: -3 });
 
 
   } else {
