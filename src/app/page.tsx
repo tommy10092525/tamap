@@ -12,7 +12,6 @@ import LinkBox from "./components/LinkBox";
 import { dayIndices, findBuses, minutesToTime, } from "./features/timeHandlers";
 import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI, Instagram, codematesHP } from "@/constants/settings";
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
-import Card from "./components/Card";
 import GradationContainer from "./components/GradationContainer";
 
 
@@ -79,7 +78,6 @@ const Home = () => {
   }
   caption = useMemo(() => initializeCaption({ userInput, minutesToTime, futureBuses, previousBuses, isLoading: isHolidayLoading || isTimeTableLoading }),
     [futureBuses, previousBuses, userInput, isHolidayLoading, isTimeTableLoading]);
-
   // API取得にエラーが生じた場合エラーをコンソールに吐く
   if (timeTableError) {
     console.log(timeTableError);
@@ -115,7 +113,7 @@ const Home = () => {
 
 
   return (
-    <GradationContainer now={now}>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-400 p-5">
       <div className="max-w-screen-sm">
         <Logo />
         <TimeCaption
@@ -153,7 +151,7 @@ const Home = () => {
         <p className="text-xs">時刻は目安であり、交通状況等によって変わる可能性があります。また臨時便等には対応しておりません。</p>
         <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
       </div>
-    </GradationContainer>
+    </div>
   );
 }
 
