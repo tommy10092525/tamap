@@ -68,12 +68,12 @@ function findBuses(args: {
         dayToCheck = currentDay;
     }
     let dateToCheck = currentDate;
+    if (busesLength < 0) {
+        timeTable.reverse();
+    }
     // バスが見つかるまで次の日に進む   
     for (let i = 0; i < 7; i++) {
         // 以前のバスを取得する場合には時刻表を前後逆にする
-        if (busesLength < 0) {
-            timeTable.reverse();
-        }
         const busesForDay = timeTable.filter(bus =>
             bus.day === dayToCheck || (isWeekday(dayToCheck) && bus.day === "weekday")
         );
