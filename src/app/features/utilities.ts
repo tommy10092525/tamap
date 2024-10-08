@@ -31,10 +31,11 @@ const initializeCaption = (args: { userInput: UserInput, minutesToTime: (minutes
             caption.sport = minutesToTime(nextBus.arriveHour * 60 + nextBus.arriveMinute + buildings.sport);
             caption.gym = minutesToTime(nextBus.arriveHour * 60 + nextBus.arriveMinute + buildings.gym);
         } else {
-            caption.economics = "--:--";
-            caption.health = "--:--";
-            caption.sport = "--:--";
-            caption.gym = "--:--";
+            caption.economics = minutesToTime(nextBus.leaveHour * 60 + nextBus.leaveMinute - buildings.economics);
+            caption.health = minutesToTime(nextBus.leaveHour * 60 + nextBus.leaveMinute - buildings.health);
+            caption.sport = minutesToTime(nextBus.leaveHour * 60 + nextBus.leaveMinute - buildings.sport);
+            caption.gym = minutesToTime(nextBus.leaveHour * 60 + nextBus.leaveMinute - buildings.gym);
+
         }
 
         // for (let key in buildings) {
