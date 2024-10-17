@@ -1,5 +1,5 @@
+import { timeOfEquation } from "@/constants/settings";
 import { Holidays, TimeTable } from "../components/Types";
-
 // 曜日ごとの配列インデックス
 const dayIndices = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -15,6 +15,7 @@ function timeDifference(nowInMinutes: number, busInMinutes: number) {
 
 // 日付が祝日かどうかを判定
 function isHoliday(date: Date, holidayData: Holidays) {
+    date.setDate(date.getDate()+timeOfEquation);
     const formattedDate = date.toISOString().split('T')[0];
     if (!holidayData) {
         alert("祝日データがpending状態です！！！");

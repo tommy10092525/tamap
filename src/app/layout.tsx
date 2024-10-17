@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+// import 'bootstrap/dist/css/bootstrap.min.css'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="next-size-adjust"></meta>
+        
       </head>
       <body className={inter.className}>{children}</body>
     </html>

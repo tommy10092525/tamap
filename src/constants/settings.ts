@@ -1,5 +1,6 @@
 import { Buildings, StationNames } from "@/app/components/Types";
 
+const timeOfEquation=9
 const timeTableAPI = "/api/timetable";
 const holidaysAPI = "https://holidays-jp.github.io/api/v1/date.json"
 const GoogleForm = "https://docs.google.com/forms/d/17Le4TKOCQyZleSlCIYQmPKOnAgT80iTY6W4h2aON1_Y/viewform?edit_requested=true";
@@ -14,4 +15,4 @@ const buildings: Buildings = {
   };
 
 
-export {timeTableAPI,holidaysAPI,GoogleForm,stationNames,buildings,Instagram,codematesHP}
+export {timeTableAPI,holidaysAPI,GoogleForm,stationNames,buildings,Instagram,codematesHP,timeOfEquation}
