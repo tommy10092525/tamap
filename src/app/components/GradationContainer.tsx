@@ -2,7 +2,7 @@ import { getRandomValues, randomInt } from 'crypto';
 import React, { ReactNode } from 'react'
 
 // eslint-disable-next-line react/display-name
-const GradationContainer = React.memo((props: { children: ReactNode,now:Date}) => {
+const GradationContainer = (props: { children: ReactNode,now:Date}) => {
     const deviation=+9;
     const { children,now} = props;
     const hour=(now.getUTCHours()+deviation)%24;
@@ -30,6 +30,6 @@ const GradationContainer = React.memo((props: { children: ReactNode,now:Date}) =
         )
 
     }
-})
+}
 
 export default GradationContainer

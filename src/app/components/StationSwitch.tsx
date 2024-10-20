@@ -6,7 +6,7 @@ import Card from './Card';
 const stationNames: StationNames = { nishihachioji: "西八王子", mejirodai: "めじろ台", aihara: "相原" };
 
 // eslint-disable-next-line react/display-name
-const StationSwitch = React.memo((props: { userInput: UserInput, isLoading: boolean, handleShowModalChange: () => void, handleStationChange: (station: string) => void }) => {
+const StationSwitch =(props: { userInput: UserInput, isLoading: boolean, handleShowModalChange: () => void, handleStationChange: (station: string) => void }) => {
   let { userInput, isLoading, handleShowModalChange, handleStationChange } = props;
   return (
     <div className='my-3 w-full'>
@@ -24,6 +24,6 @@ const StationSwitch = React.memo((props: { userInput: UserInput, isLoading: bool
       </Card>
     </div>
   )
-})
+}
 
 export default StationSwitch

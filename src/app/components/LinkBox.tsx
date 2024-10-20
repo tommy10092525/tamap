@@ -2,7 +2,7 @@ import React, { Children, ReactNode } from 'react'
 import Card from './Card'
 
 // eslint-disable-next-line react/display-name
-const LinkBox = React.memo((props: {children:ReactNode}) => {
+const LinkBox = (props: {children:ReactNode}) => {
     const {children}=props;
     return (
         <div className='w-1/2'>
@@ -14,6 +14,6 @@ const LinkBox = React.memo((props: {children:ReactNode}) => {
         </div>
 
     )
-})
+}
 
 export default LinkBox
