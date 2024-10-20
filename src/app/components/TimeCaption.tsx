@@ -1,8 +1,11 @@
 import React from 'react'
+import Image from "next/image"
 import { BusTime, Caption } from "./Types"
 import Card from './Card';
 import { minutesToTime } from '../features/timeHandlers';
 import { stationNames } from '@/constants/settings';
+
+import arrow from "./arrow.png"
 
 // eslint-disable-next-line react/display-name
 const TimeCaption = (props: { caption: Caption, isLoading: boolean, handleDirectionChange: () => void }) => {
@@ -41,8 +44,22 @@ const TimeCaption = (props: { caption: Caption, isLoading: boolean, handleDirect
             <button
               className="w-full"
               onClick={handleDirectionChange}>
-              <p className="">【⇆】左右入替</p></button></div>
-
+            <div className='h-2 ml-1 mb-1 -mt-[2px]'>
+              <Image
+              alt='arrow'
+              src={arrow}
+              height={20}
+              className=''
+              />
+              <Image
+              alt='arrow'
+              src={arrow}
+              height={20}
+              className='rotate-180 -mt-[10px]'
+              />
+            </div>
+              <p className="-mt-2">左右入替</p></button>
+            </div>
         </div>
       </Card>
     </div>

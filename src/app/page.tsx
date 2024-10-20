@@ -13,6 +13,7 @@ import { dayIndices, findBuses, minutesToTime, } from "./features/timeHandlers";
 import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI, Instagram, codematesHP } from "@/constants/settings";
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
 import GradationContainer from "./components/GradationContainer";
+import Link from "next/link";
 
 
 // 現在の時刻と曜日を取得
@@ -134,7 +135,7 @@ const Home = () => {
         <DiscountInformation text="飲食店割引はこちらから" />
 
         <div className="flex flex-wrap justify-center w-full">
-          <LinkBox><a href={GoogleForm}>アプリご意見</a></LinkBox>
+          <LinkBox><Link href={GoogleForm}>アプリご意見</Link></LinkBox>
           <LinkBox><button onClick={async () => {
             try {
               await navigator.share({
@@ -145,8 +146,8 @@ const Home = () => {
               console.log("Error sharing:", error);
             }
           }}>アプリを共有</button></LinkBox>
-          <LinkBox><a href={codematesHP}>CODE MATESとは</a></LinkBox>
-          <LinkBox><a href={Instagram}>Instagram</a></LinkBox>
+          <LinkBox><Link href={codematesHP}>CODE MATESとは</Link></LinkBox>
+          <LinkBox><Link href={Instagram}>Instagram</Link></LinkBox>
         </div>
         <p className="text-xs text-center">時刻は目安であり、交通状況等によって変わる可能性があります。また臨時便等には対応しておりません。</p>
         <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
