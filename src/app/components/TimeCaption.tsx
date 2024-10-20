@@ -44,7 +44,7 @@ const TimeCaption = (props: { caption: Caption, isLoading: boolean, handleDirect
             <button
               className="w-full"
               onClick={handleDirectionChange}>
-            <div className='h-2 ml-1 mb-1'>
+            <div className='h-2 ml-1 mb-1 -mt-[2px]'>
               <Image
               alt='arrow'
               src={arrow}
