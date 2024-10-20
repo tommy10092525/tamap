@@ -148,7 +148,7 @@ const Home = () => {
           <LinkBox><a href={codematesHP}>CODE MATESとは</a></LinkBox>
           <LinkBox><a href={Instagram}>Instagram</a></LinkBox>
         </div>
-        <p className="text-xs">時刻は目安であり、交通状況等によって変わる可能性があります。また臨時便等には対応しておりません。</p>
+        <p className="text-xs text-center">時刻は目安であり、交通状況等によって変わる可能性があります。また臨時便等には対応しておりません。</p>
         <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
       </div>
     </div>
