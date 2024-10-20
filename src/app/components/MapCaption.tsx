@@ -6,7 +6,7 @@ import { Caption } from './Types';
 import TimeBox from './TimeBox';
 
 // eslint-disable-next-line react/display-name
-const MapCaption = React.memo((props: {isLoading:boolean,caption:Caption}) => {
+const MapCaption = (props: {isLoading:boolean,caption:Caption}) => {
   const { isLoading, caption } = props;
   return (
     <div className="w-full mx-0 border-opacity-40 backdrop-blur-xl">
@@ -35,6 +35,6 @@ const MapCaption = React.memo((props: {isLoading:boolean,caption:Caption}) => {
       </Card>
     </div>
   )
-})
+}
 
 export default MapCaption

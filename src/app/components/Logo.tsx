@@ -3,7 +3,7 @@ import Image from 'next/image'
 import logo from "../../../public/images/Tamap_logo.png"
 
 // eslint-disable-next-line react/display-name
-const Logo = React.memo(() => {
+const Logo = () => {
   return (
     <div className='w-full'>
       <Image
@@ -15,6 +15,6 @@ const Logo = React.memo(() => {
       />
     </div>
   )
-})
+}
 
 export default Logo

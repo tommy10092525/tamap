@@ -5,7 +5,7 @@ import { minutesToTime } from '../features/timeHandlers';
 import { stationNames } from '@/constants/settings';
 
 // eslint-disable-next-line react/display-name
-const TimeCaption = React.memo((props: { caption: Caption, isLoading: boolean, handleDirectionChange: () => void }) => {
+const TimeCaption = (props: { caption: Caption, isLoading: boolean, handleDirectionChange: () => void }) => {
   const { caption, isLoading, handleDirectionChange } = props;
   return (
     <div className="w-full">
@@ -37,7 +37,7 @@ const TimeCaption = React.memo((props: { caption: Caption, isLoading: boolean, h
         </div>
         <div className="inline-flex text-center items-center mx-auto font-bold w-full">
           {/* ボタンが押されたら状態を書き換える */}
-          <div className="my-2 mx-auto border-solid w-1/2 text-center bg-white rounded-md bg-opacity-50 hover:bg-opacity-70">
+          <div className="my-2 mx-auto border-solid w-1/2 text-center bg-white rounded-md bg-opacity-50 hover:bg-opacity-70 shadow">
             <button
               className="w-full"
               onClick={handleDirectionChange}>
@@ -48,6 +48,6 @@ const TimeCaption = React.memo((props: { caption: Caption, isLoading: boolean, h
     </div>
 
   )
-})
+}
 
 export default TimeCaption
