@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-// import 'bootstrap/dist/css/bootstrap.min.css'
+import { Provider } from "@/components/ui/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,13 +16,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <html lang="ja" suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="next-size-adjust"></meta>
-        
+
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Provider>
+          {children}
+        </Provider>
+      </body>
     </html>
   );
 }
