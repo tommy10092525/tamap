@@ -4,6 +4,7 @@ import { BusTime, Caption } from "./Types"
 import Card from './Card';
 import { minutesToTime } from '../features/timeHandlers';
 import { stationNames } from '@/constants/settings';
+import { Button } from '@chakra-ui/react';
 
 import arrow from "./arrow.png"
 
@@ -41,25 +42,27 @@ const TimeCaption = (props: { caption: Caption, isLoading: boolean, handleDirect
         <div className="inline-flex text-center items-center mx-auto font-bold w-full">
           {/* ボタンが押されたら状態を書き換える */}
           <div className="my-2 mx-auto border-solid w-1/2 text-center bg-white rounded-md bg-opacity-50 hover:bg-opacity-70 shadow">
-            <button
-              className="w-full"
+            <Button
+              size="sm"
+              className="w-full pt-2"
               onClick={handleDirectionChange}>
-            <div className='h-2 ml-1 mb-1 -mt-[2px]'>
-              <Image
-              alt='arrow'
-              src={arrow}
-              height={20}
-              className=''
-              />
-              <Image
-              alt='arrow'
-              src={arrow}
-              height={20}
-              className='rotate-180 -mt-[10px]'
-              />
-            </div>
-              <p className="-mt-2">左右入替</p></button>
-            </div>
+                <div className='-mt-3'>
+                  <Image
+                    alt='arrow'
+                    src={arrow}
+                    height={20}
+                    className=''
+                  />
+                  <Image
+                    alt='arrow'
+                    src={arrow}
+                    height={20}
+                    className='rotate-180 -mt-[10px]'
+                  />
+                </div>
+                <p className="-mt-2">左右入替</p>
+            </Button>
+          </div>
         </div>
       </Card>
     </div>
