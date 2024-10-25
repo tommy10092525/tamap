@@ -114,7 +114,8 @@ const Home = () => {
 
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-400 p-5">
+    <div
+      className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-sky-400 to-orange-400 p-5 dark:from-blue-800 dark:to-purple-800">
       <div className="max-w-screen-sm">
         <Logo />
         <TimeCaption

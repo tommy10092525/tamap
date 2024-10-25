@@ -28,7 +28,7 @@ const StationSwitch =(props: { userInput: UserInput, isLoading: boolean, handleS
           <MenuTrigger
             asChild
             className='bg-white bg-opacity-50 float-right'>
-            <Button className='bg-white bg-opacity-50 rounded-md shadow m-2 p-2 font-bold' variant="outline">バスを変更</Button>
+            <Button className='bg-white bg-opacity-50 rounded-md shadow m-2 p-2 font-bold hover:bg-opacity-70'>バスを変更</Button>
           </MenuTrigger>
           <MenuContent className='bg-white bg-opacity-0 border-0'>
             <MenuItem value="nishihachioji" onClick={()=>{
