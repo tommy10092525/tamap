@@ -30,7 +30,7 @@ const StationSwitch =(props: { userInput: UserInput, isLoading: boolean, handleS
             className='bg-white bg-opacity-50 float-right'>
             <Button className='bg-white bg-opacity-50 rounded-md shadow m-2 p-2 font-bold hover:bg-opacity-70'>バスを変更</Button>
           </MenuTrigger>
-          <MenuContent className='bg-white bg-opacity-0 border-0'>
+          <MenuContent className='bg-white bg-opacity-0 border-0 shadow-none'>
             <MenuItem value="nishihachioji" onClick={()=>{
               handleStationChange("nishihachioji");
             }} className='bg-white bg-opacity-50 shadow rounded-md hover:bg-blue-300 font-bold'>西八王子</MenuItem>
