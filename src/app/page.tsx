@@ -14,6 +14,7 @@ import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI, Instagr
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
 import GradationContainer from "./components/GradationContainer";
 import Link from "next/link";
+import { Button } from "@chakra-ui/react";
 
 
 // 現在の時刻と曜日を取得
@@ -133,11 +134,11 @@ const Home = () => {
           caption={caption}
           isLoading={isTimeTableLoading || isHolidayLoading}
         />
-        <DiscountInformation text="飲食店割引はこちらから" />
+        <DiscountInformation text="飲食店割引はこちら" />
 
         <div className="flex flex-wrap justify-center w-full">
-          <LinkBox><Link href={GoogleForm}>アプリご意見</Link></LinkBox>
-          <LinkBox><button onClick={async () => {
+          {/* <LinkBox><Link href={GoogleForm}>アプリご意見</Link></LinkBox>
+          <LinkBox><Button onClick={async () => {
             try {
               await navigator.share({
                 title: "たまっぷ!(Next.js)",
@@ -146,9 +147,36 @@ const Home = () => {
             } catch (error) {
               console.log("Error sharing:", error);
             }
-          }}>アプリを共有</button></LinkBox>
+          }}>アプリを共有</Button></LinkBox>
           <LinkBox><Link href={codematesHP}>CODE MATESとは</Link></LinkBox>
-          <LinkBox><Link href={Instagram}>Instagram</Link></LinkBox>
+          <LinkBox><Link href={Instagram}>Instagram</Link></LinkBox> */}
+          <div className="w-1/2 px-1">
+            <Button className="w-full font-bold mb-1 mx-1 text-center bg-white bg-opacity-50 rounded-md shadow float-left" size="xs">
+              <Link href={GoogleForm} className="w-full">アプリご意見</Link>
+            </Button>
+          </div>
+          <div className="w-1/2 px-1">
+            <Button className="w-full font-bold mb-1 mx-1 text-center bg-white bg-opacity-50 rounded-md shadow float-left" size="xs" onClick={async()=>{
+              try {
+                await navigator.share({
+                  title: "たまっぷ!(Next.js)",
+                  text: codematesHP.concat("tamap/")
+                });
+              } catch (error) {
+                console.log("Error sharing:", error);
+              }
+            }}>アプリを共有</Button>
+          </div>
+          <div className="w-1/2 px-1">
+            <Button className="w-full font-bold mb-1 mx-1 text-center bg-white bg-opacity-50 rounded-md shadow float-left" size="xs">
+              <Link href={codematesHP} className="w-full">CODE MATESとは</Link>
+            </Button>
+          </div>
+          <div className="w-1/2 px-1">
+            <Button className="w-full font-bold mb-1 mx-1 text-center bg-white bg-opacity-50 rounded-md shadow float-left" size="xs">
+              <Link href={Instagram} className="w-full">Instagram</Link>
+            </Button>
+          </div>
         </div>
         <p className="text-xs text-center">時刻は目安であり、交通状況等によって変わる可能性があります。また臨時便等には対応しておりません。</p>
         <p className="flex justify-center items-center text-center text-lg">©CODE MATES︎</p>
