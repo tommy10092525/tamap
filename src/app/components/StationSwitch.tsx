@@ -17,7 +17,7 @@ const StationSwitch = (props: { userInput: UserInput, isLoading: boolean, handle
       <Card>
         <div className="inline-flex h-14">
           <p className="font-bold text-2xl ml-2 mt-3">{isLoading ? "loading" : stationNames[userInput.station]}</p>
-          {isLoading ? <div></div> : <p className="font-bold text-base mt-5">のバス</p>}
+          {isLoading ? <React.Fragment></React.Fragment> : <p className="font-bold text-base mt-5">のバス</p>}
         </div>
         <MenuRoot>
           <MenuTrigger
@@ -29,7 +29,7 @@ const StationSwitch = (props: { userInput: UserInput, isLoading: boolean, handle
             {Object.entries(stationNames).map(([key, value]) => {
               return (
                 <MenuItem value={key} key={key}
-                  className='bg-white bg-opacity-0 m-0 px-2 py-0 w-1/3 float-left'>
+                  className='bg-white bg-opacity-0 m-0 px-1 py-0 w-1/3 float-left'>
                   <Button
                   size={"xs"}
                   className='bg-white bg-opacity-50 shadow rounded-md hover:bg-blue-500 font-bold my-1 transition-colors float-left px-1 w-full'
