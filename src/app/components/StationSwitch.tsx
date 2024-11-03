@@ -32,7 +32,7 @@ const StationSwitch = (props: { userInput: UserInput, isLoading: boolean, handle
                   className='bg-white bg-opacity-0 m-0 px-1 py-0 w-1/3 float-left'>
                   <Button
                   size={"xs"}
-                  className='bg-white bg-opacity-50 shadow rounded-md font-bold my-1 transition-colors float-left px-1 w-full'
+                  className='bg-white bg-opacity-50 shadow rounded-md font-bold my-1 transition-colors float-left px-1 w-full text-black'
                   onClick={() => {
                     handleStationChange(key);
                   }}>{value}</Button>
