@@ -17,7 +17,7 @@ const StationSwitch = (props: { userInput: UserInput, isLoading: boolean, handle
       <Card>
         <div className="inline-flex h-14">
           <p className="font-bold text-2xl ml-2 mt-3">{isLoading ? "loading" : stationNames[userInput.station]}</p>
-          {isLoading ? <React.Fragment></React.Fragment> : <p className="font-bold text-base mt-5">のバス</p>}
+          {isLoading ? <React.Fragment></React.Fragment> : <p className="font-bold text-base mt-5 dark:text-black">のバス</p>}
         </div>
         <MenuRoot>
           <MenuTrigger
