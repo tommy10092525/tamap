@@ -23,7 +23,7 @@ const StationSwitch = (props: { userInput: UserInput, isLoading: boolean, handle
           <MenuTrigger
             asChild
             className='bg-white bg-opacity-50 float-right'>
-            <Button className='bg-white bg-opacity-50 rounded-md shadow m-2 p-2 font-bold hover:bg-blue-500 transition-colors'>バスを変更</Button>
+            <Button className='bg-white bg-opacity-50 rounded-md shadow m-2 p-2 font-bold transition-colors'>バスを変更</Button>
           </MenuTrigger>
           <MenuContent className='bg-white bg-opacity-0 border-0 shadow-none'>
             {Object.entries(stationNames).map(([key, value]) => {
@@ -32,7 +32,7 @@ const StationSwitch = (props: { userInput: UserInput, isLoading: boolean, handle
                   className='bg-white bg-opacity-0 m-0 px-1 py-0 w-1/3 float-left'>
                   <Button
                   size={"xs"}
-                  className='bg-white bg-opacity-50 shadow rounded-md hover:bg-blue-500 font-bold my-1 transition-colors float-left px-1 w-full'
+                  className='bg-white bg-opacity-50 shadow rounded-md font-bold my-1 transition-colors float-left px-1 w-full'
                   onClick={() => {
                     handleStationChange(key);
                   }}>{value}</Button>

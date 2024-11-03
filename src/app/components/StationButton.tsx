@@ -12,7 +12,7 @@ const StationButton = (props: { isSelected:boolean, handleStationChange: (statio
     </div>
   )}else{
     return(
-      <div className='w-2/5 my-auto mx-1 font-bold rounded-md bg-opacity-40 bg-white shadow hover:bg-opacity-70'>
+      <div className='w-2/5 my-auto mx-1 font-bold rounded-md bg-opacity-40 bg-white shadow'>
       <button className="w-full" onClick={() => {
         handleStationChange(station)
       }}><p className="text-sm">{stationText}</p></button>

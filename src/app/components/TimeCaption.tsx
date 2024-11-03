@@ -43,7 +43,7 @@ const TimeCaption = (props: { caption: Caption, isLoading: boolean, handleDirect
           {/* ボタンが押されたら状態を書き換える */}
             <Button
               size="sm"
-              className="w-1/3 pt-2 my-2 mx-auto border-solid text-center bg-white rounded-md bg-opacity-50 hover:bg-blue-500 shadow transition-colors" 
+              className="w-1/3 pt-2 my-2 mx-auto border-solid text-center bg-white rounded-md bg-opacity-50 shadow transition-colors" 
               onClick={handleDirectionChange}>
                 <div className='-mt-3'>
                   <Image
