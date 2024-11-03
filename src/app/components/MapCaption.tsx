@@ -20,16 +20,16 @@ const MapCaption = (props: {isLoading:boolean,caption:Caption}) => {
         <div className="w-1/2 top-0 left-0 absolute text-5xl font-medium text-center ml-2 mt-2">
           <TimeBox text="学部到達目安"/>
         </div>
-        <div className='w-1/3 top-1/3 left-1/2 absolute text-5xl font-medium text-center mt-4 ml-8'>
+        <div className='w-1/3 top-1/3 left-1/2 absolute text-5xl font-medium text-center mt-4 ml-8 backdrop-blur-sm rounded-md'>
           <TimeBox text={isLoading ? "loading" : `社会学部 ${caption.health}`}/>
         </div>
-        <div className='w-1/3 top-1/3 left-0 absolute text-5xl font-medium text-center mt-4 ml-4'>
+        <div className='w-1/3 top-1/3 left-0 absolute text-5xl font-medium text-center mt-4 ml-4 backdrop-blur-sm rounded-md'>
           <TimeBox text={isLoading ? "loading" : `経済学部 ${caption.economics}`}></TimeBox>
         </div>
-        <div className='w-1/3 top-2/3 left-0 absolute text-5xl font-medium text-center ml-4'>
+        <div className='w-1/3 top-2/3 left-0 absolute text-5xl font-medium text-center ml-4 backdrop-blur-sm rounded-md'>
           <TimeBox text={isLoading ? "loading" : `体育館 ${caption.gym}`}></TimeBox>
         </div>
-        <div className='w-1/3 top-2/3 left-1/2 absolute text-5xl font-medium text-center ml-8'>
+        <div className='w-1/3 top-2/3 left-1/2 absolute text-5xl font-medium text-center ml-8 backdrop-blur-sm rounded-md'>
           <TimeBox text={isLoading ? "loading" : `スポ健 ${caption.sport}`}></TimeBox>
         </div>
       </Card>
