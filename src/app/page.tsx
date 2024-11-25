@@ -94,8 +94,6 @@ const Home = () => {
       currentDate: now,
       busesLength: -3
     });
-
-
   } else {
     futureBuses = [];
     previousBuses = [];
