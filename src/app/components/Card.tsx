@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react'
 const Card = (props: { children: ReactNode }) => {
     let { children } = props;
     return (
-        <div className='shadow-none rounded-md bg-white bg-opacity-30'>
+        <div className='shadow-none rounded-2xl bg-white bg-opacity-10'>
             {children}
         </div>
     )

@@ -1,10 +1,11 @@
 import React from 'react'
 import Image from "next/image"
 import { BusTime, Caption } from "./Types"
-import Card from './Card';
+import {Card} from '@/components/ui/card';
 import { minutesToTime } from '../features/timeHandlers';
-import { stationNames } from '@/constants/settings';
-import { Button } from '@chakra-ui/react';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from "@/components/ui/scroll-area"
+
 
 import arrow from "./arrow.png"
 
@@ -13,37 +14,55 @@ const TimeCaption = (props: { caption: Caption, isLoading: boolean, handleDirect
   const { caption, isLoading, handleDirectionChange } = props;
   return (
     <div className="w-full">
-      <Card>
-        <div className="text-center justify-center text-2xl font-bold pt-4 flex">
+      <Card className='border-0 bg-opacity-15'>
+        <div className="flex justify-center pt-4 font-bold text-2xl text-center">
           <p className='w-full'>{isLoading ? "loading" : caption.departure}</p>
           <p>→</p>
           <p className='w-full'>{isLoading ? "loading" : caption.destination}</p>
         </div>
-        <div className="flex justify-center mx-0 text-center text-2xl font-bold opacity-50">
+        <ScrollArea className='h-36'>
+        {caption.previousBuses.map(bus=>{
+          return (
+            <div className="flex justify-center opacity-50 mx-0 font-bold text-2xl text-center" key={JSON.stringify(bus)}>
+              <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(bus.leaveHour * 60 + bus.leaveMinute)}</p>
+              <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(bus.arriveHour * 60 + bus.arriveMinute)}</p>
+            </div>
+          )
+        })}
+        {caption.futureBuses.map(bus=>{
+          return (
+            <div className="flex justify-center mx-0 font-bold text-3xl text-center" key={JSON.stringify(bus)}>
+              <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(bus.leaveHour * 60 + bus.leaveMinute)}</p>
+              <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(bus.arriveHour * 60 + bus.arriveMinute)}</p>
+            </div>
+          )
+        })}
+        {/* <div className="flex justify-center opacity-50 mx-0 font-bold text-2xl text-center">
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.previousBuses[1].leaveHour * 60 + caption.previousBuses[1].leaveMinute)}</p>
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.previousBuses[1].arriveHour * 60 + caption.previousBuses[1].arriveMinute)}</p>
         </div>
-        <div className="flex justify-center mx-0 text-center text-3xl font-bold opacity-70">
+        <div className="flex justify-center opacity-70 mx-0 font-bold text-3xl text-center">
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.previousBuses[0].leaveHour * 60 + caption.previousBuses[0].leaveMinute)}</p>
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.previousBuses[0].arriveHour * 60 + caption.previousBuses[0].arriveMinute)}</p>
         </div>
-        <div className="flex justify-center mx-0 text-center text-4xl font-bold">
+        <div className="flex justify-center mx-0 font-bold text-4xl text-center">
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[0].leaveHour * 60 + caption.futureBuses[0].leaveMinute)}</p>
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[0].arriveHour * 60 + caption.futureBuses[0].arriveMinute)}</p>
         </div>
-        <div className="flex justify-center mx-0 text-center text-3xl font-bold opacity-70">
+        <div className="flex justify-center opacity-70 mx-0 font-bold text-3xl text-center">
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[1].leaveHour * 60 + caption.futureBuses[1].leaveMinute)}</p>
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[1].arriveHour * 60 + caption.futureBuses[1].arriveMinute)}</p>
         </div>
-        <div className="flex justify-center mx-0 text-center text-2xl font-bold opacity-50">
+        <div className="flex justify-center opacity-50 mx-0 font-bold text-2xl text-center">
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[2].leaveHour * 60 + caption.futureBuses[2].leaveMinute)}</p>
           <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[2].arriveHour * 60 + caption.futureBuses[2].arriveMinute)}</p>
-        </div>
-        <div className="inline-flex text-center items-center mx-auto font-bold w-full">
+        </div> */}
+        </ScrollArea>
+        <div className="inline-flex items-center mx-auto w-full font-bold text-center">
           {/* ボタンが押されたら状態を書き換える */}
             <Button
               size="sm"
-              className="w-1/3 pt-2 my-2 mx-auto border-solid text-center bg-white rounded-md bg-opacity-50 shadow transition-colors" 
+              className="bg-white hover:bg-white bg-opacity-30 hover:bg-opacity-45 shadow mx-auto my-2 pt-2 border-solid rounded-md w-1/3 font-semibold text-base text-black text-center transition-colors" 
               onClick={handleDirectionChange}>
                 <div className='-mt-3'>
                   <Image
@@ -56,7 +75,7 @@ const TimeCaption = (props: { caption: Caption, isLoading: boolean, handleDirect
                     alt='arrow'
                     src={arrow}
                     height={20}
-                    className='rotate-180 -mt-[10px]'
+                    className='-mt-[10px] rotate-180'
                   />
                 </div>
                 <p className="-mt-2">左右入替</p>

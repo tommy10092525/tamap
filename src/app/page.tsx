@@ -14,8 +14,9 @@ import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI, Instagr
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
 import GradationContainer from "./components/GradationContainer";
 import Link from "next/link";
-import { Button } from "@chakra-ui/react";
-// import { Button, Label, ListBox, ListBoxItem, Popover, Select, SelectValue } from 'react-aria-components';
+import { Button } from "@/components/ui/button";
+import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
+import {Card} from "@/components/ui/card"
 
 
 // 現在の時刻と曜日を取得
@@ -83,7 +84,7 @@ const Home = () => {
       currentHour,
       currentMinutes,
       currentDate: now,
-      busesLength: 3
+      busesLength: 5
     });
     previousBuses = findBuses({
       timeTable,
@@ -92,7 +93,7 @@ const Home = () => {
       currentHour,
       currentMinutes,
       currentDate: now,
-      busesLength: -3
+      busesLength: -4
     });
   } else {
     futureBuses = [];
@@ -166,12 +167,12 @@ const Home = () => {
 
         <div className="flex flex-wrap justify-center w-full">
           <div className="px-1 w-1/2">
-            <Button className="float-left bg-white bg-opacity-50 shadow mx-1 mb-1 rounded-md w-full font-bold text-center" size="xs">
+            <Button className="float-left bg-white hover:bg-white bg-opacity-50 hover:bg-opacity-50 shadow mx-1 mb-1 rounded-md w-full font-bold text-black text-center">
               <Link href={GoogleForm} className="w-full">アプリご意見</Link>
             </Button>
           </div>
           <div className="px-1 w-1/2">
-            <Button className="float-left bg-white bg-opacity-50 shadow mx-1 mb-1 rounded-md w-full font-bold text-center" size="xs" onClick={async () => {
+            <Button className="float-left bg-white hover:bg-white bg-opacity-50 hover:bg-opacity-50 shadow mx-1 mb-1 rounded-md w-full font-bold text-black text-center" onClick={async () => {
               try {
                 await navigator.share({
                   title: "たまっぷ!(Next.js)",
@@ -183,12 +184,12 @@ const Home = () => {
             }}>アプリを共有</Button>
           </div>
           <div className="px-1 w-1/2">
-            <Button className="float-left bg-white bg-opacity-50 shadow mx-1 mb-1 rounded-md w-full font-bold text-center" size="xs">
+            <Button className="float-left bg-white hover:bg-white bg-opacity-50 hover:bg-opacity-50 shadow mx-1 mb-1 rounded-md w-full font-bold text-black text-center">
               <Link href={codematesHP} className="w-full">CODE MATESとは</Link>
             </Button>
           </div>
           <div className="px-1 w-1/2">
-            <Button className="float-left bg-white bg-opacity-50 shadow mx-1 mb-1 rounded-md w-full font-bold text-center" size="xs">
+            <Button className="float-left bg-white hover:bg-white bg-opacity-50 hover:bg-opacity-50 shadow mx-1 mb-1 rounded-md w-full font-bold text-black text-center">
               <Link href={Instagram} className="w-full">Instagram</Link>
             </Button>
           </div>
