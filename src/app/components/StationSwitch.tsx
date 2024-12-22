@@ -43,7 +43,7 @@ const StationSwitch = (props: { userInput: UserInput, isLoading: boolean, handle
                     className='bg-white bg-opacity-50 shadow backdrop-blur-sm m-1 rounded-md font-bold text-black transition-colors'
                     onClick={() => {
                       handleStationChange(key);
-                    }}><p className='text-center'>{value}</p></DropdownMenuItem>
+                    }}><p className='font-semibold text-center text-lg'>{value}</p></DropdownMenuItem>
               )
             })}
           </DropdownMenuContent>
