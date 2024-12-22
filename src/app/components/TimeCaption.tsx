@@ -11,7 +11,11 @@ import arrow from "./arrow.png"
 
 // eslint-disable-next-line react/display-name
 const TimeCaption = (props: { caption: Caption, isLoading: boolean, handleDirectionChange: () => void }) => {
-  const { caption, isLoading, handleDirectionChange } = props;
+  const { isLoading, handleDirectionChange } = props;
+  let {caption} = props;
+  caption.previousBuses.sort((a: BusTime, b: BusTime) => {
+    return (a.leaveHour * 60 + a.leaveMinute) - (b.leaveHour * 60 + b.leaveMinute)
+  })
   return (
     <div className="w-full">
       <Card className='border-0 bg-opacity-15'>
@@ -37,26 +41,6 @@ const TimeCaption = (props: { caption: Caption, isLoading: boolean, handleDirect
             </div>
           )
         })}
-        {/* <div className="flex justify-center opacity-50 mx-0 font-bold text-2xl text-center">
-          <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.previousBuses[1].leaveHour * 60 + caption.previousBuses[1].leaveMinute)}</p>
-          <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.previousBuses[1].arriveHour * 60 + caption.previousBuses[1].arriveMinute)}</p>
-        </div>
-        <div className="flex justify-center opacity-70 mx-0 font-bold text-3xl text-center">
-          <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.previousBuses[0].leaveHour * 60 + caption.previousBuses[0].leaveMinute)}</p>
-          <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.previousBuses[0].arriveHour * 60 + caption.previousBuses[0].arriveMinute)}</p>
-        </div>
-        <div className="flex justify-center mx-0 font-bold text-4xl text-center">
-          <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[0].leaveHour * 60 + caption.futureBuses[0].leaveMinute)}</p>
-          <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[0].arriveHour * 60 + caption.futureBuses[0].arriveMinute)}</p>
-        </div>
-        <div className="flex justify-center opacity-70 mx-0 font-bold text-3xl text-center">
-          <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[1].leaveHour * 60 + caption.futureBuses[1].leaveMinute)}</p>
-          <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[1].arriveHour * 60 + caption.futureBuses[1].arriveMinute)}</p>
-        </div>
-        <div className="flex justify-center opacity-50 mx-0 font-bold text-2xl text-center">
-          <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[2].leaveHour * 60 + caption.futureBuses[2].leaveMinute)}</p>
-          <p className="px-1 w-full">{isLoading ? "loading" : minutesToTime(caption.futureBuses[2].arriveHour * 60 + caption.futureBuses[2].arriveMinute)}</p>
-        </div> */}
         </ScrollArea>
         <div className="inline-flex items-center mx-auto w-full font-bold text-center">
           {/* ボタンが押されたら状態を書き換える */}
