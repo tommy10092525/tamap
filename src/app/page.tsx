@@ -3,6 +3,10 @@
 import { useTheme } from "next-themes"
 import { useCallback, useEffect, useMemo, useState as rerender, useState } from "react";
 import useSWR from "swr";
+import {useToast} from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+
+import Link from "next/link";
 
 import { Buildings, BusTime, Caption, Style } from "../app/components/Types"
 import TimeCaption from "./components/TimeCaption";
@@ -10,15 +14,13 @@ import StationSwitch from "./components/StationSwitch";
 import MapCaption from "./components/MapCaption";
 import DiscountInformation from "./components/DiscountInformation";
 import Logo from "./components/Logo";
-import LinkBox from "./components/LinkBox";
 import { dayIndices, findBuses, minutesToTime, } from "./features/timeHandlers";
-import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI, Instagram, codematesHP } from "@/constants/settings";
+import { buildings, holidaysAPI, GoogleForm, stationNames, timeTableAPI, Instagram, codematesHP,urls} from "@/constants/settings";
 import { initializeCaption, holidaysFetcher, timeTableFetcher } from "./features/utilities";
-import GradationContainer from "./components/GradationContainer";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 import {Card} from "@/components/ui/card"
+import { randomInt } from "crypto";
 
 
 // 現在の時刻と曜日を取得
@@ -35,8 +37,10 @@ const Home = () => {
   const { data: holidayData, error: holidayError, isLoading: isHolidayLoading } = useSWR(holidaysAPI, holidaysFetcher);
   let { data: timeTable, error: timeTableError, isLoading: isTimeTableLoading } = useSWR(timeTableAPI, timeTableFetcher);
 
+  const {toast} = useToast();
 
   let [userInput, setUserInput] = useState({ isComingToHosei: true, station: "nishihachioji", showModal: false });
+
   const initializeUserInput = () => {
     if (localStorage.getItem("firstAccessed") === "false") {
       // ２回目以降のアクセスにはlocalStorageから入力を復元する
@@ -69,9 +73,42 @@ const Home = () => {
       rerender(prev => []);
     }, 1000);
     initializeUserInput();
+    const toastInterval = setInterval(() => {
+      const random=Math.floor(Math.random()*urls.length);
+      toast({
+        title:urls[random].station,
+        description:urls[random].storeName,
+        className:"backdrop-blur-sm shadow-lg bg-opacity-15 border-0",
+        action:(<ToastAction
+            altText="aaa"
+            onClick={()=>{}}
+            className="border-0 bg-white bg-opacity-50 shadow-lg">
+          <Link href={urls[random].url}>クーポンを表示する</Link>
+        </ToastAction>)
+      });
+    },1000*30)
+
+    setTimeout(() => {
+      const random=Math.floor(Math.random()*urls.length);
+      toast({
+        title:urls[random].station,
+        description:urls[random].storeName,
+        className:"backdrop-blur-sm shadow-lg bg-opacity-15 border-0",
+        action:(<ToastAction
+            altText="aaa"
+            onClick={()=>{}}
+            className="border-0 bg-white bg-opacity-50 shadow-lg">
+          <Link href={urls[random].url}>クーポンを表示する</Link>
+        </ToastAction>)
+      });
+    }, 1000*1);
+
     setTheme("light");
-    
-    return () => clearInterval(interval);
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(toastInterval);
+    }
   }, [])
 
   let caption: Caption;
@@ -130,14 +167,6 @@ const Home = () => {
     })
   }
 
-  const handleShowModalChange = () => {
-    setUserInput(prev => {
-      let next = structuredClone(prev);
-      next.showModal = !next.showModal;
-      return next;
-    })
-  }
-
   const handleStationChange = (station: string) => {
     setUserInput(prev => {
       let next = structuredClone(prev);
@@ -161,7 +190,6 @@ const Home = () => {
         <StationSwitch
           isLoading={isHolidayLoading || isTimeTableLoading}
           userInput={userInput}
-          handleShowModalChange={handleShowModalChange}
           handleStationChange={handleStationChange}
         />
         <MapCaption

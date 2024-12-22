@@ -22,8 +22,8 @@ import {
 
 
 // eslint-disable-next-line react/display-name
-const StationSwitch = (props: { userInput: UserInput, isLoading: boolean, handleShowModalChange: () => void, handleStationChange: (station: string) => void }) => {
-  let { userInput, isLoading, handleShowModalChange, handleStationChange } = props;
+const StationSwitch = (props: { userInput: UserInput, isLoading: boolean,handleStationChange: (station: string) => void }) => {
+  let { userInput, isLoading, handleStationChange } = props;
   return (
     <div className='my-3 w-full'>
       <Card className='border-0 bg-opacity-15'>
@@ -37,38 +37,17 @@ const StationSwitch = (props: { userInput: UserInput, isLoading: boolean, handle
           </DropdownMenuTrigger>
           <DropdownMenuContent className='border-0 bg-opacity-15 shadow-lg backdrop-blur-sm'>
           {Object.entries(stationNames).map(([key, value]) => {
-              return (
-                    <DropdownMenuItem
-                    key={key}
-                    className='bg-white bg-opacity-50 shadow backdrop-blur-sm m-1 rounded-md font-bold text-black transition-colors'
-                    onClick={() => {
-                      handleStationChange(key);
-                    }}><p className='font-semibold text-center text-lg'>{value}</p></DropdownMenuItem>
-              )
-            })}
+            return (
+              <DropdownMenuItem
+              key={key}
+              className='bg-white bg-opacity-50 shadow backdrop-blur-sm m-1 rounded-md font-bold text-black transition-colors'
+              onClick={() => {
+                handleStationChange(key);
+              }}><p className='font-semibold text-center text-lg'>{value}</p></DropdownMenuItem>
+            )
+          })}
           </DropdownMenuContent>
         </DropdownMenu>
-        {/* <MenuRoot>
-          <MenuTrigger
-            asChild
-            className='float-right bg-white bg-opacity-50'>
-            <Button className='bg-white bg-opacity-50 shadow m-2 p-2 rounded-md font-bold transition-colors'>バスを変更</Button>
-          </MenuTrigger>
-          <MenuContent className='border-0 bg-white bg-opacity-0 shadow-none'>
-            {Object.entries(stationNames).map(([key, value]) => {
-              return (
-                <MenuItem value={key} key={key}
-                  className='float-left bg-white bg-opacity-0 m-0 px-1 py-0 w-1/3'>
-                  <Button
-                  className='float-left bg-white bg-opacity-50 shadow my-1 px-1 rounded-md w-full font-bold text-black transition-colors'
-                  onClick={() => {
-                    handleStationChange(key);
-                  }}>{value}</Button>
-                </MenuItem>
-              )
-            })}
-          </MenuContent>
-        </MenuRoot> */}
       </Card>
     </div>
   )
