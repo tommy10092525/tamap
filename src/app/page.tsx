@@ -1,4 +1,6 @@
 "use client";
+
+import { useTheme } from "next-themes"
 import { useCallback, useEffect, useMemo, useState as rerender, useState } from "react";
 import useSWR from "swr";
 
@@ -60,12 +62,15 @@ const Home = () => {
 
   // ページ読み込み時の処理
   // https://qiita.com/iwakeniwaken/items/3c3e212599e411da54e2
+  const {setTheme} = useTheme();
   useEffect(() => {
     rerender([]);
     const interval = setInterval(() => {
       rerender(prev => []);
     }, 1000);
     initializeUserInput();
+    setTheme("light");
+    
     return () => clearInterval(interval);
   }, [])
 

@@ -35,7 +35,7 @@ const StationSwitch = (props: { userInput: UserInput, isLoading: boolean, handle
           <DropdownMenuTrigger className='float-right mt-[10px] mr-3'>
             <Button className='border-0 bg-white hover:bg-white bg-opacity-35 hover:bg-opacity-45 font-semibold text-black'>バスを変更</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className='border-gray-400 bg-opacity-15'>
+          <DropdownMenuContent className='border-0 bg-opacity-15 shadow-lg backdrop-blur-sm'>
           {Object.entries(stationNames).map(([key, value]) => {
               return (
                     <DropdownMenuItem
