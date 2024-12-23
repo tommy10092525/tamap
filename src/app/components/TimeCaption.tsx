@@ -62,7 +62,7 @@ const TimeCaption = (props: { caption: Caption, isLoading: boolean, handleDirect
                     className='-mt-[10px] rotate-180'
                   />
                 </div>
-                <p className="-mt-2">左右入替</p>
+                <p className="-mt-2 font-bold">左右入替</p>
             </Button>
         </div>
       </Card>

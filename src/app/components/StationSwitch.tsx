@@ -34,7 +34,7 @@ const StationSwitch = (props: { userInput: UserInput, isLoading: boolean,handleS
         <DropdownMenu>
           <DropdownMenuTrigger className='float-right mt-[10px] mr-3'>
             <Button className='border-0 bg-white hover:bg-white bg-opacity-35 hover:bg-opacity-45'>
-              <p className='font-semibold text-black'>
+              <p className='font-bold text-black'>
               バスを変更
               </p>
               </Button>
