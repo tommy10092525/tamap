@@ -7,7 +7,7 @@ const Logo = () => {
   return (
     <div className='w-full'>
       <Image
-      className="pb-3 mx-auto"
+      className="mx-auto my-5 pb-3"
       style={{ width: "60%" }}
       src={logo}
       height={274}
