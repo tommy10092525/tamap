@@ -66,6 +66,23 @@ const Home = () => {
 
   // ページ読み込み時の処理
   // https://qiita.com/iwakeniwaken/items/3c3e212599e411da54e2
+
+  function myToast(random:number){
+    toast({
+      description:<>
+        <p className="font-bold text-xl">{urls[random].station}</p>
+        <p className="font-semibold text-base">{urls[random].storeName}</p>
+      </>,
+      className:"bg-white bg-opacity-20 shadow-lg backdrop-blur-sm border-0 rounded-md",
+      action:(<ToastAction
+          altText="aaa"
+          onClick={()=>{}}
+          className="border-0 bg-white bg-opacity-50 shadow-lg">
+        <Link href={urls[random].url}>クーポンを表示する</Link>
+      </ToastAction>)
+    });
+  }
+
   const {setTheme} = useTheme();
   useEffect(() => {
     rerender([]);
@@ -73,34 +90,14 @@ const Home = () => {
       rerender(prev => []);
     }, 1000);
     initializeUserInput();
-    const toastInterval = setInterval(() => {
+    const toastInterval=setInterval(() => {
       const random=Math.floor(Math.random()*urls.length);
-      toast({
-        title:urls[random].station,
-        description:urls[random].storeName,
-        className:"backdrop-blur-sm shadow-lg bg-opacity-15 border-0",
-        action:(<ToastAction
-            altText="aaa"
-            onClick={()=>{}}
-            className="border-0 bg-white bg-opacity-50 shadow-lg">
-          <Link href={urls[random].url}>クーポンを表示する</Link>
-        </ToastAction>)
-      });
-    },1000*30)
+      myToast(random);
+    },1000*5)
 
     setTimeout(() => {
       const random=Math.floor(Math.random()*urls.length);
-      toast({
-        title:urls[random].station,
-        description:urls[random].storeName,
-        className:"backdrop-blur-sm shadow-lg bg-opacity-15 border-0",
-        action:(<ToastAction
-            altText="aaa"
-            onClick={()=>{}}
-            className="border-0 bg-white bg-opacity-50 shadow-lg">
-          <Link href={urls[random].url}>クーポンを表示する</Link>
-        </ToastAction>)
-      });
+      myToast(random);
     }, 1000*1);
 
     setTheme("light");
